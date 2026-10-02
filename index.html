@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Podyx engineer app prototype. Sample data only.">
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Podyx">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>Podyx Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a native iOS app. Grouped-list surfaces, Podyx blue as the tint, tab bar + pushed screens. iPhone frame on desktop, full-bleed on a phone. */
+:root{
+  --bg:#f2f2f7; --card:#ffffff; --label:#000000; --label2:#3c3c43; --label3:#8a8a8e; --sep:rgba(60,60,67,.22); --fill:rgba(118,118,128,.12);
+  --accent:#402dfe; --accent-soft:#ecebff; --red:#ff3b30; --red-soft:#ffeceb; --green:#34c759; --green-ink:#248a3d; --green-soft:#e6f7ea;
+  --orange-ink:#c45500; --orange-soft:#fff2df; --bar:rgba(249,249,251,.88); --desk:#dfe0e6; --frame:#1b1b1e;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter Tight","Segoe UI",Roboto,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter Tight","Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#000000; --card:#1c1c1e; --label:#ffffff; --label2:#d1d1d6; --label3:#8e8e93; --sep:rgba(84,84,88,.6); --fill:rgba(118,118,128,.24);
+  --accent:#7a6cff; --accent-soft:#211d45; --red:#ff453a; --red-soft:#3b1513; --green:#30d158; --green-ink:#30d158; --green-soft:#0f2b16;
+  --orange-ink:#ff9f0a; --orange-soft:#33230a; --bar:rgba(24,24,26,.88); --desk:#0d0d10; --frame:#2a2a2e; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#000000; --card:#1c1c1e; --label:#ffffff; --label2:#d1d1d6; --label3:#8e8e93; --sep:rgba(84,84,88,.6); --fill:rgba(118,118,128,.24);
+  --accent:#7a6cff; --accent-soft:#211d45; --red:#ff453a; --red-soft:#3b1513; --green:#30d158; --green-ink:#30d158; --green-soft:#0f2b16;
+  --orange-ink:#ff9f0a; --orange-soft:#33230a; --bar:rgba(24,24,26,.88); --desk:#0d0d10; --frame:#2a2a2e; color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{margin:0;background:var(--desk);color:var(--label);font-family:var(--font);font-size:17px;line-height:1.3;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* device */
+.stage{min-height:100%;display:flex;align-items:center;justify-content:center;gap:28px;padding:24px 16px}
+.device{width:393px;height:852px;max-height:calc(100vh - 48px);flex:none;border-radius:58px;padding:12px;background:var(--frame);box-shadow:0 0 0 1.5px #3a3a3f inset,0 30px 80px rgba(0,0,0,.28)}
+.app{position:relative;width:100%;height:100%;border-radius:46px;overflow:hidden;background:var(--bg);display:flex;flex-direction:column;isolation:isolate}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:120px;height:35px;background:#000;border-radius:20px;z-index:95}
+.status{height:52px;flex:none;display:flex;justify-content:space-between;align-items:center;padding:8px 28px 0 38px;font-family:var(--display);font-weight:600;font-size:16px;z-index:94;position:relative;background:transparent}
+.status .r{display:flex;gap:6px;align-items:center}
+.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:136px;height:5px;border-radius:3px;background:var(--label);z-index:96;pointer-events:none}
+#view{flex:1;position:relative;display:flex;flex-direction:column;min-height:0}
+
+/* desktop-only tester panel */
+.tasks-panel{width:300px;background:var(--card);border-radius:16px;padding:16px;font-size:14px;line-height:1.4;box-shadow:0 10px 30px rgba(0,0,0,.08);align-self:center}
+.tasks-panel h2{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--label3);margin:14px 0 6px}
+.tasks-panel h2:first-of-type{margin-top:0}
+.tasks-panel ol{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.tasks-panel p{margin:12px 0 0;color:var(--label3)}
+.tasks-toggle{position:fixed;right:20px;bottom:20px;border:0;border-radius:999px;padding:10px 16px;background:var(--card);color:var(--label);font-size:14px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.15)}
+
+@media (max-width:520px){
+  .stage{display:block;padding:0;height:100%}
+  .device{width:100%;height:100%;max-height:none;border-radius:0;padding:0;background:none;box-shadow:none}
+  .app{border-radius:0}
+  .island,.status,.homebar,.desk-only{display:none!important}
+}
+
+/* screens */
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);will-change:transform}
+.screen.push{animation:pushIn .34s cubic-bezier(.2,.85,.25,1)}
+.screen.pop{animation:popIn .3s cubic-bezier(.2,.85,.25,1)}
+.screen.modal{animation:slideUp .36s cubic-bezier(.2,.85,.25,1)}
+@keyframes pushIn{from{transform:translateX(100%);box-shadow:-10px 0 30px rgba(0,0,0,.12)}}
+@keyframes popIn{from{transform:translateX(-28%);opacity:.85}}
+@keyframes slideUp{from{transform:translateY(100%)}}
+@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.screen.push,.screen.pop,.screen.modal,.sheet,.backdrop,.toast{animation:none!important}}
+
+.nav{flex:none;height:44px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 6px;position:relative;z-index:5;transition:background .2s}
+.nav::after{content:"";position:absolute;left:0;right:0;bottom:0;height:.5px;background:var(--sep);opacity:0;transition:opacity .2s}
+.nav.scrolled{background:var(--bar);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px)}
+.nav.scrolled::after,.nav.solid::after{opacity:1}
+.nav .back{justify-self:start;border:0;background:none;color:var(--accent);display:flex;align-items:center;gap:0;padding:6px 8px 6px 2px;font-size:17px;max-width:130px;white-space:nowrap;overflow:hidden}
+.nav .back.txt{padding-left:10px}
+.nav .ttl{font-family:var(--display);font-weight:600;font-size:17px;opacity:0;transition:opacity .18s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;text-align:center}
+.nav.scrolled .ttl,.nav.solid .ttl{opacity:1}
+.nav .right{justify-self:end;display:flex;align-items:center;gap:2px;padding-right:4px;color:var(--label3);font-size:15px}
+.icbtn{border:0;background:none;color:var(--accent);width:38px;height:38px;display:grid;place-items:center;position:relative}
+.dot-badge{position:absolute;top:5px;right:5px;width:9px;height:9px;border-radius:50%;background:var(--red);box-shadow:0 0 0 2px var(--bg)}
+.content{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:0 16px 28px;min-height:0}
+.large{font-family:var(--display);font-size:34px;font-weight:700;letter-spacing:.005em;margin:0 4px;line-height:1.12}
+.sub{color:var(--label3);font-size:15px;margin:3px 4px 16px}
+.h2{font-family:var(--display);font-size:20px;font-weight:700;margin:24px 4px 8px;display:flex;justify-content:space-between;align-items:baseline}
+.h2 button{border:0;background:none;color:var(--accent);font-size:15px;font-weight:400;font-family:var(--font)}
+.gh{font-size:13px;color:var(--label3);text-transform:uppercase;letter-spacing:.02em;margin:22px 16px 7px}
+.gf{font-size:13px;color:var(--label3);margin:7px 16px 0;line-height:1.35}
+
+/* grouped lists */
+.group{background:var(--card);border-radius:12px;overflow:hidden}
+.cell{display:flex;align-items:center;gap:12px;padding:11px 16px;min-height:46px;position:relative;width:100%;border:0;background:none;text-align:left;color:inherit}
+.cell+.cell::before,.cell+.block::before,.block+.cell::before,.block+.block::before{content:"";position:absolute;top:0;left:16px;right:0;height:.5px;background:var(--sep)}
+.group.inset .cell+.cell::before{left:68px}
+button.cell:active,button.cell.pressed{background:var(--fill)}
+.cell .grow{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.cell .t{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell .t.wrap{white-space:normal}
+.cell .s{font-size:14px;color:var(--label3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell .s.wrap{white-space:normal}
+.cell .val{color:var(--label3);font-size:17px;text-align:right;min-width:0}
+.cell .chev{color:var(--label3);opacity:.55;flex:none;display:grid}
+.cell.accent{color:var(--accent)}
+.cell.danger{color:var(--red)}
+.block{position:relative;padding:12px 16px}
+.time{width:50px;flex:none;display:flex;flex-direction:column;font-variant-numeric:tabular-nums;font-size:15px;font-weight:600}
+.time span{font-size:13px;font-weight:400;color:var(--label3)}
+.bar{width:4px;align-self:stretch;border-radius:2px;flex:none}
+.avatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;font-size:15px;flex:none;letter-spacing:.02em}
+.avatar.sm{width:28px;height:28px;font-size:12px}
+.avatar.lg{width:76px;height:76px;font-size:28px}
+.icon-tile{width:30px;height:30px;border-radius:7px;display:grid;place-items:center;color:#fff;flex:none}
+
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:3px 8px;border-radius:999px;white-space:nowrap;background:var(--fill);color:var(--label2)}
+.pill.ok{background:var(--green-soft);color:var(--green-ink)}
+.pill.bad{background:var(--red-soft);color:var(--red)}
+.pill.warn{background:var(--orange-soft);color:var(--orange-ink)}
+.pill.acc{background:var(--accent-soft);color:var(--accent)}
+.pills{display:flex;flex-wrap:wrap;gap:5px}
+.room{font-size:12px;font-weight:600;padding:2px 7px;border-radius:6px}
+
+/* hero */
+.hero{border-radius:20px;padding:16px;color:#fff;display:flex;flex-direction:column;gap:12px;background:linear-gradient(150deg,#5a48ff 0%,#402dfe 55%,#2c1bd6 100%);box-shadow:0 10px 30px rgba(64,45,254,.28)}
+.hero .k{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;opacity:.85;display:flex;align-items:center;gap:6px}
+.hero .live{width:8px;height:8px;border-radius:50%;background:#7dffa1;box-shadow:0 0 0 3px rgba(125,255,161,.25)}
+.hero .cd{font-family:var(--display);font-size:30px;font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.hero .row{display:flex;align-items:center;gap:12px}
+.hero .nm{font-size:19px;font-weight:600}
+.hero .mt{font-size:14px;opacity:.85}
+.hero .chips{display:flex;flex-wrap:wrap;gap:6px}
+.hero .chips span{font-size:12px;font-weight:600;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.18)}
+.hero .hbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hero .hbtns button{border:0;border-radius:12px;padding:12px;font-weight:600;font-size:15px}
+.hero .w{background:#fff;color:#2c1bd6}
+.hero .g{background:rgba(255,255,255,.18);color:#fff}
+.banner-alert{display:flex;align-items:center;gap:12px;width:100%;border:0;text-align:left;background:var(--red-soft);color:var(--red);border-radius:14px;padding:12px 14px;margin-bottom:12px}
+.banner-alert .grow{flex:1;min-width:0}
+.banner-alert b{display:block;font-size:15px}
+.banner-alert span{font-size:13px;color:var(--label2)}
+.banner-alert.acc{background:var(--accent-soft);color:var(--accent)}
+
+/* session page */
+.cover{position:relative;height:150px;border-radius:16px;overflow:hidden;margin:4px 0 14px;background:#2c2e3a}
+.cover svg{position:absolute;left:0;top:50%;width:100%;height:auto;transform:translateY(-50%)}
+.cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(0,0,0,.6))}
+.cover .ov{position:absolute;left:12px;right:12px;bottom:10px;z-index:1;display:flex;gap:6px;flex-wrap:wrap}
+.cover .ov span{font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,.2);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);padding:4px 9px;border-radius:999px}
+.titlerow{display:flex;align-items:center;gap:12px;margin:0 4px}
+.titlerow .large{font-size:28px;margin:0}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--fill);border-radius:9px;padding:2px;margin:16px 0 4px}
+.seg button{border:0;background:none;padding:7px 4px;font-size:13px;font-weight:600;border-radius:7px;color:var(--label);position:relative}
+.seg button[aria-selected="true"]{background:var(--card);box-shadow:0 3px 8px rgba(0,0,0,.12),0 1px 1px rgba(0,0,0,.05)}
+.seg .n{font-size:11px;color:var(--label3);font-weight:600;margin-left:3px}
+.bul{margin:0;padding:0;list-style:none}
+.bul li{display:flex;gap:10px;padding:10px 16px;position:relative;font-size:16px}
+.bul li+li::before{content:"";position:absolute;top:0;left:42px;right:0;height:.5px;background:var(--sep)}
+.bul li svg{flex:none;margin-top:1px;color:var(--accent)}
+.hscroll{display:flex;gap:10px;overflow-x:auto;margin:0 -16px;padding:0 16px 4px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.hscroll::-webkit-scrollbar{display:none}
+.shot{flex:0 0 150px;border:0;background:none;padding:0;text-align:left;scroll-snap-align:start;display:flex;flex-direction:column;gap:6px;color:inherit}
+.shot svg,.shot img{width:100%;aspect-ratio:4/3;height:auto;border-radius:12px;display:block;object-fit:cover}
+.shot span{font-size:13px;color:var(--label3);padding-left:2px}
+.note-b{display:flex;flex-direction:column;gap:3px}
+.note-b small{font-size:13px;color:var(--label3)}
+.note-b .who{display:flex;align-items:center;gap:6px}
+.quote{border-left:3px solid var(--red);padding:2px 0 2px 12px;display:flex;flex-direction:column;gap:3px;font-size:16px}
+.quote small{font-size:13px;color:var(--label3)}
+.quote.done{border-left-color:var(--sep)}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cmp figure{margin:0;display:flex;flex-direction:column;gap:5px;min-width:0}
+.cmp svg,.cmp img{width:100%;aspect-ratio:4/3;height:auto;border-radius:10px;display:block;object-fit:cover}
+.cmp figcaption{font-size:12px;color:var(--label3)}
+.cmp figcaption b{color:var(--red);font-weight:600}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:8px}
+.thumbs svg,.thumbs img{width:100%;aspect-ratio:4/3;height:auto;border-radius:6px;display:block;object-fit:cover}
+.empty{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;color:var(--label3);padding:36px 24px}
+.empty b{color:var(--label);font-size:20px;font-family:var(--display)}
+.empty .ic{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:var(--green-soft);color:var(--green-ink);margin-bottom:6px}
+
+/* bottom CTA + tab bar */
+.cta{flex:none;padding:10px 16px 12px;background:var(--bar);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-top:.5px solid var(--sep);display:flex;gap:10px}
+.btnp,.btns,.btnd{flex:1;border:0;border-radius:14px;padding:15px;font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px}
+.btnp{background:var(--accent);color:#fff}
+.btnp:disabled{background:var(--fill);color:var(--label3);cursor:default}
+.btns{background:var(--accent-soft);color:var(--accent)}
+.btnd{background:var(--red-soft);color:var(--red)}
+.btnp:active:not(:disabled),.btns:active,.btnd:active{transform:scale(.98)}
+.tabbar{flex:none;display:grid;grid-template-columns:repeat(4,1fr);background:var(--bar);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-top:.5px solid var(--sep);padding:7px 0 30px;z-index:6}
+.tab{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:500;color:var(--label3);position:relative}
+.tab[aria-selected="true"]{color:var(--accent)}
+.tab .bd{position:absolute;top:-4px;left:calc(50% + 5px);background:var(--red);color:#fff;font-size:11px;font-weight:600;min-width:18px;height:18px;border-radius:9px;display:grid;place-items:center;padding:0 5px}
+@media (max-width:520px){ .tabbar{padding-bottom:calc(6px + env(safe-area-inset-bottom,0px))} .sheet{padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))!important} .toast{top:12px!important} }
+
+/* week strip */
+.weekbar{display:flex;align-items:center;justify-content:space-between;margin:6px 4px 8px}
+.weekbar b{font-family:var(--display);font-size:20px;font-weight:700}
+.weekbar .arrows{display:flex;gap:2px}
+.weekbar .arrows button{border:0;background:none;color:var(--accent);width:36px;height:36px;display:grid;place-items:center;border-radius:50%}
+.weekbar .arrows button:disabled{color:var(--label3);opacity:.4}
+.weekbar .arrows .today-b{width:auto;padding:0 10px;font-size:15px}
+.days{display:grid;grid-template-columns:repeat(7,1fr);background:var(--card);border-radius:14px;padding:8px 4px}
+.wd{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:4px;padding:2px 0;color:var(--label)}
+.wd small{font-size:11px;color:var(--label3);font-weight:600;text-transform:uppercase}
+.wd b{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:17px;font-weight:500;font-variant-numeric:tabular-nums}
+.wd.today b{color:var(--accent);font-weight:700}
+.wd[aria-selected="true"] b{background:var(--label);color:var(--card);font-weight:600}
+.wd.today[aria-selected="true"] b{background:var(--accent);color:#fff}
+.wd i{width:5px;height:5px;border-radius:50%;background:transparent}
+.wd.has i{background:var(--label3)}
+
+/* sheet, lightbox, toast */
+.backdrop{position:absolute;inset:0;background:rgba(0,0,0,.38);z-index:70;animation:fade .2s}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--card);border-radius:16px 16px 0 0;z-index:71;padding:8px 16px 36px;animation:slideUp .3s cubic-bezier(.2,.85,.25,1);display:flex;flex-direction:column;gap:12px;box-shadow:0 -10px 30px rgba(0,0,0,.15)}
+.grab{width:36px;height:5px;border-radius:3px;background:var(--sep);align-self:center}
+.sheet-h{display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.sheet-h button{border:0;background:none;color:var(--accent);font-size:17px;padding:4px 0}
+.sheet-h button:last-child{justify-self:end;font-weight:600}
+.sheet-h button:disabled{color:var(--label3)}
+.sheet-h b{font-family:var(--display);font-size:17px;font-weight:600}
+.sheet .ctx{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--label3)}
+.sheet textarea{font:inherit;font-size:17px;color:var(--label);background:var(--bg);border:0;border-radius:12px;padding:12px;min-height:130px;resize:none;width:100%}
+.sheet .hint{font-size:13px;color:var(--label3)}
+.lb{position:absolute;inset:0;background:#000;z-index:80;display:flex;flex-direction:column;justify-content:center;gap:14px;animation:fade .2s;color:#fff}
+.lb svg,.lb img{width:100%;height:auto;display:block}
+.lb .x{position:absolute;top:12px;left:16px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:#fff;display:grid;place-items:center}
+.lb .cap{text-align:center;font-size:14px;opacity:.8;padding:0 20px}
+.toast{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:var(--card);color:var(--label);border-radius:999px;padding:10px 16px 10px 12px;font-size:14px;font-weight:600;z-index:90;display:flex;gap:8px;align-items:center;box-shadow:0 8px 30px rgba(0,0,0,.18);white-space:nowrap;max-width:92%;animation:toastIn .3s cubic-bezier(.2,.85,.25,1)}
+.toast svg{color:var(--green);flex:none}
+@keyframes toastIn{from{transform:translate(-50%,-20px);opacity:0}}
+
+/* QA capture */
+.progress{height:6px;border-radius:3px;background:var(--fill);overflow:hidden;margin:4px 4px 0}
+.progress i{display:block;height:100%;background:var(--accent);border-radius:3px;transition:width .3s}
+.cap-row{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center;padding:12px 16px;position:relative}
+.cap-row+.cap-row::before{content:"";position:absolute;top:0;left:16px;right:0;height:.5px;background:var(--sep)}
+.cap-row .refbox{position:relative}
+.cap-row .refbox svg,.cap-row .refbox img,.cap-row .refbox .noref{width:96px;aspect-ratio:4/3;height:auto;border-radius:8px;display:block;object-fit:cover}
+.cap-row .noref{background:var(--fill);display:grid;place-items:center;font-size:11px;color:var(--label3);text-align:center;padding:4px}
+.cap-row .lbl{font-weight:600;font-size:16px}
+.cap-row .h{font-size:13px;color:var(--label3)}
+.capbtn{position:relative;overflow:hidden;border:0;border-radius:10px;background:var(--accent-soft);color:var(--accent);font-weight:600;font-size:15px;padding:9px 12px;display:inline-flex;align-items:center;gap:6px;margin-top:6px}
+.capbtn input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+.linkbtn{border:0;background:none;color:var(--accent);font-size:13px;padding:4px 0 0}
+.done-mark{display:inline-flex;align-items:center;gap:5px;color:var(--green-ink);font-weight:600;font-size:14px;margin-top:6px}
+
+/* QA log deck */
+.deck{flex:1;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;min-height:0}
+.deck::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;min-width:0;scroll-snap-align:center;overflow-y:auto;padding:4px 16px 20px}
+.slide .card{background:var(--card);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:12px;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.slide .chead{display:flex;align-items:center;gap:12px}
+.slide .chead .grow{flex:1;min-width:0}
+.slide .chead b{display:block;font-size:17px}
+.slide .chead span{font-size:13px;color:var(--label3)}
+.dots{display:flex;gap:6px;justify-content:center;padding:8px 0 2px}
+.dots i{width:7px;height:7px;border-radius:4px;background:var(--sep);transition:width .2s}
+.dots i.on{background:var(--accent);width:18px}
+.dots i.done{background:var(--green)}
+
+/* profile */
+.profile{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0 4px;text-align:center}
+.profile b{font-family:var(--display);font-size:24px}
+.profile span{color:var(--label3);font-size:15px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.stats div{background:var(--card);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:2px}
+.stats b{font-family:var(--display);font-size:22px;font-variant-numeric:tabular-nums}
+.stats span{font-size:12px;color:var(--label3)}
+.tasklist{margin:0;padding:0 16px 0 34px;display:flex;flex-direction:column;gap:10px;font-size:16px}
+</style><style>
+html{padding:env(safe-area-inset-top,0px) 0 0}
+body{overscroll-behavior:none}
+@media (max-width:520px){ html,body{background:var(--bg)} }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="device">
+    <div class="app" id="app">
+      <div class="island"></div>
+      <div class="status"><span id="clock">12:48</span><span class="r">
+        <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 2.2c2.3 0 4.4.9 6 2.4l1.1-1.2A10.2 10.2 0 0 0 8 .6C5.3.6 2.8 1.6.9 3.4L2 4.6a8.6 8.6 0 0 1 6-2.4zm0 3.3c1.4 0 2.7.5 3.7 1.4l1.1-1.2A7 7 0 0 0 8 3.9 7 7 0 0 0 3.2 5.7l1.1 1.2c1-.9 2.3-1.4 3.7-1.4zm0 3.3c.6 0 1.1.2 1.5.6L8 11 6.5 9.4c.4-.4.9-.6 1.5-.6z"/></svg>
+        <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x=".5" y=".5" width="23" height="12" rx="3.5" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="17" height="9" rx="2" fill="currentColor"/><path d="M25 4.5v4c.8-.3 1.3-1.1 1.3-2s-.5-1.7-1.3-2z" fill="currentColor" opacity=".45"/></svg>
+      </span></div>
+      <div id="view"></div>
+      <div class="homebar"></div>
+    </div>
+  </div>
+  <aside class="tasks-panel desk-only" id="tasks-panel" hidden>
+    <h2>Engineer tasks</h2>
+    <ol>
+      <li>Your next client wants the same look as last time. Find how camera A should be framed.</li>
+      <li>Open that client's history. Which session was flagged, and why?</li>
+      <li>Find every QA flag you've received. Which client was flagged for camera B?</li>
+      <li>What does the studio manager want you to know about the 2pm session?</li>
+      <li>Do the QA check for the 2pm and the 5:30pm sessions.</li>
+      <li>What's special about Monday's session in Eden?</li>
+      <li>Tell the editors on the 2pm session to cut the intro, and that the client asked to avoid the wide angle.</li>
+    </ol>
+    <h2>Owner tasks (Me → Switch to owner)</h2>
+    <ol>
+      <li>Open the QA log and review every session waiting. Flag at least one with a comment.</li>
+      <li>Switch back to the engineer, find the flag, and retake the photos.</li>
+      <li>Leave Karim a note on Monday's Eden session.</li>
+    </ol>
+    <p>Ask owners: would you turn this on for your engineers in November? What would you remove?</p>
+  </aside>
+  <button class="tasks-toggle desk-only" id="tasks-toggle">Test tasks</button>
+</div>
+
+<script>
+// ---------- dates ----------
+const TODAY = "2026-10-02";
+const D = s => new Date(s+"T12:00:00Z");
+const iso = d => d.toISOString().slice(0,10);
+const addDays = (s,n) => { const d=D(s); d.setUTCDate(d.getUTCDate()+n); return iso(d); };
+const mondayOf = s => { const d=D(s); const w=(d.getUTCDay()+6)%7; return addDays(s,-w); };
+const fmtLong = s => D(s).toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"});
+const fmtShort = s => D(s).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short",timeZone:"UTC"});
+const WEEK_MIN = "2026-08-10", WEEK_MAX = "2026-10-05";
+
+// ---------- sample data (fictional clients, demo studio rooms) ----------
+const SETUPS = {
+  video4:{label:"Video podcast", specs:[["Mics","4 × Shure SM7B"],["Cameras","3 × Sony FX3, 4K 25fps"],["Recorder","RodeCaster Pro II"],["Lighting","Preset 1 · Daylight"]]},
+  video2:{label:"Video podcast", specs:[["Mics","2 × Shure SM7B"],["Cameras","3 × Sony FX3, 4K 25fps"],["Recorder","RodeCaster Pro II"],["Lighting","Preset 2 · Warm + teal back"]]},
+  solo:{label:"Solo recording", specs:[["Mics","1 × Shure SM7B"],["Cameras","2 × Sony FX3, 4K 25fps"],["Recorder","RodeCaster Pro II"],["Lighting","Preset 1 · Daylight"]]},
+};
+const CLIENTS = {
+  c1:{show:"The Founders Table", person:"Omar Haddad", phone:"+971 50 214 7781", setup:"video4", refs:["wide","camA","camB"],
+      brief:["Round table, host faces camera A","Daylight preset, no coloured backlight","Brand mugs on table, no water bottles in shot"]},
+  c2:{show:"Mind Over Money", person:"Layla Nasser", phone:"+971 55 903 1146", setup:"video2", refs:["wide","camA","camB"],
+      brief:["Host on the left, guest on the right","Warm preset 2, teal backlight on shelf","Host uses SM7B with no visible pop filter","Lower-thirds in the client's teal (#14AAFF)"]},
+  c3:{show:"Sana Al-Rashid", person:"Sana Al-Rashid", phone:"+971 52 660 4019", setup:"solo", refs:["camA","camB"], brief:["Solo, camera A close-up, camera B side angle","Lapel mic only, no desk mic in shot","Soft daylight, she dislikes harsh key light"]},
+  c4:{show:"Desert Signal", person:"Yusuf Karimi", phone:"+971 50 771 2290", setup:"video2", refs:["wide","camA"],
+      brief:["Two hosts side by side, no guest chair","Keep the neon sign on, it's their logo"]},
+  c5:{show:"Build in Public MENA", person:"Hana Saleh", phone:"+971 54 118 3302", setup:"video4", refs:["wide","camB"],
+      brief:["Panel format, moderator centre","Name cards on the table facing camera"]},
+  c6:{show:"Rania Aziz", person:"Rania Aziz", phone:"+971 56 402 8857", setup:"solo", refs:["camA"], brief:["Single camera close-up, ring light on"]},
+};
+const MIRA = "Mira K. · Studio manager", KARIM = "Karim M. · Engineer";
+const SESSIONS = [
+  {id:"h1", date:"2026-08-14", time:"10:00 – 12:00", room:"Nest", c:"c1", qa:"approved", notes:[]},
+  {id:"h2", date:"2026-08-28", time:"10:00 – 12:00", room:"Nest", c:"c1", qa:"flagged", photos:{camA:{noMic:true}}, notes:[]},
+  {id:"h3", date:"2026-09-11", time:"10:00 – 12:00", room:"Nest", c:"c1", qa:"approved", notes:[], edit:[{by:"Karim M. · Engineer",at:"2026-09-11",text:"Host coughed a lot in the first 20 minutes. Clean it up where you can."}]},
+  {id:"h4", date:"2026-08-21", time:"14:00 – 16:00", room:"Exec", c:"c2", qa:"approved", notes:[]},
+  {id:"h5", date:"2026-09-04", time:"14:00 – 16:00", room:"Exec", c:"c2", qa:"approved", notes:[]},
+  {id:"h6", date:"2026-08-27", time:"17:30 – 18:30", room:"Apex", c:"c3", qa:"approved", notes:[]},
+  {id:"h7", date:"2026-09-10", time:"17:30 – 18:30", room:"Apex", c:"c3", qa:"approved", notes:[]},
+  {id:"h8", date:"2026-09-24", time:"17:30 – 18:30", room:"Apex", c:"c3", qa:"approved", notes:[], edit:[{by:"Karim M. · Engineer",at:"2026-09-24",text:"Client asked to avoid the side angle for the second half."}]},
+  {id:"h9", date:"2026-09-08", time:"11:00 – 12:00", room:"Cove", c:"c4", qa:"approved", notes:[]},
+  {id:"h10", date:"2026-09-15", time:"11:00 – 12:00", room:"Cove", c:"c4", qa:"flagged", photos:{wide:{dim:true}}, notes:[]},
+  {id:"h11", date:"2026-09-22", time:"11:00 – 12:00", room:"Cove", c:"c4", qa:"approved", notes:[]},
+  {id:"h12", date:"2026-08-26", time:"15:00 – 17:00", room:"Eden", c:"c5", qa:"approved", notes:[]},
+  {id:"h13", date:"2026-09-09", time:"15:00 – 17:00", room:"Eden", c:"c5", qa:"flagged", photos:{camB:{noMic:true}}, notes:[]},
+  {id:"h14", date:"2026-09-23", time:"15:00 – 17:00", room:"Eden", c:"c5", qa:"approved", notes:[]},
+  {id:"h15", date:"2026-09-03", time:"09:00 – 10:00", room:"Apex", c:"c6", qa:"approved", notes:[]},
+  {id:"h16", date:"2026-09-17", time:"09:00 – 10:00", room:"Apex", c:"c6", qa:"approved", notes:[]},
+  {id:"a1", date:"2026-09-18", time:"14:00 – 16:00", room:"Exec", c:"c2", qa:"approved", notes:[]},
+  {id:"a2", date:"2026-09-25", time:"10:00 – 12:00", room:"Nest", c:"c1", qa:"approved", notes:[]},
+  {id:"a3", date:"2026-09-25", time:"14:00 – 16:00", room:"Exec", c:"c2", qa:"flagged", photos:{wide:{noTeal:true}}, notes:[{by:MIRA,text:"Guest is camera-shy. Keep camera B on the host only."}],
+     edit:[{by:KARIM,at:"2026-09-25",text:"Guest asked to cut the part about her previous employer."},{by:KARIM,at:"2026-09-25",text:"Guest is camera-shy. Avoid her close-ups, use the wide and host cameras."}]},
+  {id:"a4", date:"2026-09-29", time:"11:00 – 12:00", room:"Cove", c:"c4", qa:"approved", notes:[]},
+  {id:"a5", date:"2026-09-30", time:"15:00 – 17:00", room:"Eden", c:"c5", qa:"approved", notes:[]},
+  {id:"a6", date:"2026-10-01", time:"09:00 – 10:00", room:"Apex", c:"c6", qa:"submitted", notes:[]},
+  {id:"a7", date:"2026-10-01", time:"16:00 – 17:00", room:"Cove", c:"c4", qa:"submitted", photos:{camA:{dim:true}}, notes:[]},
+  {id:"s1", date:"2026-10-02", time:"10:00 – 12:00", room:"Nest", c:"c1", qa:"submitted", photos:{wide:{noTeal:true,dim:true},camA:{noMic:true}}, notes:[{by:MIRA,text:"Guest Faris brings his own lav mic. Plug it into CH4 as a backup."}],
+     edit:[{by:KARIM,at:"2026-10-02",text:"False start. Cut everything before the host says welcome."}]},
+  {id:"s2", date:"2026-10-02", time:"14:00 – 16:00", room:"Exec", c:"c2", qa:"due", next:true, notes:[{by:MIRA,text:"Remote guest Dr. Amal Yusuf joins on Riverside. Link is in the run-of-show."},{by:"Layla Nasser · Client",text:"Please export raw ISO files per camera, not only the mix."}]},
+  {id:"s3", date:"2026-10-02", time:"17:30 – 18:30", room:"Apex", c:"c3", qa:"due", notes:[{by:MIRA,text:"She records standing today. Raise camera A to eye level and swap the lapel battery before she arrives."}]},
+  {id:"b1", date:"2026-10-05", time:"10:00 – 12:00", room:"Eden", c:"c5", qa:"due", notes:[{by:MIRA,text:"Two episodes back to back. Reset name cards and swap guest mics between episodes."}]},
+  {id:"b2", date:"2026-10-05", time:"15:00 – 16:00", room:"Cove", c:"c4", qa:"due", notes:[]},
+  {id:"b3", date:"2026-10-06", time:"10:00 – 12:00", room:"Nest", c:"c1", qa:"due", notes:[]},
+  {id:"b4", date:"2026-10-07", time:"18:00 – 19:00", room:"Apex", c:"c6", qa:"due", notes:[]},
+  {id:"b5", date:"2026-10-09", time:"14:00 – 16:00", room:"Exec", c:"c2", qa:"due", notes:[]},
+];
+const CODES = {a1:"91C04B2E",a2:"5D7A11F0",a3:"C3E9024A",a4:"7B21DD93",a5:"E05F6A18",a6:"2A9C77B4",a7:"F41E0C65",s1:"7052FAE3",s2:"6E7116E7",s3:"3B11A6DF",b1:"88D2E1A7",b2:"0FA4C93B",b3:"D16B5E20",b4:"4C7E9A01",b5:"B92D3F6C"};
+const FLAGS = [
+  {sid:"h2", by:"Studio owner", at:"2026-08-28", read:true, shot:"camA", text:"The second mic is missing in the camera A shot. All four mics should be visible on their arms."},
+  {sid:"h13", by:"Studio owner", at:"2026-09-09", read:true, shot:"camB", text:"The moderator's mic is out of frame on camera B. Re-angle so the name cards and mics are both in shot."},
+  {sid:"h10", by:"Studio owner", at:"2026-09-15", read:true, shot:"wide", text:"The wide looks too dark. Keep the neon sign and the practical lights on, they're part of the client's brand."},
+  {sid:"a3", by:"Studio owner", at:"2026-09-25", read:true, shot:"wide", text:"Teal backlight on the shelf was off in the wide shot. Preset 2 doesn't switch on the shelf light, turn it on manually before rolling."},
+];
+const codeOf = id => CODES[id] || (()=>{ let h=2166136261; for(const ch of id+"podyx"){ h^=ch.charCodeAt(0); h=Math.imul(h,16777619);} return (h>>>0).toString(16).toUpperCase().padStart(8,"0"); })();
+const REF_LABEL = { wide:"Wide set", camA:"Camera A", camB:"Camera B", levels:"Audio levels" };
+const QA_SLOTS = ["wide","camA","camB","levels"];
+const sById = id => SESSIONS.find(s=>s.id===id);
+const client = s => CLIENTS[s.c];
+const visitsBefore = s => SESSIONS.filter(x=>x.c===s.c&&x.date<s.date).length;
+const toReview = () => SESSIONS.filter(s=>s.qa==="submitted").sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+
+// ---------- simple studio scenes drawn in SVG ----------
+function scene(kind, opt = {}){
+  const dim = opt.dim ? .45 : 1, teal = opt.noTeal ? "#a8abbd" : "#14aaff";
+  if(kind==="levels"){
+    const bars=[.62,.7,.55,.48].map((v,i)=>`<rect x="${30+i*36}" y="${110-v*90}" width="20" height="${v*90}" rx="3" fill="#73c13e"/>`).join("");
+    return `<svg viewBox="0 0 180 135" role="img" aria-label="Mixer levels"><rect width="180" height="135" fill="#16171d"/>${bars}<rect x="20" y="40" width="150" height="1.5" fill="#ffce4d" opacity=".7"/><text x="22" y="128" fill="#8b90a7" font-size="9" font-family="monospace">CH1  CH2  CH3  CH4</text></svg>`;
+  }
+  const z = kind==="wide"?1:kind==="camA"?1.7:1.6, cx = kind==="camA"?60:kind==="camB"?120:90;
+  return `<svg viewBox="0 0 180 135" role="img" aria-label="${REF_LABEL[kind]}"><rect width="180" height="135" fill="#2c2e3a"/>
+  <g transform="translate(90 70) scale(${z}) translate(${-cx} -70)" opacity="${dim}">
+    <rect x="0" y="0" width="180" height="95" fill="#424557"/>
+    <rect x="128" y="18" width="38" height="50" rx="2" fill="#585d74"/><rect x="128" y="64" width="38" height="3" fill="${teal}"/>
+    <circle cx="40" cy="22" r="9" fill="#ffce4d" opacity=".35"/>
+    <circle cx="60" cy="52" r="10" fill="#c5c7d3"/><rect x="46" y="62" width="28" height="30" rx="10" fill="#8b90a7"/>
+    <circle cx="120" cy="52" r="10" fill="#c5c7d3"/><rect x="106" y="62" width="28" height="30" rx="10" fill="#6e7491"/>
+    <rect x="20" y="86" width="140" height="10" rx="3" fill="#a8abbd"/>
+    <rect x="72" y="64" width="3" height="22" fill="#16171d"/><rect x="69" y="58" width="9" height="8" rx="3" fill="#16171d"/>
+    ${opt.noMic?"":`<rect x="104" y="64" width="3" height="22" fill="#16171d"/><rect x="101" y="58" width="9" height="8" rx="3" fill="#16171d"/>`}
+  </g></svg>`;
+}
+const photoOpt = (s,k) => (s.photos&&s.photos[k])||{};
+const isOff = o => o.dim||o.noTeal||o.noMic;
+// the engineer's QA photo for a slot: a real upload if there is one, otherwise the sample scene
+const shot = (s,k) => s.uploads&&s.uploads[k] ? `<img alt="${REF_LABEL[k]} QA photo" src="${s.uploads[k]}">` : scene(k,photoOpt(s,k));
+const hasPhotos = s => ["approved","flagged","submitted"].includes(s.qa);
+
+// ---------- look ----------
+const AV = {c1:"#5856d6",c2:"#ff9500",c3:"#ff2d55",c4:"#34a853",c5:"#0a84ff",c6:"#af52de"};
+const ROOM = {Nest:"#0fa3b8",Exec:"#5856d6",Apex:"#f08c00",Eden:"#2f9e44",Cove:"#1c7ed6"};
+const initials = n => n.split(" ").map(w=>w[0]).slice(0,2).join("").toUpperCase();
+const avatar = (s,cls="") => `<span class="avatar ${cls}" style="background:${AV[s.c]}">${initials(client(s).person)}</span>`;
+const roomTag = r => `<span class="room" style="color:${ROOM[r]};background:${ROOM[r]}1f">${r}</span>`;
+const I = {
+  today:'<rect x="3.5" y="4.5" width="17" height="16" rx="3.5"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/><circle cx="12" cy="15" r="1.8" fill="currentColor" stroke="none"/>',
+  cal:'<rect x="3.5" y="4.5" width="17" height="16" rx="3.5"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4M7.5 13.5h1.5M11.3 13.5h1.5M15 13.5h1.5M7.5 17h1.5M11.3 17h1.5"/>',
+  flag:'<path d="M5.5 21V4.5"/><path d="M5.5 4.5h11.5l-2.3 4 2.3 4H5.5"/>',
+  me:'<circle cx="12" cy="8.2" r="4"/><path d="M4.2 20.5c1.4-3.9 4.4-5.8 7.8-5.8s6.4 1.9 7.8 5.8"/>',
+  qa:'<path d="M4 7.5h3.2L9 4.8h6l1.8 2.7H20V19H4z"/><circle cx="12" cy="13" r="3.4"/>',
+  chevR:'<path d="M9 5.5l6.5 6.5L9 18.5"/>', chevL:'<path d="M15 5.5L8.5 12l6.5 6.5"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>', check:'<path d="M5 12.5l4.2 4.2L19 7"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>', phone:'<path d="M6.6 3.5h3l1.5 4-2 1.3a10.5 10.5 0 0 0 6.1 6.1l1.3-2 4 1.5v3a2 2 0 0 1-2.1 2A16.5 16.5 0 0 1 4.6 5.6a2 2 0 0 1 2-2.1z"/>',
+  note:'<path d="M5 4.5h10l4 4V19.5H5z"/><path d="M15 4.5v4h4M8.5 12.5h7M8.5 16h5"/>',
+  swap:'<path d="M7 7.5h12l-3.5-3.5M17 16.5H5l3.5 3.5"/>', list:'<path d="M9 6.5h11M9 12h11M9 17.5h11"/><circle cx="4.8" cy="6.5" r="1.1" fill="currentColor"/><circle cx="4.8" cy="12" r="1.1" fill="currentColor"/><circle cx="4.8" cy="17.5" r="1.1" fill="currentColor"/>',
+  bell:'<path d="M6.5 9a5.5 5.5 0 0 1 11 0c0 6.3 2.5 8 2.5 8H4s2.5-1.7 2.5-8"/><path d="M10.2 20.5a2 2 0 0 0 3.6 0"/>',
+  info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.6v.1"/>', clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+};
+const ic = (k,sz=24,sw=1.8) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[k]}</svg>`;
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+// ---------- clock: the prototype's "now" is Fri 2 Oct, 12:48, and it ticks ----------
+const LOADED = Date.now(), START_MIN = 12*60+48;
+const nowMin = () => START_MIN + Math.floor((Date.now()-LOADED)/60000);
+const mins = hhmm => { const [h,m]=hhmm.split(":").map(Number); return h*60+m; };
+const startOf = s => mins(s.time.slice(0,5)), endOf = s => mins(s.time.slice(-5));
+const hm = m => `${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
+function phase(s){
+  if(s.date<TODAY) return "done"; if(s.date>TODAY) return "future";
+  const n=nowMin(); return n>=endOf(s) ? "done" : n>=startOf(s) ? "live" : "upcoming";
+}
+function countdown(s){
+  const d=startOf(s)-nowMin();
+  if(d<=0) return `Ends in ${fmtDur(endOf(s)-nowMin())}`;
+  return `Starts in ${fmtDur(d)}`;
+}
+const fmtDur = d => d>=60 ? `${Math.floor(d/60)}h ${d%60}m` : `${d} min`;
+
+// ---------- state ----------
+const ENG_TABS = [["today","Today","today"],["calendar","Calendar","cal"],["flags","Flags","flag"],["me","Me","me"]];
+const OWN_TABS = [["today","Today","today"],["qalog","QA log","qa"],["calendar","Calendar","cal"],["me","Me","me"]];
+const state = {
+  role:"eng", tab:{eng:"today",own:"today"}, stacks:{}, seg:{},
+  cal:{eng:{day:TODAY,week:mondayOf(TODAY)}, own:{day:TODAY,week:mondayOf(TODAY)}},
+  qadraft:{}, sheet:null, light:null, toast:null, anim:null, log:{ids:[],i:0}, drafts:{},
+};
+const view = document.getElementById("view");
+const $ = s => view.querySelector(s);
+const key = () => state.role+":"+state.tab[state.role];
+const stack = () => (state.stacks[key()] ||= []);
+const topScr = () => stack()[stack().length-1] || {s:state.tab[state.role]};
+const owner = () => state.role==="own";
+const unread = () => FLAGS.filter(f=>!f.read).length;
+const pending = () => SESSIONS.filter(s=>s.qa==="submitted").length;
+function push(scr, anim="push"){ stack().push(scr); state.anim=anim; render(); }
+function pop(){ if(stack().length){ const t=stack().pop(); state.anim = t.s==="qa" ? null : "pop"; render(); } }
+function toast(msg){ state.toast=msg; render(); clearTimeout(toast.t); toast.t=setTimeout(()=>{ state.toast=null; const el=$(".toast"); if(el) el.remove(); },2200); }
+
+// ---------- shared bits ----------
+function qaPill(s){
+  if(s.qa==="approved") return `<span class="pill ok">${ic("check",12,2.6)}QA approved</span>`;
+  if(s.qa==="flagged") return `<span class="pill bad">${ic("flag",12,2.4)}Flagged</span>`;
+  if(s.qa==="submitted") return owner()?'<span class="pill acc">To review</span>':'<span class="pill acc">QA sent</span>';
+  if(s.qa==="due"&&s.date<=TODAY) return owner()?'<span class="pill">Waiting for QA</span>':'<span class="pill warn">QA due</span>';
+  return "";
+}
+function sessionCell(s, opts={}){
+  const cl=client(s), ph=phase(s), sub=[s.room, owner()?"Karim M.":cl.person].concat(s.notes.length?[`${s.notes.length} note${s.notes.length>1?"s":""}`]:[]).join(" · ");
+  return `<button class="cell" data-open="${s.id}" style="padding-left:12px">
+    <span class="bar" style="background:${ROOM[s.room]}"></span>
+    <span class="time">${s.time.slice(0,5)}<span>${s.time.slice(-5)}</span></span>
+    <span class="grow"><span class="t">${esc(cl.show)}</span><span class="s">${esc(sub)}</span>
+      ${opts.pills!==false?`<span class="pills" style="margin-top:4px">${ph==="live"?'<span class="pill ok">● In session</span>':""}${qaPill(s)}</span>`:""}</span>
+    <span class="chev">${ic("chevR",16,2.2)}</span></button>`;
+}
+function navbar({title="", back=null, right="", solid=false}){
+  return `<div class="nav ${solid?"solid":""}" id="nav">
+    <div>${back?`<button class="back ${back.txt?"txt":""}" id="back">${back.txt?"":ic("chevL",26,2.4)}${esc(back.label)}</button>`:""}</div>
+    <div class="ttl">${esc(title)}</div><div class="right">${right}</div></div>`;
+}
+const backLabel = () => { const st=stack(); if(st.length<2){ const t=state.tab[state.role]; return {today:"Today",calendar:"Calendar",flags:"Flags",qalog:"QA log",me:"Me"}[t]; } const p=st[st.length-2]; return p.s==="session"?client(sById(p.id)).show.split(" ").slice(0,2).join(" "):"Back"; };
+const prevSessions = s => SESSIONS.filter(x=>x.c===s.c&&x.date<s.date).sort((a,b)=>b.date.localeCompare(a.date));
+
+// ---------- engineer: today ----------
+function engToday(){
+  const list=SESSIONS.filter(s=>s.date===TODAY).sort((a,b)=>startOf(a)-startOf(b));
+  const next=list.find(s=>phase(s)==="live")||list.find(s=>phase(s)==="upcoming");
+  const later=list.filter(s=>s!==next&&phase(s)!=="done"), earlier=list.filter(s=>phase(s)==="done");
+  const nf=FLAGS.filter(f=>!f.read);
+  const nextDay=SESSIONS.filter(s=>s.date>TODAY).sort((a,b)=>a.date.localeCompare(b.date))[0];
+  const nextDayCount=nextDay?SESSIONS.filter(s=>s.date===nextDay.date).length:0;
+  let hero="";
+  if(next){
+    const cl=client(next), live=phase(next)==="live";
+    hero=`<div class="hero">
+      <div class="k">${live?'<span class="live"></span>In session now':`Next up · ${next.time.slice(0,5)}`}</div>
+      <div class="cd" data-cd="${next.id}">${countdown(next)}</div>
+      <div class="row">${avatar(next)}<div><div class="nm">${esc(cl.show)}</div><div class="mt">${next.time} · ${next.room} · ${esc(cl.person)}</div></div></div>
+      <div class="chips">${next.notes.length?`<span>${next.notes.length} session note${next.notes.length>1?"s":""}</span>`:""}${cl.brief.length?`<span>Brief · ${cl.refs.length} reference shots</span>`:""}<span>${prevSessions(next).length} previous sessions</span></div>
+      <div class="hbtns"><button class="w" data-open="${next.id}">Open session</button>${next.qa==="due"?`<button class="g" data-qa="${next.id}">QA check</button>`:`<button class="g" data-open="${next.id}" data-seg="notes">Notes</button>`}</div>
+    </div>`;
+  }
+  return {
+    nav:navbar({title:"Today", right:`<button class="icbtn" data-tab="flags" aria-label="Flags">${ic("bell",22)}${nf.length?'<span class="dot-badge"></span>':""}</button>`}),
+    body:`<div class="large">Today</div><div class="sub">${fmtLong(TODAY)} · ${list.length} sessions</div>
+      ${nf.length?`<button class="banner-alert" data-tab="flags">${ic("flag",22,2)}<span class="grow"><b>New QA flag from the owner</b><span>${esc(client(sById(nf[nf.length-1].sid)).show)} · tap to read it</span></span>${ic("chevR",16,2.2)}</button>`:""}
+      ${hero||`<div class="empty"><div class="ic">${ic("check",30,2.4)}</div><b>You're done for today</b>Nice work.</div>`}
+      ${later.length?`<div class="h2">Later today</div><div class="group">${later.map(s=>sessionCell(s)).join("")}</div>`:""}
+      ${earlier.length?`<div class="h2">Earlier today</div><div class="group">${earlier.map(s=>sessionCell(s)).join("")}</div>`:""}
+      ${nextDay?`<div class="h2">Coming up</div><div class="group"><button class="cell" data-jump="${nextDay.date}"><span class="icon-tile" style="background:var(--accent)">${ic("cal",18,2)}</span><span class="grow"><span class="t">${fmtShort(nextDay.date)}</span><span class="s">${nextDayCount} session${nextDayCount>1?"s":""} · first at ${nextDay.time.slice(0,5)}</span></span><span class="chev">${ic("chevR",16,2.2)}</span></button></div>`:""}`
+  };
+}
+
+// ---------- calendar (both roles) ----------
+function calendarScreen(){
+  const c=state.cal[state.role], days=[...Array(7)].map((_,i)=>addDays(c.week,i));
+  const list=SESSIONS.filter(s=>s.date===c.day).sort((a,b)=>startOf(a)-startOf(b));
+  const month=D(days[3]).toLocaleDateString("en-GB",{month:"long",year:"numeric",timeZone:"UTC"});
+  return {
+    nav:navbar({title:"Calendar"}),
+    body:`<div class="large">Calendar</div><div class="sub">${owner()?"Every session in the studio":"Sessions assigned to you"}</div>
+      <div class="weekbar"><b>${month}</b><span class="arrows">
+        <button id="wk-prev" aria-label="Previous week" ${c.week<=WEEK_MIN?"disabled":""}>${ic("chevL",22,2.2)}</button>
+        <button class="today-b" id="wk-today">Today</button>
+        <button id="wk-next" aria-label="Next week" ${c.week>=WEEK_MAX?"disabled":""}>${ic("chevR",22,2.2)}</button></span></div>
+      <div class="days">${days.map(d=>`<button class="wd ${SESSIONS.some(s=>s.date===d)?"has":""} ${d===TODAY?"today":""}" data-day="${d}" aria-selected="${d===c.day}" aria-label="${fmtLong(d)}"><small>${D(d).toLocaleDateString("en-GB",{weekday:"short",timeZone:"UTC"}).slice(0,3)}</small><b>${D(d).getUTCDate()}</b><i></i></button>`).join("")}</div>
+      <div class="h2">${c.day===TODAY?"Today":fmtLong(c.day)}<span style="font-size:15px;font-weight:400;color:var(--label3);font-family:var(--font)">${list.length?`${list.length} session${list.length>1?"s":""}`:""}</span></div>
+      ${list.length?`<div class="group">${list.map(s=>sessionCell(s)).join("")}</div>`:`<div class="group"><div class="empty" style="padding:28px">${owner()?"No sessions booked.":"No sessions assigned to you."}</div></div>`}`
+  };
+}
+
+// ---------- engineer: flags ----------
+function flagCard(f){
+  const s=sById(f.sid), cl=client(s);
+  return `<div class="group" style="margin-bottom:12px">
+    <button class="cell" data-open="${s.id}" data-seg="prep">${avatar(s)}<span class="grow"><span class="t">${esc(cl.show)}</span><span class="s">${fmtShort(s.date)} · ${s.time.slice(0,5)} · ${s.room}</span></span>${f.read?"":'<span class="pill bad">New</span>'}<span class="chev">${ic("chevR",16,2.2)}</span></button>
+    <div class="block" style="display:flex;flex-direction:column;gap:12px">
+      <div class="quote ${f.read?"done":""}"><small>${esc(f.by)} · ${fmtShort(f.at)}</small>${esc(f.text)}</div>
+      ${f.shot?`<div class="cmp"><figure>${scene(f.shot)}<figcaption>Reference · ${REF_LABEL[f.shot]}</figcaption></figure><figure>${f.snap||scene(f.shot,photoOpt(s,f.shot))}<figcaption>Your photo</figcaption></figure></div>`:""}
+    </div>
+    ${f.read?"":`<button class="cell accent" data-read="${FLAGS.indexOf(f)}" style="justify-content:center;font-weight:600">Got it</button>`}
+  </div>`;
+}
+function engFlags(){
+  const list=[...FLAGS].sort((a,b)=>b.at.localeCompare(a.at)), nw=list.filter(f=>!f.read), old=list.filter(f=>f.read);
+  return {
+    nav:navbar({title:"Flags"}),
+    body:`<div class="large">Flags</div><div class="sub">${FLAGS.length} QA flags from the owner · they stay here for reference</div>
+      ${nw.length?`<div class="h2">New</div>${nw.map(flagCard).join("")}`:""}
+      <div class="h2">${nw.length?"Earlier":"All flags"}</div>${old.map(flagCard).join("")}`
+  };
+}
+
+// ---------- engineer: session ----------
+function engSession(s){
+  const cl=client(s), st=SETUPS[cl.setup], ph=phase(s), seg=state.seg[s.id]||"prep";
+  const prev=prevSessions(s), myFlags=FLAGS.filter(f=>f.sid===s.id), edit=s.edit||[];
+  let body="";
+  if(seg==="prep"){
+    body=`${myFlags.length?`<div class="gh">QA flag from the owner ${s.qa==="flagged"?"":"· retaken"}</div><div class="group"><div class="block" style="display:flex;flex-direction:column;gap:12px">${myFlags.map(f=>`<div class="quote ${s.qa==="flagged"?"":"done"}"><small>${esc(f.by)} · ${fmtShort(f.at)}</small>${esc(f.text)}</div>${f.shot?`<div class="cmp"><figure>${scene(f.shot)}<figcaption>Reference</figcaption></figure><figure>${f.snap||scene(f.shot,photoOpt(s,f.shot))}<figcaption>Your photo</figcaption></figure></div>`:""}`).join("")}</div></div>`:""}
+      ${s.qa==="approved"?`<div class="gh">QA</div><div class="group"><div class="cell"><span class="icon-tile" style="background:var(--green)">${ic("check",18,2.6)}</span><span class="grow"><span class="t">QA approved</span><span class="s">The owner signed off on your setup photos</span></span></div></div>`:""}
+      <div class="gh">Client brief</div>
+      <div class="group">${cl.brief.length?`<ul class="bul">${cl.brief.map(b=>`<li>${ic("check",18,2.4)}<span>${esc(b)}</span></li>`).join("")}</ul>`:`<div class="block" style="color:var(--label3)">No brief yet.</div>`}</div>
+      ${cl.refs.length?`<div class="gh">Reference shots</div><div class="hscroll">${cl.refs.map(r=>`<button class="shot" data-light="ref:${s.id}:${r}">${scene(r)}<span>${REF_LABEL[r]}</span></button>`).join("")}</div>`:""}
+      ${hasPhotos(s)?`<div class="gh">Your QA photos</div><div class="hscroll">${QA_SLOTS.map(k=>`<button class="shot" data-light="qa:${s.id}:${k}">${shot(s,k)}<span>${REF_LABEL[k]}</span></button>`).join("")}</div>`:""}
+      <div class="gh">Setup · ${st.label}</div>
+      <div class="group">${st.specs.map(([k,v])=>`<div class="cell"><span class="grow"><span class="t">${k}</span></span><span class="val">${esc(v)}</span></div>`).join("")}</div>
+      <div class="gh">Client</div>
+      <div class="group"><div class="cell">${avatar(s)}<span class="grow"><span class="t">${esc(cl.person)}</span><span class="s">${visitsBefore(s)} previous sessions</span></span></div>
+        <div class="cell"><span class="icon-tile" style="background:var(--green)">${ic("phone",16,2)}</span><span class="grow"><span class="t" style="font-variant-numeric:tabular-nums">${cl.phone}</span></span></div>
+        <div class="cell"><span class="grow"><span class="t">Session</span></span><span class="val" style="font-variant-numeric:tabular-nums">${codeOf(s.id)}</span></div></div>`;
+  } else if(seg==="notes"){
+    body=`<div class="gh">Session notes</div>
+      <div class="group">${s.notes.length?s.notes.map(n=>`<div class="block note-b"><small>${esc(n.by)}</small><span>${esc(n.text)}</span></div>`).join(""):`<div class="block" style="color:var(--label3)">No notes on this session.</div>`}</div>
+      <div class="gh">Notes for the editing team</div>
+      <div class="group">${edit.map(n=>`<div class="block note-b"><span>${esc(n.text)}</span><small>${esc(n.by)} · ${fmtShort(n.at)}</small></div>`).join("")}
+        ${ph==="future"?(edit.length?"":`<div class="block" style="color:var(--label3)">You can add notes once the session starts.</div>`):`<button class="cell accent" data-sheet="edit:${s.id}">${ic("plus",22,2.2)}<span class="grow"><span class="t">Add note for the editors</span></span></button>`}</div>
+      <div class="gf">Editors see these on the session in Collaboration. Add them once you've checked the setup or during the session.</div>`;
+  } else {
+    body=`<div class="gh">Previous sessions with ${esc(cl.person.split(" ")[0])} · ${prev.length}</div>
+      ${prev.length?`<div class="group">${prev.map(p=>{const f=FLAGS.filter(x=>x.sid===p.id).slice(-1)[0];return `<button class="cell" data-open="${p.id}" style="align-items:flex-start;flex-wrap:wrap">
+        <span class="grow"><span class="t">${fmtShort(p.date)}</span><span class="s">${p.time} · ${p.room}</span>${f?`<span class="s wrap" style="color:var(--red);margin-top:4px">${esc(f.text)}</span>`:""}</span>
+        <span style="display:flex;gap:6px;align-items:center">${qaPill(p)}<span class="chev">${ic("chevR",16,2.2)}</span></span>
+        ${hasPhotos(p)?`<span class="thumbs" style="width:100%">${QA_SLOTS.map(k=>shot(p,k)).join("")}</span>`:""}</button>`;}).join("")}</div>`
+      :`<div class="group"><div class="block" style="color:var(--label3)">First session with this client.</div></div>`}`;
+  }
+  let cta="";
+  if(ph==="future") cta=`<button class="btnp" disabled>QA opens on ${fmtShort(s.date)}</button>`;
+  else if(s.qa==="due") cta=`<button class="btnp" data-qa="${s.id}">${ic("qa",22,2)}${ph==="done"?"Send late QA photos":"Start QA check"}</button>`;
+  else if(s.qa==="flagged"&&myFlags.length&&myFlags[myFlags.length-1].at===TODAY) cta=`<button class="btnp" data-qa="${s.id}">${ic("qa",22,2)}Retake QA photos</button>`;
+  else if(s.qa==="submitted") cta=`<button class="btnp" disabled>QA sent · waiting for review</button>`;
+  return {
+    nav:navbar({title:cl.show, back:{label:backLabel()}}),
+    body:`<div class="cover">${scene("wide")}<div class="ov"><span>${fmtShort(s.date)}</span><span>${s.time}</span><span>${s.room}</span>${ph==="live"?"<span>● In session</span>":""}</div></div>
+      <div class="titlerow">${avatar(s)}<div style="min-width:0"><div class="large">${esc(cl.show)}</div><div class="sub" style="margin:2px 0 0">${esc(cl.person)} · ${st.label}</div></div></div>
+      <div class="seg" role="tablist">${[["prep","Prep"],["notes","Notes",s.notes.length+edit.length],["history","History",prev.length]].map(([k,l,n])=>`<button role="tab" data-segk="${s.id}:${k}" aria-selected="${seg===k}">${l}${n?`<span class="n">${n}</span>`:""}</button>`).join("")}</div>
+      ${body}`,
+    cta, tabbar:true
+  };
+}
+
+// ---------- engineer: QA capture (modal) ----------
+function engQA(s){
+  const d=state.qadraft[s.id]||(state.qadraft[s.id]={}), done=QA_SLOTS.filter(k=>d[k]).length, cl=client(s);
+  const lastFlag=FLAGS.filter(f=>sById(f.sid).c===s.c).slice(-1)[0];
+  return {
+    nav:`<div class="nav solid"><div><button class="back txt" id="back">Cancel</button></div><div class="ttl">${s.qa==="flagged"?"Retake QA":"QA check"}</div><div class="right" style="font-variant-numeric:tabular-nums">${done}/4</div></div>`,
+    body:`<div style="height:12px"></div><div class="titlerow">${avatar(s)}<div><div style="font-weight:600">${esc(cl.show)}</div><div style="font-size:14px;color:var(--label3)">${s.time} · ${s.room}</div></div></div>
+      <div class="progress" style="margin-top:14px"><i style="width:${done*25}%"></i></div>
+      ${lastFlag?`<div class="gh">Last flag for this client</div><div class="group"><div class="block"><div class="quote"><small>${fmtShort(lastFlag.at)}</small>${esc(lastFlag.text)}</div></div></div>`:""}
+      <div class="gh">Match each reference</div>
+      <div class="group">${QA_SLOTS.map(k=>`<div class="cap-row">
+        <div class="refbox">${d[k]?(d[k]==="sample"?scene(k):`<img alt="" src="${d[k]}">`):(cl.refs.includes(k)||k==="wide"?scene(k):k==="levels"?scene("levels"):`<div class="noref">No reference</div>`)}</div>
+        <div><div class="lbl">${REF_LABEL[k]}</div><div class="h">${d[k]?"Photo added":k==="levels"?"Photo of the mixer with everyone talking":"Match the framing in the reference"}</div>
+          ${d[k]?`<span class="done-mark">${ic("check",16,2.6)}Added</span> <button class="linkbtn" data-clear="${k}">Retake</button>`
+            :`<label class="capbtn">${ic("qa",18,2)}Take photo<input type="file" accept="image/*" capture="environment" data-slot="${k}" aria-label="Take ${REF_LABEL[k]} photo"></label><br><button class="linkbtn" data-sample="${k}">Use sample photo</button>`}
+        </div></div>`).join("")}</div>
+      <div class="gf">The owner compares these with the client's references.</div>`,
+    cta:`<button class="btnp" id="send-qa" ${done<4?"disabled":""}>Send to owner</button>`, tabbar:false
+  };
+}
+
+// ---------- me (both roles) ----------
+function meScreen(){
+  const own=owner();
+  const approved=SESSIONS.filter(s=>s.qa==="approved").length, flagged=FLAGS.length, total=SESSIONS.filter(s=>s.date<=TODAY).length;
+  return {
+    nav:navbar({title:"Me"}),
+    body:`<div class="large">Me</div>
+      <div class="profile" style="margin-top:12px"><span class="avatar lg" style="background:${own?"#2f9e44":"#402dfe"}">${own?"SO":"KM"}</span><b>${own?"Studio Owner":"Karim Mansour"}</b><span>${own?"Owner":"Engineer"} · Harbour Studios</span></div>
+      ${own?"":`<div class="stats"><div><b>${total}</b><span>Sessions since Aug</span></div><div><b>${Math.round(approved/(approved+flagged)*100)}%</b><span>QA approved</span></div><div><b>${flagged}</b><span>Flags received</span></div></div>`}
+      <div class="gh">Account</div>
+      <div class="group">
+        <div class="cell"><span class="icon-tile" style="background:#8e8e93">${ic("bell",18,2)}</span><span class="grow"><span class="t">Notifications</span></span><span class="val">On</span></div>
+        <div class="cell"><span class="icon-tile" style="background:var(--accent)">${ic("today",18,2)}</span><span class="grow"><span class="t">Studio</span></span><span class="val">Harbour Studios</span></div>
+      </div>
+      <div class="gh">Prototype</div>
+      <div class="group">
+        <button class="cell accent" id="switch-role"><span class="icon-tile" style="background:var(--accent)">${ic("swap",18,2)}</span><span class="grow"><span class="t">Switch to ${own?"engineer":"owner"} view</span></span></button>
+        <button class="cell" data-push="tasks"><span class="icon-tile" style="background:#ff9500">${ic("list",18,2)}</span><span class="grow"><span class="t">Test tasks</span></span><span class="chev">${ic("chevR",16,2.2)}</span></button>
+      </div>
+      <div class="gf">Sample data. Nothing here is a real client.</div>`
+  };
+}
+function tasksScreen(){
+  const p=document.getElementById("tasks-panel");
+  return { nav:navbar({title:"Test tasks", back:{label:"Me"}}),
+    body:`<div class="large">Test tasks</div><div class="sub">Try these without help.</div>
+      ${[...p.querySelectorAll("h2")].map(h=>`<div class="gh">${esc(h.textContent)}</div><div class="group"><div class="block"><ol class="tasklist">${h.nextElementSibling.innerHTML}</ol></div></div>`).join("")}
+      <div class="gf">${esc(p.querySelector("p").textContent)}</div>` };
+}
+
+// ---------- owner: today ----------
+function ownToday(){
+  const list=SESSIONS.filter(s=>s.date===TODAY).sort((a,b)=>startOf(a)-startOf(b)), n=pending();
+  const live=list.find(s=>phase(s)==="live"), next=list.find(s=>phase(s)==="upcoming");
+  const nextDay=SESSIONS.filter(s=>s.date>TODAY).sort((a,b)=>a.date.localeCompare(b.date))[0];
+  return {
+    nav:navbar({title:"Today"}),
+    body:`<div class="large">Today</div><div class="sub">${fmtLong(TODAY)} · ${list.length} sessions</div>
+      <div class="hero">
+        <div class="k">QA review</div>
+        <div class="cd">${n?`${n} photo set${n>1?"s":""} waiting`:"All caught up"}</div>
+        <div class="mt">${n?"Swipe through them in the QA log. Approve or flag each one.":"Nothing waiting for review."}</div>
+        ${n?`<div class="hbtns" style="grid-template-columns:1fr"><button class="w" data-tab="qalog">Open QA log</button></div>`:""}
+      </div>
+      ${(live||next)?`<div class="h2">${live?"In session now":"Next up"}</div><div class="group">${sessionCell(live||next)}</div>`:""}
+      <div class="h2">All sessions today</div><div class="group">${list.map(s=>sessionCell(s)).join("")}</div>
+      ${nextDay?`<div class="h2">Coming up</div><div class="group"><button class="cell" data-jump="${nextDay.date}"><span class="icon-tile" style="background:var(--accent)">${ic("cal",18,2)}</span><span class="grow"><span class="t">${fmtShort(nextDay.date)}</span><span class="s">${SESSIONS.filter(s=>s.date===nextDay.date).length} sessions booked</span></span><span class="chev">${ic("chevR",16,2.2)}</span></button></div>`:""}`
+  };
+}
+
+// ---------- owner: QA log deck ----------
+function refreshLog(){
+  const L=state.log; SESSIONS.filter(s=>s.qa==="submitted").sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).forEach(s=>{ if(!L.ids.includes(s.id)) L.ids.push(s.id); });
+  if(L.ids.length && L.ids.every(id=>sById(id).qa!=="submitted")){ L.ids=[]; L.i=0; }
+  L.i=Math.min(L.i,Math.max(0,L.ids.length-1));
+}
+function ownQALog(){
+  refreshLog(); const L=state.log, left=pending();
+  if(!L.ids.length) return { nav:navbar({title:"QA log"}), body:`<div class="large">QA log</div><div class="empty" style="margin-top:40px"><div class="ic">${ic("check",30,2.6)}</div><b>All caught up</b>Every QA photo set has been reviewed.</div>` };
+  const cur=sById(L.ids[L.i]);
+  let cta;
+  if(cur.qa==="submitted") cta=`<button class="btnd" data-sheet="flag:${cur.id}">${ic("flag",20,2.2)}Flag</button><button class="btnp" data-approve="${cur.id}">${ic("check",20,2.6)}Approve</button>`;
+  else cta=`<button class="btns" disabled style="opacity:.9">${cur.qa==="approved"?"Approved":"Flagged to Karim"}</button>${L.i<L.ids.length-1?`<button class="btnp" id="log-next">Next</button>`:""}`;
+  return {
+    nav:navbar({title:"QA log", solid:true, right:`<span style="font-variant-numeric:tabular-nums;padding-right:8px">${left} left</span>`}),
+    deck:`<div class="dots">${L.ids.map((id,i)=>`<i class="${i===L.i?"on":sById(id).qa!=="submitted"?"done":""}"></i>`).join("")}</div>
+      <div class="deck" id="deck">${L.ids.map(id=>{const s=sById(id), cl=client(s), fl=FLAGS.filter(f=>f.sid===id).slice(-1)[0]; return `<div class="slide"><div class="card">
+        <div class="chead">${avatar(s)}<div class="grow"><b>${esc(cl.show)}</b><span>${s.date===TODAY?"Today":fmtShort(s.date)} · ${s.time.slice(0,5)} · ${s.room} · Karim M.</span></div>${qaPill(s)}</div>
+        ${QA_SLOTS.map(k=>{const o=photoOpt(s,k);return `<div class="cmp"><figure>${k==="levels"?`<div style="aspect-ratio:4/3;border-radius:10px;background:var(--fill);display:grid;place-items:center;font-size:12px;color:var(--label3)">No reference</div>`:scene(k)}<figcaption>Reference · ${REF_LABEL[k]}</figcaption></figure><figure>${shot(s,k)}<figcaption>Karim's photo${isOff(o)?" · <b>check</b>":""}</figcaption></figure></div>`;}).join("")}
+        ${s.qa==="flagged"&&fl?`<div class="quote"><small>Your flag · ${fmtShort(fl.at)}</small>${esc(fl.text)}</div>`:""}
+        ${s.notes.length?`<div class="note-b" style="background:var(--bg);border-radius:10px;padding:10px 12px"><small>Session notes</small><span style="font-size:15px">${s.notes.map(n=>esc(n.text)).join(" ")}</span></div>`:""}
+        <button class="btns" data-open="${s.id}" style="padding:11px;font-size:15px">Open session</button>
+      </div></div>`;}).join("")}</div>`,
+    cta
+  };
+}
+
+// ---------- owner: session ----------
+function ownSession(s){
+  const cl=client(s), ph=phase(s), seg=state.seg["o"+s.id]||"review", edit=s.edit||[];
+  let body="";
+  if(seg==="review"){
+    if(hasPhotos(s)){
+      const fl=FLAGS.filter(f=>f.sid===s.id).slice(-1)[0];
+      body=`<div class="gh">QA photos · Karim M.</div><div class="group"><div class="block" style="display:flex;flex-direction:column;gap:12px">
+        ${QA_SLOTS.map(k=>{const o=photoOpt(s,k);return `<div class="cmp"><figure>${k==="levels"?`<div style="aspect-ratio:4/3;border-radius:10px;background:var(--fill);display:grid;place-items:center;font-size:12px;color:var(--label3)">No reference</div>`:scene(k)}<figcaption>Reference · ${REF_LABEL[k]}</figcaption></figure><figure>${shot(s,k)}<figcaption>Karim's photo${isOff(o)?" · <b>check</b>":""}</figcaption></figure></div>`;}).join("")}
+        ${s.qa==="flagged"&&fl?`<div class="quote"><small>Your flag · ${fmtShort(fl.at)}</small>${esc(fl.text)}</div>`:""}
+        ${s.qa==="approved"?`<span class="pill ok" style="align-self:flex-start">${ic("check",12,2.6)}Approved</span>`:""}
+      </div></div>`;
+    } else body=`<div class="gh">QA photos</div><div class="group"><div class="block" style="color:var(--label3)">${ph==="future"?`Karim sends QA photos on ${fmtShort(s.date)}, before he starts recording.`:"Waiting for Karim's QA photos."}</div></div>`;
+  } else if(seg==="notes"){
+    body=`<div class="gh">Session notes for Karim</div>
+      <div class="group">${s.notes.map(n=>`<div class="block note-b"><small>${esc(n.by)}</small><span>${esc(n.text)}</span></div>`).join("")}
+        ${ph==="done"?(s.notes.length?"":`<div class="block" style="color:var(--label3)">No notes.</div>`):`<button class="cell accent" data-sheet="own:${s.id}">${ic("plus",22,2.2)}<span class="grow"><span class="t">Add note for Karim</span></span></button>`}</div>
+      <div class="gf">Karim sees these in the session's Notes on his phone.</div>
+      <div class="gh">Karim's notes for the editing team</div>
+      <div class="group">${edit.length?edit.map(n=>`<div class="block note-b"><span>${esc(n.text)}</span><small>${esc(n.by)} · ${fmtShort(n.at)}</small></div>`).join(""):`<div class="block" style="color:var(--label3)">None yet.</div>`}</div>`;
+  } else {
+    body=`<div class="gh">Client brief</div><div class="group">${cl.brief.length?`<ul class="bul">${cl.brief.map(b=>`<li>${ic("check",18,2.4)}<span>${esc(b)}</span></li>`).join("")}</ul>`:`<div class="block" style="color:var(--label3)">No brief yet.</div>`}</div>
+      <div class="gh">Setup · ${SETUPS[cl.setup].label}</div><div class="group">${SETUPS[cl.setup].specs.map(([k,v])=>`<div class="cell"><span class="grow"><span class="t">${k}</span></span><span class="val">${esc(v)}</span></div>`).join("")}</div>
+      <div class="gh">Client</div><div class="group"><div class="cell">${avatar(s)}<span class="grow"><span class="t">${esc(cl.person)}</span><span class="s">${visitsBefore(s)} previous sessions</span></span></div><div class="cell"><span class="grow"><span class="t">Phone</span></span><span class="val">${cl.phone}</span></div></div>`;
+  }
+  const cta = seg==="review"&&s.qa==="submitted" ? `<button class="btnd" data-sheet="flag:${s.id}">${ic("flag",20,2.2)}Flag</button><button class="btnp" data-approve="${s.id}">${ic("check",20,2.6)}Approve</button>` : "";
+  return {
+    nav:navbar({title:cl.show, back:{label:backLabel()}}),
+    body:`<div class="cover">${scene("wide")}<div class="ov"><span>${fmtShort(s.date)}</span><span>${s.time}</span><span>${s.room}</span><span>Karim M.</span></div></div>
+      <div class="titlerow">${avatar(s)}<div style="min-width:0"><div class="large">${esc(cl.show)}</div><div class="sub" style="margin:2px 0 0">${esc(cl.person)}</div></div></div>
+      <div class="seg" role="tablist">${[["review","QA review"],["notes","Notes",s.notes.length+edit.length],["details","Details"]].map(([k,l,n])=>`<button role="tab" data-segk="o${s.id}:${k}" aria-selected="${seg===k}">${l}${n?`<span class="n">${n}</span>`:""}</button>`).join("")}</div>
+      ${body}`, cta
+  };
+}
+
+// ---------- sheets ----------
+function sheetHTML(){
+  const sh=state.sheet; if(!sh) return "";
+  const s=sById(sh.id), cl=client(s);
+  const cfg={edit:["Note for editors","Add","e.g. Cut the intro, the host restarted twice. Client asked to avoid the wide angle.","Editors see this on the session in Collaboration."],
+             own:["Note for Karim","Add","e.g. VIP client. Greet her at reception and offer coffee before the session.","Karim sees this in the session's notes."],
+             flag:["Flag to Karim","Send","What should Karim fix? e.g. The teal shelf light is off in the wide shot.","Karim gets this as a flag with his photos attached."]}[sh.type];
+  const v=state.drafts[sh.type+sh.id]||"";
+  return `<div class="backdrop" id="backdrop"></div><div class="sheet" role="dialog" aria-label="${cfg[0]}">
+    <span class="grab"></span>
+    <div class="sheet-h"><button id="sheet-cancel" style="justify-self:start">Cancel</button><b>${cfg[0]}</b><button id="sheet-send" ${v.trim()?"":"disabled"}>${cfg[1]}</button></div>
+    <div class="ctx">${avatar(s,"sm")}<span>${esc(cl.show)} · ${fmtShort(s.date)} · ${s.time.slice(0,5)}</span></div>
+    <textarea id="sheet-text" placeholder="${esc(cfg[2])}">${esc(v)}</textarea>
+    <div class="hint">${cfg[3]}</div></div>`;
+}
+
+// ---------- render ----------
+function screenFor(t){
+  const own=owner();
+  if(t.s==="session") return own?ownSession(sById(t.id)):engSession(sById(t.id));
+  if(t.s==="qa") return engQA(sById(t.id));
+  if(t.s==="tasks") return tasksScreen();
+  if(t.s==="today") return own?ownToday():engToday();
+  if(t.s==="calendar") return calendarScreen();
+  if(t.s==="flags") return engFlags();
+  if(t.s==="qalog") return ownQALog();
+  return meScreen();
+}
+function render(){
+  const t=topScr(), sc=screenFor(t), tabs=owner()?OWN_TABS:ENG_TABS, showTabs=t.s!=="qa";
+  const sig=key()+JSON.stringify(t)+state.role;
+  const old=$(".content"), keepScroll = old && render.sig===sig ? old.scrollTop : 0;
+  const ae=document.activeElement, keepFocus = ae && view.contains(ae) && ae.id==="sheet-text";
+  const anim=state.anim; state.anim=null;
+  view.innerHTML = `<div class="screen ${anim||""}">
+      ${sc.nav}
+      ${sc.deck||`<div class="content" id="content">${sc.body}</div>`}
+      ${sc.cta?`<div class="cta">${sc.cta}</div>`:""}
+      ${showTabs?`<nav class="tabbar">${tabs.map(([k,l,icn])=>{const b=k==="flags"?unread():k==="qalog"?pending():0;return `<button class="tab" data-tab="${k}" aria-selected="${state.tab[state.role]===k}">${ic(icn,26,1.7)}${l}${b?`<span class="bd">${b}</span>`:""}</button>`;}).join("")}</nav>`:""}
+    </div>
+    ${sheetHTML()}
+    ${state.light?`<div class="lb"><button class="x" id="lb-close" aria-label="Close">${ic("x",18,2.4)}</button>${state.light.html}<div class="cap">${esc(state.light.cap)}</div></div>`:""}
+    ${state.toast?`<div class="toast" role="status">${ic("check",18,2.8)}${esc(state.toast)}</div>`:""}`;
+  render.sig=sig;
+  const c=$(".content"); if(c){ c.scrollTop=keepScroll; navShade(c); c.addEventListener("scroll",()=>navShade(c),{passive:true}); }
+  const dk=$("#deck"); if(dk){ requestAnimationFrame(()=>{ dk.scrollLeft=state.log.i*dk.clientWidth; }); }
+  if(keepFocus||state.sheet&&state.sheet.focus){ const ta=$("#sheet-text"); if(ta){ ta.focus(); ta.setSelectionRange(ta.value.length,ta.value.length); } if(state.sheet) state.sheet.focus=false; }
+  bind();
+}
+function navShade(c){ const n=$("#nav"); if(n&&!n.classList.contains("solid")) n.classList.toggle("scrolled", c.scrollTop>36); }
+
+// ---------- events ----------
+function bind(){
+  view.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.tab, same=state.tab[state.role]===k;
+    state.tab[state.role]=k; if(same) state.stacks[key()]=[];
+    render(); if(same){ const c=$(".content"); if(c) c.scrollTo({top:0,behavior:"smooth"}); }
+  });
+  view.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{ if(b.dataset.seg) state.seg[(owner()?"o":"")+b.dataset.open]=b.dataset.seg; push({s:"session",id:b.dataset.open}); });
+  view.querySelectorAll("[data-qa]").forEach(b=>b.onclick=()=>push({s:"qa",id:b.dataset.qa},"modal"));
+  view.querySelectorAll("[data-push]").forEach(b=>b.onclick=()=>push({s:b.dataset.push}));
+  view.querySelectorAll("[data-segk]").forEach(b=>b.onclick=()=>{ const [id,k]=b.dataset.segk.split(":"); state.seg[id]=k; render(); });
+  view.querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>{ const d=b.dataset.jump; state.cal[state.role]={day:d,week:mondayOf(d)}; state.tab[state.role]="calendar"; state.stacks[key()]=[]; render(); });
+  view.querySelectorAll("[data-day]").forEach(b=>b.onclick=()=>{ state.cal[state.role].day=b.dataset.day; render(); });
+  const wk=d=>{ const c=state.cal[state.role]; c.week=addDays(c.week,d); c.day=c.week<=TODAY&&TODAY<addDays(c.week,7)?TODAY:c.week; render(); };
+  const wp=$("#wk-prev"), wn=$("#wk-next"), wt=$("#wk-today");
+  if(wp) wp.onclick=()=>wk(-7); if(wn) wn.onclick=()=>wk(7);
+  if(wt) wt.onclick=()=>{ state.cal[state.role]={day:TODAY,week:mondayOf(TODAY)}; render(); };
+  const back=$("#back"); if(back) back.onclick=pop;
+  view.querySelectorAll("[data-light]").forEach(b=>b.onclick=()=>{
+    const [kind,sid,k]=b.dataset.light.split(":"), s=sById(sid);
+    state.light = kind==="ref" ? {html:scene(k),cap:`${REF_LABEL[k]} · reference from the client's brief`} : {html:shot(s,k),cap:`${REF_LABEL[k]} · QA photo, ${fmtShort(s.date)}`};
+    render();
+  });
+  const lb=$("#lb-close"); if(lb) lb.onclick=()=>{ state.light=null; render(); };
+  view.querySelectorAll("[data-read]").forEach(b=>b.onclick=()=>{ FLAGS[+b.dataset.read].read=true; toast("Marked as read"); });
+  // QA capture
+  const sid=topScr().id;
+  view.querySelectorAll("[data-sample]").forEach(b=>b.onclick=()=>{ state.qadraft[sid][b.dataset.sample]="sample"; render(); });
+  view.querySelectorAll("[data-clear]").forEach(b=>b.onclick=()=>{ delete state.qadraft[sid][b.dataset.clear]; render(); });
+  view.querySelectorAll("input[data-slot]").forEach(inp=>inp.onchange=()=>{
+    const f=inp.files&&inp.files[0]; if(!f) return;
+    const r=new FileReader(); r.onload=()=>{ state.qadraft[sid][inp.dataset.slot]=r.result; render(); }; r.readAsDataURL(f);
+  });
+  const sq=$("#send-qa"); if(sq) sq.onclick=()=>{
+    const s=sById(sid), d=state.qadraft[sid]; s.photos={}; s.uploads={};
+    QA_SLOTS.forEach(k=>{ if(d[k]!=="sample") s.uploads[k]=d[k]; });
+    const retake=s.qa==="flagged"; s.qa="submitted"; delete state.qadraft[sid];
+    FLAGS.forEach(f=>{ if(f.sid===sid) f.read=true; });
+    stack().pop(); state.anim=null; toast(retake?"New photos sent for review":"QA photos sent to the owner");
+  };
+  // sheets
+  view.querySelectorAll("[data-sheet]").forEach(b=>b.onclick=()=>{ const [type,id]=b.dataset.sheet.split(":"); state.sheet={type,id,focus:true}; render(); });
+  const ta=$("#sheet-text"); if(ta) ta.oninput=()=>{ state.drafts[state.sheet.type+state.sheet.id]=ta.value; $("#sheet-send").disabled=!ta.value.trim(); };
+  const closeSheet=()=>{ state.sheet=null; render(); };
+  const bd=$("#backdrop"), sc=$("#sheet-cancel"); if(bd) bd.onclick=closeSheet; if(sc) sc.onclick=closeSheet;
+  const ss=$("#sheet-send"); if(ss) ss.onclick=()=>{
+    const {type,id}=state.sheet, s=sById(id), text=(state.drafts[type+id]||"").trim(); if(!text) return;
+    delete state.drafts[type+id]; state.sheet=null;
+    if(type==="edit"){ (s.edit ||= []).push({by:KARIM,at:TODAY,text}); toast("Note added for the editors"); }
+    else if(type==="own"){ s.notes.push({by:"Studio owner",text}); toast("Karim will see this note"); }
+    else { const k=QA_SLOTS.find(k=>isOff(photoOpt(s,k)))||(s.uploads&&Object.keys(s.uploads)[0])||"wide";
+      FLAGS.push({sid:id,by:"Studio owner",at:TODAY,read:false,shot:k,snap:shot(s,k),text}); s.qa="flagged"; advanceLog(); toast("Flag sent to Karim"); }
+  };
+  view.querySelectorAll("[data-approve]").forEach(b=>b.onclick=()=>{ sById(b.dataset.approve).qa="approved"; advanceLog(); toast("Approved"); });
+  const ln=$("#log-next"); if(ln) ln.onclick=()=>{ state.log.i=Math.min(state.log.i+1,state.log.ids.length-1); smoothDeck(); };
+  const dk=$("#deck"); if(dk){ let tm; dk.addEventListener("scroll",()=>{ clearTimeout(tm); tm=setTimeout(()=>{ if(!dk.clientWidth) return; const i=Math.round(dk.scrollLeft/dk.clientWidth); if(i!==state.log.i&&i>=0&&i<state.log.ids.length){ state.log.i=i; render(); } },120); },{passive:true}); }
+  const sr=$("#switch-role"); if(sr) sr.onclick=()=>{ state.role=owner()?"eng":"own"; state.tab[state.role]="today"; state.stacks[key()]=[]; toast(owner()?"Now viewing as owner":"Now viewing as engineer"); };
+  // edge swipe back
+  const scr=$(".screen");
+  if(scr&&stack().length){ let sx=null,sy=0; scr.addEventListener("touchstart",e=>{ const r=view.getBoundingClientRect(), x=e.touches[0].clientX-r.left; sx = x<28 ? e.touches[0].clientX : null; sy=e.touches[0].clientY; },{passive:true});
+    scr.addEventListener("touchend",e=>{ if(sx===null) return; const dx=e.changedTouches[0].clientX-sx, dy=Math.abs(e.changedTouches[0].clientY-sy); if(dx>70&&dy<60) pop(); sx=null; },{passive:true}); }
+}
+function advanceLog(){
+  if(state.tab.own!=="qalog"||stack().length) return;
+  const L=state.log, nxt=L.ids.findIndex((id,i)=>i>L.i&&sById(id).qa==="submitted"), any=L.ids.findIndex(id=>sById(id).qa==="submitted");
+  if(nxt>=0) L.i=nxt; else if(any>=0) L.i=any;
+  setTimeout(smoothDeck,0);
+}
+function smoothDeck(){ const dk=$("#deck"); if(dk) dk.scrollTo({left:state.log.i*dk.clientWidth,behavior:"smooth"}); setTimeout(render,360); }
+
+// live clock + countdowns
+setInterval(()=>{
+  const n=nowMin(), clk=document.getElementById("clock"); if(clk) clk.textContent=hm(n);
+  view.querySelectorAll("[data-cd]").forEach(el=>{ el.textContent=countdown(sById(el.dataset.cd)); });
+},15000);
+document.getElementById("tasks-toggle").onclick=()=>{ const p=document.getElementById("tasks-panel"); p.hidden=!p.hidden; document.getElementById("tasks-toggle").textContent=p.hidden?"Test tasks":"Hide tasks"; };
+addEventListener("resize",()=>{ const dk=$("#deck"); if(dk) dk.scrollLeft=state.log.i*dk.clientWidth; });
+render();
+if('serviceWorker' in navigator) addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+
+</body>
+</html>
