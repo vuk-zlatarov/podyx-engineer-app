@@ -482,8 +482,17 @@ const topScr = () => stack()[stack().length-1] || {s:state.tab[state.role]};
 const owner = () => state.role==="own";
 const unread = () => FLAGS.filter(f=>!f.read).length;
 const pending = () => SESSIONS.filter(s=>s.qa==="submitted").length;
-function push(scr, anim="push"){ stack().push(scr); state.anim=anim; render(); }
-function pop(){ if(stack().length){ const t=stack().pop(); state.anim = t.s==="qa" ? null : "pop"; render(); } }
+function push(scr, anim="push"){ stack().push(scr); history.pushState({podyx:1},""); state.anim=anim; render(); }
+function doPop(){ if(stack().length){ const t=stack().pop(); state.anim = t.s==="qa" ? null : "pop"; render(); } }
+function pop(){ if(stack().length) history.back(); }
+// leaving a tab clears its stack, so drop its history entries too
+function leaveStack(){ const n=stack().length; state.stacks[key()]=[]; if(n){ state.skipPop=true; history.go(-n); } }
+addEventListener("popstate",()=>{
+  if(state.skipPop){ state.skipPop=false; return; }
+  if(state.light){ state.light=null; render(); return; }
+  if(state.sheet){ state.sheet=null; render(); return; }
+  doPop();
+});
 function toast(msg){ state.toast=msg; render(); clearTimeout(toast.t); toast.t=setTimeout(()=>{ state.toast=null; const el=$(".toast"); if(el) el.remove(); },2200); }
 
 // ---------- shared bits ----------
@@ -817,14 +826,14 @@ function navShade(c){ const n=$("#nav"); if(n&&!n.classList.contains("solid")) n
 function bind(){
   view.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{
     const k=b.dataset.tab, same=state.tab[state.role]===k;
-    state.tab[state.role]=k; if(same) state.stacks[key()]=[];
+    leaveStack(); state.tab[state.role]=k;
     render(); if(same){ const c=$(".content"); if(c) c.scrollTo({top:0,behavior:"smooth"}); }
   });
   view.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{ if(b.dataset.seg) state.seg[(owner()?"o":"")+b.dataset.open]=b.dataset.seg; push({s:"session",id:b.dataset.open}); });
   view.querySelectorAll("[data-qa]").forEach(b=>b.onclick=()=>push({s:"qa",id:b.dataset.qa},"modal"));
   view.querySelectorAll("[data-push]").forEach(b=>b.onclick=()=>push({s:b.dataset.push}));
   view.querySelectorAll("[data-segk]").forEach(b=>b.onclick=()=>{ const [id,k]=b.dataset.segk.split(":"); state.seg[id]=k; render(); });
-  view.querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>{ const d=b.dataset.jump; state.cal[state.role]={day:d,week:mondayOf(d)}; state.tab[state.role]="calendar"; state.stacks[key()]=[]; render(); });
+  view.querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>{ const d=b.dataset.jump; leaveStack(); state.cal[state.role]={day:d,week:mondayOf(d)}; state.tab[state.role]="calendar"; state.stacks[key()]=[]; render(); });
   view.querySelectorAll("[data-day]").forEach(b=>b.onclick=()=>{ state.cal[state.role].day=b.dataset.day; render(); });
   const wk=d=>{ const c=state.cal[state.role]; c.week=addDays(c.week,d); c.day=c.week<=TODAY&&TODAY<addDays(c.week,7)?TODAY:c.week; render(); };
   const wp=$("#wk-prev"), wn=$("#wk-next"), wt=$("#wk-today");
@@ -834,9 +843,9 @@ function bind(){
   view.querySelectorAll("[data-light]").forEach(b=>b.onclick=()=>{
     const [kind,sid,k]=b.dataset.light.split(":"), s=sById(sid);
     state.light = kind==="ref" ? {html:scene(k),cap:`${REF_LABEL[k]} · reference from the client's brief`} : {html:shot(s,k),cap:`${REF_LABEL[k]} · QA photo, ${fmtShort(s.date)}`};
-    render();
+    history.pushState({podyx:1},""); render();
   });
-  const lb=$("#lb-close"); if(lb) lb.onclick=()=>{ state.light=null; render(); };
+  const lb=$("#lb-close"); if(lb) lb.onclick=()=>history.back();
   view.querySelectorAll("[data-read]").forEach(b=>b.onclick=()=>{ FLAGS[+b.dataset.read].read=true; toast("Marked as read"); });
   // QA capture
   const sid=topScr().id;
@@ -851,16 +860,16 @@ function bind(){
     QA_SLOTS.forEach(k=>{ if(d[k]!=="sample") s.uploads[k]=d[k]; });
     const retake=s.qa==="flagged"; s.qa="submitted"; delete state.qadraft[sid];
     FLAGS.forEach(f=>{ if(f.sid===sid) f.read=true; });
-    stack().pop(); state.anim=null; toast(retake?"New photos sent for review":"QA photos sent to the owner");
+    stack().pop(); state.anim=null; state.skipPop=true; history.back(); toast(retake?"New photos sent for review":"QA photos sent to the owner");
   };
   // sheets
-  view.querySelectorAll("[data-sheet]").forEach(b=>b.onclick=()=>{ const [type,id]=b.dataset.sheet.split(":"); state.sheet={type,id,focus:true}; render(); });
+  view.querySelectorAll("[data-sheet]").forEach(b=>b.onclick=()=>{ const [type,id]=b.dataset.sheet.split(":"); state.sheet={type,id,focus:true}; history.pushState({podyx:1},""); render(); });
   const ta=$("#sheet-text"); if(ta) ta.oninput=()=>{ state.drafts[state.sheet.type+state.sheet.id]=ta.value; $("#sheet-send").disabled=!ta.value.trim(); };
-  const closeSheet=()=>{ state.sheet=null; render(); };
+  const closeSheet=()=>history.back();
   const bd=$("#backdrop"), sc=$("#sheet-cancel"); if(bd) bd.onclick=closeSheet; if(sc) sc.onclick=closeSheet;
   const ss=$("#sheet-send"); if(ss) ss.onclick=()=>{
     const {type,id}=state.sheet, s=sById(id), text=(state.drafts[type+id]||"").trim(); if(!text) return;
-    delete state.drafts[type+id]; state.sheet=null;
+    delete state.drafts[type+id]; state.sheet=null; state.skipPop=true; history.back();
     if(type==="edit"){ (s.edit ||= []).push({by:KARIM,at:TODAY,text}); toast("Note added for the editors"); }
     else if(type==="own"){ s.notes.push({by:"Studio owner",text}); toast("Karim will see this note"); }
     else { const k=QA_SLOTS.find(k=>isOff(photoOpt(s,k)))||(s.uploads&&Object.keys(s.uploads)[0])||"wide";
@@ -869,7 +878,7 @@ function bind(){
   view.querySelectorAll("[data-approve]").forEach(b=>b.onclick=()=>{ sById(b.dataset.approve).qa="approved"; advanceLog(); toast("Approved"); });
   const ln=$("#log-next"); if(ln) ln.onclick=()=>{ state.log.i=Math.min(state.log.i+1,state.log.ids.length-1); smoothDeck(); };
   const dk=$("#deck"); if(dk){ let tm; dk.addEventListener("scroll",()=>{ clearTimeout(tm); tm=setTimeout(()=>{ if(!dk.clientWidth) return; const i=Math.round(dk.scrollLeft/dk.clientWidth); if(i!==state.log.i&&i>=0&&i<state.log.ids.length){ state.log.i=i; render(); } },120); },{passive:true}); }
-  const sr=$("#switch-role"); if(sr) sr.onclick=()=>{ state.role=owner()?"eng":"own"; state.tab[state.role]="today"; state.stacks[key()]=[]; toast(owner()?"Now viewing as owner":"Now viewing as engineer"); };
+  const sr=$("#switch-role"); if(sr) sr.onclick=()=>{ leaveStack(); state.role=owner()?"eng":"own"; state.tab[state.role]="today"; state.stacks[key()]=[]; toast(owner()?"Now viewing as owner":"Now viewing as engineer"); };
   // edge swipe back
   const scr=$(".screen");
   if(scr&&stack().length){ let sx=null,sy=0; scr.addEventListener("touchstart",e=>{ const r=view.getBoundingClientRect(), x=e.touches[0].clientX-r.left; sx = x<28 ? e.touches[0].clientX : null; sy=e.touches[0].clientY; },{passive:true});
