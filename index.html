@@ -282,6 +282,73 @@ html{padding:env(safe-area-inset-top,0px) 0 0}
 body{overscroll-behavior:none}
 @media (max-width:520px){ html,body{background:var(--bg)} }
 </style>
+<style>
+/* v2 additions */
+.hero .hbtns a{border:0;border-radius:12px;padding:12px;font-weight:600;font-size:15px;text-align:center;text-decoration:none}
+a.icbtn{text-decoration:none}
+.factrow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 0}
+.factrow div{background:var(--card);border-radius:12px;padding:9px 10px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.factrow small{font-size:11px;color:var(--label3);text-transform:uppercase;letter-spacing:.03em}
+.factrow b{font-size:13px;font-weight:600;line-height:1.25}
+.note-b.fresh{background:var(--accent-soft)}
+.reply{margin:6px 0 0 10px;padding-left:10px;border-left:2px solid var(--sep);display:flex;flex-direction:column;gap:2px;font-size:15px}
+.reply small{font-size:12px;color:var(--label3)}
+.linkbtn{align-self:flex-start}
+.figbtn{border:0;background:none;padding:0;display:block;width:100%}
+.noref{width:100%;aspect-ratio:4/3;border-radius:10px;background:var(--fill);display:grid;place-items:center;font-size:12px;color:var(--label3)}
+.trail{list-style:none;margin:0;padding:14px 16px 4px}
+.trail li{position:relative;display:flex;gap:12px;padding-bottom:14px}
+.trail li::before{content:"";position:absolute;left:5px;top:14px;bottom:0;width:2px;background:var(--sep)}
+.trail li.last::before{display:none}
+.trail .dot{width:12px;height:12px;border-radius:50%;background:var(--accent);flex:none;margin-top:4px;position:relative;z-index:1}
+.trail .dot.auto{background:var(--green)} .trail .dot.grey{background:var(--label3)}
+.trail .tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.trail .tx b{font-size:16px;font-weight:600}
+.trail .tx span{font-size:13px;color:var(--label3)}
+.proof{border:0;background:none;padding:0;margin-top:6px;width:150px;display:flex;flex-direction:column;gap:3px;text-align:left}
+.proof svg,.proof img,.proof video{width:150px;aspect-ratio:4/3;height:auto;border-radius:8px;display:block;object-fit:cover;background:#000}
+.proof em{font-style:normal;font-size:12px;color:var(--accent);font-weight:600}
+.val.warnv{color:var(--orange-ink);font-weight:600}
+.search{display:flex;align-items:center;gap:8px;background:var(--fill);border-radius:10px;padding:8px 10px;color:var(--label3);margin:0 0 10px}
+.search input{flex:1;border:0;background:none;font:inherit;font-size:17px;color:var(--label);outline:none;min-width:0}
+.chipsel{display:flex;gap:6px;overflow-x:auto;margin:0 -16px 14px;padding:0 16px;scrollbar-width:none}
+.chipsel::-webkit-scrollbar{display:none}
+.chipsel.wrap{flex-wrap:wrap;overflow:visible;margin:0;padding:0}
+.chipsel button{border:0;border-radius:999px;padding:7px 12px;background:var(--card);color:var(--label);font-size:14px;font-weight:500;white-space:nowrap;display:flex;gap:6px;align-items:center}
+.sheet .chipsel button{background:var(--bg)}
+.chipsel button span{color:var(--label3);font-size:12px}
+.chipsel button[aria-selected="true"]{background:var(--accent);color:#fff}
+.chipsel button[aria-selected="true"] span{color:rgba(255,255,255,.8)}
+.lbl2{font-size:13px;font-weight:600;color:var(--label3);text-transform:uppercase;letter-spacing:.03em;margin-bottom:-4px}
+.proofrow{display:flex;align-items:center;gap:12px}
+.proofrow>svg,.proofrow>img,.proofrow>video{width:120px;aspect-ratio:4/3;height:auto;border-radius:8px;object-fit:cover;background:#000}
+.proofrow .capbtn{margin-top:0}
+.cap2{padding:12px 16px;position:relative;display:flex;flex-direction:column;gap:8px}
+.cap2+.cap2::before{content:"";position:absolute;top:0;left:16px;right:0;height:.5px;background:var(--sep)}
+.cap2-h{display:flex;justify-content:space-between;align-items:center}
+.cap2-h b{font-size:16px;font-weight:600}
+.cap2-h .done-mark{margin-top:0}
+.cap2-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cap2-row figure{margin:0;display:flex;flex-direction:column;gap:5px;min-width:0}
+.cap2-row svg,.cap2-row img{width:100%;aspect-ratio:4/3;height:auto;border-radius:10px;display:block;object-fit:cover}
+.cap2-row figcaption{font-size:12px;color:var(--label3)}
+.capslot{position:relative;aspect-ratio:4/3;border-radius:10px;border:1.5px dashed var(--accent);background:var(--accent-soft);color:var(--accent);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:600;font-size:14px;cursor:pointer;overflow:hidden}
+.capslot input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+.lb{justify-content:center}
+.lbdeck{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.lbdeck::-webkit-scrollbar{display:none}
+.lbslide{flex:0 0 100%;scroll-snap-align:center;display:flex;flex-direction:column;gap:14px}
+.lbslide svg,.lbslide img,.lbslide video{width:100%;height:auto;display:block}
+.lb .dots i{background:rgba(255,255,255,.35)} .lb .dots i.on{background:#fff}
+.switch{appearance:none;-webkit-appearance:none;width:51px;height:31px;border-radius:16px;background:var(--fill);position:relative;flex:none;cursor:pointer;transition:background .2s;margin:0}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:transform .2s}
+.switch:checked{background:var(--green)} .switch:checked::after{transform:translateX(20px)}
+.tick{appearance:none;-webkit-appearance:none;width:22px;height:22px;margin:0;flex:none;cursor:pointer;border-radius:50%;border:1.5px solid var(--label3)}
+.tick:checked{border:0;background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4L18 8'/%3E%3C/svg%3E") center/14px no-repeat}
+.segsm{display:flex;background:var(--fill);border-radius:8px;padding:2px}
+.segsm button{border:0;background:none;padding:5px 10px;font-size:13px;font-weight:600;border-radius:6px;color:var(--label)}
+.segsm button[aria-selected="true"]{background:var(--card);box-shadow:0 2px 6px rgba(0,0,0,.12)}
+</style>
 </head>
 <body>
 
@@ -301,21 +368,25 @@ body{overscroll-behavior:none}
   <aside class="tasks-panel desk-only" id="tasks-panel" hidden>
     <h2>Engineer tasks</h2>
     <ol>
-      <li>Your next client wants the same look as last time. Find how camera A should be framed.</li>
-      <li>Open that client's history. Which session was flagged, and why?</li>
-      <li>Find every QA flag you've received. Which client was flagged for camera B?</li>
-      <li>What does the studio manager want you to know about the 2pm session?</li>
-      <li>Do the QA check for the 2pm and the 5:30pm sessions.</li>
-      <li>What's special about Monday's session in Eden?</li>
-      <li>Tell the editors on the 2pm session to cut the intro, and that the client asked to avoid the wide angle.</li>
+      <li>Install the app. Was anything confusing?</li>
+      <li>Your next session: who's the client, which room, and how long until it starts?</li>
+      <li>Something changed on that session. What changed? Reply to confirm you saw it.</li>
+      <li>Is that session post-production or live mix, and where do the client's files go?</li>
+      <li>Swipe through the client's reference shots. How should camera A be framed?</li>
+      <li>Take the QA photos for that session.</li>
+      <li>This morning's Founders Table session is recorded. Log that the files were uploaded, with a proof video.</li>
+      <li>Leave a note for the editors on the 2pm session.</li>
+      <li>Find the last QA flag you got for camera B.</li>
     </ol>
-    <h2>Owner tasks (Me → Switch to owner)</h2>
+    <h2>Owner tasks (Me → Switch to owner view)</h2>
     <ol>
-      <li>Open the QA log and review every session waiting. Flag at least one with a comment.</li>
-      <li>Switch back to the engineer, find the flag, and retake the photos.</li>
-      <li>Leave Karim a note on Monday's Eden session.</li>
+      <li>A client asks where her footage from 25 September is. Find it and the proof it was delivered.</li>
+      <li>Which sessions haven't been delivered yet? Which files expire this week?</li>
+      <li>Look at this morning's QA photos for The Founders Table. Flag one if something's off.</li>
+      <li>Post an update to Karim on the 5:30pm session, then switch to engineer view and check he got it.</li>
+      <li>In Studio settings, turn on "Proof required" and see how logging a file step changes.</li>
     </ol>
-    <p>Ask owners: would you turn this on for your engineers in November? What would you remove?</p>
+    <p>The test question: could we close the Still Frames and Nine Eyes WhatsApp groups with this?</p>
   </aside>
   <button class="tasks-toggle desk-only" id="tasks-toggle">Test tasks</button>
 </div>
@@ -326,10 +397,20 @@ const TODAY = "2026-10-02";
 const D = s => new Date(s+"T12:00:00Z");
 const iso = d => d.toISOString().slice(0,10);
 const addDays = (s,n) => { const d=D(s); d.setUTCDate(d.getUTCDate()+n); return iso(d); };
+const daysBetween = (a,b) => Math.round((D(b)-D(a))/86400000);
 const mondayOf = s => { const d=D(s); const w=(d.getUTCDay()+6)%7; return addDays(s,-w); };
 const fmtLong = s => D(s).toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"});
 const fmtShort = s => D(s).toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short",timeZone:"UTC"});
+const fmtDM = s => D(s).toLocaleDateString("en-GB",{day:"numeric",month:"short",timeZone:"UTC"});
 const WEEK_MIN = "2026-08-10", WEEK_MAX = "2026-10-05";
+
+// ---------- studio settings (the handful a studio can change) ----------
+const SETTINGS = {
+  shots:["wide","camA","camB"],
+  locations:["Podyx File Transfer","Studio Dropbox","Post-production drive","Client's Google Drive","WeTransfer"],
+  proofRequired:false, contactVisible:false, replies:true, retention:30,
+};
+const SHOT_LABEL = { wide:"Wide set", camA:"Camera A", camB:"Camera B", close:"Close-up" };
 
 // ---------- sample data (fictional clients, demo studio rooms) ----------
 const SETUPS = {
@@ -338,78 +419,114 @@ const SETUPS = {
   solo:{label:"Solo recording", specs:[["Mics","1 × Shure SM7B"],["Cameras","2 × Sony FX3, 4K 25fps"],["Recorder","RodeCaster Pro II"],["Lighting","Preset 1 · Daylight"]]},
 };
 const CLIENTS = {
-  c1:{show:"The Founders Table", person:"Omar Haddad", phone:"+971 50 214 7781", setup:"video4", refs:["wide","camA","camB"],
+  c1:{show:"The Founders Table", person:"Omar Haddad", phone:"+971 50 214 7781", setup:"video4", service:"Post-production", deliver:"Podyx File Transfer", refs:["wide","camA","camB"],
       brief:["Round table, host faces camera A","Daylight preset, no coloured backlight","Brand mugs on table, no water bottles in shot"]},
-  c2:{show:"Mind Over Money", person:"Layla Nasser", phone:"+971 55 903 1146", setup:"video2", refs:["wide","camA","camB"],
+  c2:{show:"Mind Over Money", person:"Layla Nasser", phone:"+971 55 903 1146", setup:"video2", service:"Live mix", deliver:"Client's Google Drive", refs:["wide","camA","camB"],
       brief:["Host on the left, guest on the right","Warm preset 2, teal backlight on shelf","Host uses SM7B with no visible pop filter","Lower-thirds in the client's teal (#14AAFF)"]},
-  c3:{show:"Sana Al-Rashid", person:"Sana Al-Rashid", phone:"+971 52 660 4019", setup:"solo", refs:["camA","camB"], brief:["Solo, camera A close-up, camera B side angle","Lapel mic only, no desk mic in shot","Soft daylight, she dislikes harsh key light"]},
-  c4:{show:"Desert Signal", person:"Yusuf Karimi", phone:"+971 50 771 2290", setup:"video2", refs:["wide","camA"],
+  c3:{show:"Sana Al-Rashid", person:"Sana Al-Rashid", phone:"+971 52 660 4019", setup:"solo", service:"Raw files only", deliver:"Podyx File Transfer", refs:["camA","camB"],
+      brief:["Solo, camera A close-up, camera B side angle","Lapel mic only, no desk mic in shot","Soft daylight, she dislikes harsh key light"]},
+  c4:{show:"Desert Signal", person:"Yusuf Karimi", phone:"+971 50 771 2290", setup:"video2", service:"Live mix", deliver:"Podyx File Transfer", refs:["wide","camA"],
       brief:["Two hosts side by side, no guest chair","Keep the neon sign on, it's their logo"]},
-  c5:{show:"Build in Public MENA", person:"Hana Saleh", phone:"+971 54 118 3302", setup:"video4", refs:["wide","camB"],
+  c5:{show:"Build in Public MENA", person:"Hana Saleh", phone:"+971 54 118 3302", setup:"video4", service:"Post-production", deliver:"WeTransfer", refs:["wide","camB"],
       brief:["Panel format, moderator centre","Name cards on the table facing camera"]},
-  c6:{show:"Rania Aziz", person:"Rania Aziz", phone:"+971 56 402 8857", setup:"solo", refs:["camA"], brief:["Single camera close-up, ring light on"]},
+  c6:{show:"Rania Aziz", person:"Rania Aziz", phone:"+971 56 402 8857", setup:"solo", service:"Raw files only", deliver:"Podyx File Transfer", refs:["camA"], brief:["Single camera close-up, ring light on"]},
 };
-const MIRA = "Mira K. · Studio manager", KARIM = "Karim M. · Engineer";
+const MIRA = "Mira K. · Studio manager", KARIM = "Karim M. · Engineer", OWNER = "Studio owner";
+const S = (id,date,time,room,c,qa,extra={}) => ({id,date,time,room,c,qa,notes:[],updates:[],...extra});
 const SESSIONS = [
-  {id:"h1", date:"2026-08-14", time:"10:00 – 12:00", room:"Nest", c:"c1", qa:"approved", notes:[]},
-  {id:"h2", date:"2026-08-28", time:"10:00 – 12:00", room:"Nest", c:"c1", qa:"flagged", photos:{camA:{noMic:true}}, notes:[]},
-  {id:"h3", date:"2026-09-11", time:"10:00 – 12:00", room:"Nest", c:"c1", qa:"approved", notes:[], edit:[{by:"Karim M. · Engineer",at:"2026-09-11",text:"Host coughed a lot in the first 20 minutes. Clean it up where you can."}]},
-  {id:"h4", date:"2026-08-21", time:"14:00 – 16:00", room:"Exec", c:"c2", qa:"approved", notes:[]},
-  {id:"h5", date:"2026-09-04", time:"14:00 – 16:00", room:"Exec", c:"c2", qa:"approved", notes:[]},
-  {id:"h6", date:"2026-08-27", time:"17:30 – 18:30", room:"Apex", c:"c3", qa:"approved", notes:[]},
-  {id:"h7", date:"2026-09-10", time:"17:30 – 18:30", room:"Apex", c:"c3", qa:"approved", notes:[]},
-  {id:"h8", date:"2026-09-24", time:"17:30 – 18:30", room:"Apex", c:"c3", qa:"approved", notes:[], edit:[{by:"Karim M. · Engineer",at:"2026-09-24",text:"Client asked to avoid the side angle for the second half."}]},
-  {id:"h9", date:"2026-09-08", time:"11:00 – 12:00", room:"Cove", c:"c4", qa:"approved", notes:[]},
-  {id:"h10", date:"2026-09-15", time:"11:00 – 12:00", room:"Cove", c:"c4", qa:"flagged", photos:{wide:{dim:true}}, notes:[]},
-  {id:"h11", date:"2026-09-22", time:"11:00 – 12:00", room:"Cove", c:"c4", qa:"approved", notes:[]},
-  {id:"h12", date:"2026-08-26", time:"15:00 – 17:00", room:"Eden", c:"c5", qa:"approved", notes:[]},
-  {id:"h13", date:"2026-09-09", time:"15:00 – 17:00", room:"Eden", c:"c5", qa:"flagged", photos:{camB:{noMic:true}}, notes:[]},
-  {id:"h14", date:"2026-09-23", time:"15:00 – 17:00", room:"Eden", c:"c5", qa:"approved", notes:[]},
-  {id:"h15", date:"2026-09-03", time:"09:00 – 10:00", room:"Apex", c:"c6", qa:"approved", notes:[]},
-  {id:"h16", date:"2026-09-17", time:"09:00 – 10:00", room:"Apex", c:"c6", qa:"approved", notes:[]},
-  {id:"a1", date:"2026-09-18", time:"14:00 – 16:00", room:"Exec", c:"c2", qa:"approved", notes:[]},
-  {id:"a2", date:"2026-09-25", time:"10:00 – 12:00", room:"Nest", c:"c1", qa:"approved", notes:[]},
-  {id:"a3", date:"2026-09-25", time:"14:00 – 16:00", room:"Exec", c:"c2", qa:"flagged", photos:{wide:{noTeal:true}}, notes:[{by:MIRA,text:"Guest is camera-shy. Keep camera B on the host only."}],
-     edit:[{by:KARIM,at:"2026-09-25",text:"Guest asked to cut the part about her previous employer."},{by:KARIM,at:"2026-09-25",text:"Guest is camera-shy. Avoid her close-ups, use the wide and host cameras."}]},
-  {id:"a4", date:"2026-09-29", time:"11:00 – 12:00", room:"Cove", c:"c4", qa:"approved", notes:[]},
-  {id:"a5", date:"2026-09-30", time:"15:00 – 17:00", room:"Eden", c:"c5", qa:"approved", notes:[]},
-  {id:"a6", date:"2026-10-01", time:"09:00 – 10:00", room:"Apex", c:"c6", qa:"submitted", notes:[]},
-  {id:"a7", date:"2026-10-01", time:"16:00 – 17:00", room:"Cove", c:"c4", qa:"submitted", photos:{camA:{dim:true}}, notes:[]},
-  {id:"s1", date:"2026-10-02", time:"10:00 – 12:00", room:"Nest", c:"c1", qa:"submitted", photos:{wide:{noTeal:true,dim:true},camA:{noMic:true}}, notes:[{by:MIRA,text:"Guest Faris brings his own lav mic. Plug it into CH4 as a backup."}],
-     edit:[{by:KARIM,at:"2026-10-02",text:"False start. Cut everything before the host says welcome."}]},
-  {id:"s2", date:"2026-10-02", time:"14:00 – 16:00", room:"Exec", c:"c2", qa:"due", next:true, notes:[{by:MIRA,text:"Remote guest Dr. Amal Yusuf joins on Riverside. Link is in the run-of-show."},{by:"Layla Nasser · Client",text:"Please export raw ISO files per camera, not only the mix."}]},
-  {id:"s3", date:"2026-10-02", time:"17:30 – 18:30", room:"Apex", c:"c3", qa:"due", notes:[{by:MIRA,text:"She records standing today. Raise camera A to eye level and swap the lapel battery before she arrives."}]},
-  {id:"b1", date:"2026-10-05", time:"10:00 – 12:00", room:"Eden", c:"c5", qa:"due", notes:[{by:MIRA,text:"Two episodes back to back. Reset name cards and swap guest mics between episodes."}]},
-  {id:"b2", date:"2026-10-05", time:"15:00 – 16:00", room:"Cove", c:"c4", qa:"due", notes:[]},
-  {id:"b3", date:"2026-10-06", time:"10:00 – 12:00", room:"Nest", c:"c1", qa:"due", notes:[]},
-  {id:"b4", date:"2026-10-07", time:"18:00 – 19:00", room:"Apex", c:"c6", qa:"due", notes:[]},
-  {id:"b5", date:"2026-10-09", time:"14:00 – 16:00", room:"Exec", c:"c2", qa:"due", notes:[]},
+  S("h1","2026-08-14","10:00 – 12:00","Nest","c1","sent"),
+  S("h2","2026-08-28","10:00 – 12:00","Nest","c1","flagged",{photos:{camA:{noMic:true}}}),
+  S("h3","2026-09-11","10:00 – 12:00","Nest","c1","sent",{edit:[{by:KARIM,at:"2026-09-11",text:"Host coughed a lot in the first 20 minutes. Clean it up where you can."}]}),
+  S("h4","2026-08-21","14:00 – 16:00","Exec","c2","sent"),
+  S("h5","2026-09-04","14:00 – 16:00","Exec","c2","sent"),
+  S("h6","2026-08-27","17:30 – 18:30","Apex","c3","sent"),
+  S("h7","2026-09-10","17:30 – 18:30","Apex","c3","sent"),
+  S("h8","2026-09-24","17:30 – 18:30","Apex","c3","sent",{edit:[{by:KARIM,at:"2026-09-24",text:"Client asked to avoid the side angle for the second half."}]}),
+  S("h9","2026-09-08","11:00 – 12:00","Cove","c4","sent"),
+  S("h10","2026-09-15","11:00 – 12:00","Cove","c4","flagged",{photos:{wide:{dim:true}}}),
+  S("h11","2026-09-22","11:00 – 12:00","Cove","c4","sent"),
+  S("h12","2026-08-26","15:00 – 17:00","Eden","c5","sent"),
+  S("h13","2026-09-09","15:00 – 17:00","Eden","c5","flagged",{photos:{camB:{noMic:true}}}),
+  S("h14","2026-09-23","15:00 – 17:00","Eden","c5","sent"),
+  S("h15","2026-09-03","09:00 – 10:00","Apex","c6","sent"),
+  S("h16","2026-09-17","09:00 – 10:00","Apex","c6","sent"),
+  S("a1","2026-09-18","14:00 – 16:00","Exec","c2","sent"),
+  S("a2","2026-09-25","10:00 – 12:00","Nest","c1","sent"),
+  S("a3","2026-09-25","14:00 – 16:00","Exec","c2","flagged",{photos:{wide:{noTeal:true}},notes:[{by:MIRA,text:"Guest is camera-shy. Keep camera B on the host only."}],
+     edit:[{by:KARIM,at:"2026-09-25",text:"Guest asked to cut the part about her previous employer."},{by:KARIM,at:"2026-09-25",text:"Guest is camera-shy. Avoid her close-ups, use the wide and host cameras."}]}),
+  S("a4","2026-09-29","11:00 – 12:00","Cove","c4","sent"),
+  S("a5","2026-09-30","15:00 – 17:00","Eden","c5","sent"),
+  S("a6","2026-10-01","09:00 – 10:00","Apex","c6","sent"),
+  S("a7","2026-10-01","16:00 – 17:00","Cove","c4","sent",{photos:{camA:{dim:true}},stall:true}),
+  S("s1","2026-10-02","10:00 – 12:00","Nest","c1","sent",{photos:{wide:{noTeal:true,dim:true},camA:{noMic:true}},notes:[{by:MIRA,text:"Guest Faris brings his own lav mic. Plug it into CH4 as a backup."}],
+     edit:[{by:KARIM,at:"2026-10-02",text:"False start. Cut everything before the host says welcome."}]}),
+  S("s2","2026-10-02","14:00 – 16:00","Exec","c2","due",{notes:[{by:MIRA,text:"Remote guest Dr. Amal Yusuf joins on Riverside. Link is in the run-of-show."},{by:"Layla Nasser · Client",text:"Please export raw ISO files per camera, not only the mix."}],
+     updates:[{by:MIRA,at:"12:31",text:"Client just called: the remote guest is running late. Start with Layla's solo intro and bring the guest in around 14:30.",seen:false,replies:[]}]}),
+  S("s3","2026-10-02","17:30 – 18:30","Apex","c3","due",{notes:[{by:MIRA,text:"She records standing today. Raise camera A to eye level and swap the lapel battery before she arrives."}]}),
+  S("b1","2026-10-05","10:00 – 12:00","Eden","c5","due",{notes:[{by:MIRA,text:"Two episodes back to back. Reset name cards and swap guest mics between episodes."}]}),
+  S("b2","2026-10-05","15:00 – 16:00","Cove","c4","due"),
+  S("b3","2026-10-06","10:00 – 12:00","Nest","c1","due"),
+  S("b4","2026-10-07","18:00 – 19:00","Apex","c6","due"),
+  S("b5","2026-10-09","14:00 – 16:00","Exec","c2","due"),
 ];
 const CODES = {a1:"91C04B2E",a2:"5D7A11F0",a3:"C3E9024A",a4:"7B21DD93",a5:"E05F6A18",a6:"2A9C77B4",a7:"F41E0C65",s1:"7052FAE3",s2:"6E7116E7",s3:"3B11A6DF",b1:"88D2E1A7",b2:"0FA4C93B",b3:"D16B5E20",b4:"4C7E9A01",b5:"B92D3F6C"};
 const FLAGS = [
-  {sid:"h2", by:"Studio owner", at:"2026-08-28", read:true, shot:"camA", text:"The second mic is missing in the camera A shot. All four mics should be visible on their arms."},
-  {sid:"h13", by:"Studio owner", at:"2026-09-09", read:true, shot:"camB", text:"The moderator's mic is out of frame on camera B. Re-angle so the name cards and mics are both in shot."},
-  {sid:"h10", by:"Studio owner", at:"2026-09-15", read:true, shot:"wide", text:"The wide looks too dark. Keep the neon sign and the practical lights on, they're part of the client's brand."},
-  {sid:"a3", by:"Studio owner", at:"2026-09-25", read:true, shot:"wide", text:"Teal backlight on the shelf was off in the wide shot. Preset 2 doesn't switch on the shelf light, turn it on manually before rolling."},
+  {sid:"h2", by:OWNER, at:"2026-08-28", read:true, shot:"camA", text:"The second mic is missing in the camera A shot. All four mics should be visible on their arms."},
+  {sid:"h13", by:OWNER, at:"2026-09-09", read:true, shot:"camB", text:"The moderator's mic is out of frame on camera B. Re-angle so the name cards and mics are both in shot."},
+  {sid:"h10", by:OWNER, at:"2026-09-15", read:true, shot:"wide", text:"The wide looks too dark. Keep the neon sign and the practical lights on, they're part of the client's brand."},
+  {sid:"a3", by:OWNER, at:"2026-09-25", read:true, shot:"wide", text:"Teal backlight on the shelf was off in the wide shot. Preset 2 doesn't switch on the shelf light, turn it on manually before rolling."},
 ];
 const codeOf = id => CODES[id] || (()=>{ let h=2166136261; for(const ch of id+"podyx"){ h^=ch.charCodeAt(0); h=Math.imul(h,16777619);} return (h>>>0).toString(16).toUpperCase().padStart(8,"0"); })();
-const REF_LABEL = { wide:"Wide set", camA:"Camera A", camB:"Camera B", levels:"Audio levels" };
-const QA_SLOTS = ["wide","camA","camB","levels"];
 const sById = id => SESSIONS.find(s=>s.id===id);
 const client = s => CLIENTS[s.c];
 const visitsBefore = s => SESSIONS.filter(x=>x.c===s.c&&x.date<s.date).length;
-const toReview = () => SESSIONS.filter(s=>s.qa==="submitted").sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+
+// ---------- file delivery: one trail per session ----------
+const STEP = { recorded:"Recorded", uploaded:"Files uploaded", sent:"Link sent to client", downloaded:"Client downloaded", moved:"Files moved", deleted:"Files deleted" };
+const MANUAL_STEPS = ["uploaded","sent","moved","deleted"];
+const hmAdd = (hhmm,m) => { const t=mins(hhmm)+m; return `${String(Math.floor(t/60)%24).padStart(2,"0")}:${String(t%60).padStart(2,"0")}`; };
+function seedDelivery(s){
+  const cl=client(s), end=s.time.slice(-5), viaPodyx=cl.deliver==="Podyx File Transfer";
+  if(s.date>TODAY || (s.date===TODAY && mins(end)>START_MIN)) { s.trail=[]; return; }
+  const t=[{step:"recorded", date:s.date, at:end, by:"Podyx", auto:true}];
+  if(s.date===TODAY){ s.trail=t; return; }
+  if(viaPodyx) t.push({step:"uploaded", date:s.date, at:hmAdd(end,55), by:"Podyx", where:"Podyx File Transfer", auto:true});
+  else t.push({step:"uploaded", date:s.date, at:hmAdd(end,40), by:KARIM, where:cl.service==="Post-production"?"Post-production drive":"Studio Dropbox", proof:{kind:"video"}});
+  if(!s.stall){
+    const d1=addDays(s.date,1);
+    if(viaPodyx){ t.push({step:"sent", date:d1, at:"10:05", by:"Podyx", where:"Podyx File Transfer", auto:true}); t.push({step:"downloaded", date:d1, at:"13:22", by:"Podyx", auto:true}); }
+    else t.push({step:"sent", date:d1, at:"11:10", by:MIRA, where:cl.deliver});
+    s.expires=addDays(d1,SETTINGS.retention);
+    if(s.expires<=TODAY) t.push({step:"deleted", date:s.expires, at:"02:00", by:"Podyx", auto:true, where:`after ${SETTINGS.retention} days`});
+  }
+  s.trail=t;
+}
+function deliveryState(s){
+  const last=(s.trail||[]).slice(-1)[0];
+  if(!last) return {k:"none", label:s.date>TODAY?"Not recorded yet":"Not recorded yet", cls:""};
+  if(last.step==="deleted") return {k:"deleted", label:"Deleted", cls:""};
+  if(last.step==="sent"||last.step==="downloaded"){
+    const left=s.expires?daysBetween(TODAY,s.expires):99;
+    if(left<=7) return {k:"expiring", label:`Expires ${fmtDM(s.expires)}`, cls:"warn"};
+    return {k:"delivered", label:"Delivered", cls:"ok"};
+  }
+  return {k:"waiting", label:last.step==="recorded"?"Waiting for upload":"Waiting to deliver", cls:"acc"};
+}
 
 // ---------- simple studio scenes drawn in SVG ----------
 function scene(kind, opt = {}){
-  const dim = opt.dim ? .45 : 1, teal = opt.noTeal ? "#a8abbd" : "#14aaff";
-  if(kind==="levels"){
-    const bars=[.62,.7,.55,.48].map((v,i)=>`<rect x="${30+i*36}" y="${110-v*90}" width="20" height="${v*90}" rx="3" fill="#73c13e"/>`).join("");
-    return `<svg viewBox="0 0 180 135" role="img" aria-label="Mixer levels"><rect width="180" height="135" fill="#16171d"/>${bars}<rect x="20" y="40" width="150" height="1.5" fill="#ffce4d" opacity=".7"/><text x="22" y="128" fill="#8b90a7" font-size="9" font-family="monospace">CH1  CH2  CH3  CH4</text></svg>`;
+  if(kind==="proof"){
+    return `<svg viewBox="0 0 180 135" role="img" aria-label="Upload proof video"><rect width="180" height="135" fill="#1c1c22"/>
+      <rect x="10" y="10" width="160" height="115" rx="6" fill="#2c2e3a"/><rect x="10" y="10" width="160" height="16" rx="6" fill="#424557"/>
+      <circle cx="20" cy="18" r="2.5" fill="#ff5f57"/><circle cx="28" cy="18" r="2.5" fill="#febc2e"/><circle cx="36" cy="18" r="2.5" fill="#28c840"/>
+      <rect x="10" y="26" width="38" height="99" fill="#24252e"/>
+      ${[0,1,2,3].map(i=>`<rect x="56" y="${34+i*20}" width="12" height="9" rx="2" fill="#5a9cff"/><rect x="74" y="${36+i*20}" width="${60-i*8}" height="5" rx="2" fill="#8b90a7"/><circle cx="158" cy="${38+i*20}" r="4" fill="#34c759"/>`).join("")}
+      <circle cx="90" cy="70" r="16" fill="rgba(0,0,0,.55)"/><path d="M85 61l14 9-14 9z" fill="#fff"/></svg>`;
   }
-  const z = kind==="wide"?1:kind==="camA"?1.7:1.6, cx = kind==="camA"?60:kind==="camB"?120:90;
-  return `<svg viewBox="0 0 180 135" role="img" aria-label="${REF_LABEL[kind]}"><rect width="180" height="135" fill="#2c2e3a"/>
-  <g transform="translate(90 70) scale(${z}) translate(${-cx} -70)" opacity="${dim}">
+  const dim = opt.dim ? .45 : 1, teal = opt.noTeal ? "#a8abbd" : "#14aaff";
+  const z = {wide:1,camA:1.7,camB:1.6,close:2.5}[kind]||1, cx = {camA:60,camB:120,close:60}[kind]||90;
+  return `<svg viewBox="0 0 180 135" role="img" aria-label="${SHOT_LABEL[kind]||kind}"><rect width="180" height="135" fill="#2c2e3a"/>
+  <g transform="translate(90 70) scale(${z}) translate(${-cx} -${kind==="close"?55:70})" opacity="${dim}">
     <rect x="0" y="0" width="180" height="95" fill="#424557"/>
     <rect x="128" y="18" width="38" height="50" rx="2" fill="#585d74"/><rect x="128" y="64" width="38" height="3" fill="${teal}"/>
     <circle cx="40" cy="22" r="9" fill="#ffce4d" opacity=".35"/>
@@ -422,29 +539,33 @@ function scene(kind, opt = {}){
 }
 const photoOpt = (s,k) => (s.photos&&s.photos[k])||{};
 const isOff = o => o.dim||o.noTeal||o.noMic;
-// the engineer's QA photo for a slot: a real upload if there is one, otherwise the sample scene
-const shot = (s,k) => s.uploads&&s.uploads[k] ? `<img alt="${REF_LABEL[k]} QA photo" src="${s.uploads[k]}">` : scene(k,photoOpt(s,k));
-const hasPhotos = s => ["approved","flagged","submitted"].includes(s.qa);
+const shot = (s,k) => s.uploads&&s.uploads[k] ? `<img alt="${SHOT_LABEL[k]} QA photo" src="${s.uploads[k]}">` : scene(k,photoOpt(s,k));
+const shotsOf = s => s.shotsTaken || SETTINGS.shots;
+const hasPhotos = s => s.qa==="sent"||s.qa==="flagged";
+const proofHTML = p => !p ? "" : p.data ? (p.kind==="video"?`<video src="${p.data}" controls playsinline></video>`:`<img alt="Proof" src="${p.data}">`) : scene("proof");
 
 // ---------- look ----------
 const AV = {c1:"#5856d6",c2:"#ff9500",c3:"#ff2d55",c4:"#34a853",c5:"#0a84ff",c6:"#af52de"};
 const ROOM = {Nest:"#0fa3b8",Exec:"#5856d6",Apex:"#f08c00",Eden:"#2f9e44",Cove:"#1c7ed6"};
 const initials = n => n.split(" ").map(w=>w[0]).slice(0,2).join("").toUpperCase();
 const avatar = (s,cls="") => `<span class="avatar ${cls}" style="background:${AV[s.c]}">${initials(client(s).person)}</span>`;
-const roomTag = r => `<span class="room" style="color:${ROOM[r]};background:${ROOM[r]}1f">${r}</span>`;
 const I = {
   today:'<rect x="3.5" y="4.5" width="17" height="16" rx="3.5"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/><circle cx="12" cy="15" r="1.8" fill="currentColor" stroke="none"/>',
   cal:'<rect x="3.5" y="4.5" width="17" height="16" rx="3.5"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4M7.5 13.5h1.5M11.3 13.5h1.5M15 13.5h1.5M7.5 17h1.5M11.3 17h1.5"/>',
+  files:'<path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2.2h7a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><path d="M12 11v5.5M9.5 13.5L12 11l2.5 2.5"/>',
   flag:'<path d="M5.5 21V4.5"/><path d="M5.5 4.5h11.5l-2.3 4 2.3 4H5.5"/>',
   me:'<circle cx="12" cy="8.2" r="4"/><path d="M4.2 20.5c1.4-3.9 4.4-5.8 7.8-5.8s6.4 1.9 7.8 5.8"/>',
   qa:'<path d="M4 7.5h3.2L9 4.8h6l1.8 2.7H20V19H4z"/><circle cx="12" cy="13" r="3.4"/>',
   chevR:'<path d="M9 5.5l6.5 6.5L9 18.5"/>', chevL:'<path d="M15 5.5L8.5 12l6.5 6.5"/>',
   x:'<path d="M6 6l12 12M18 6L6 18"/>', check:'<path d="M5 12.5l4.2 4.2L19 7"/>',
   plus:'<path d="M12 5v14M5 12h14"/>', phone:'<path d="M6.6 3.5h3l1.5 4-2 1.3a10.5 10.5 0 0 0 6.1 6.1l1.3-2 4 1.5v3a2 2 0 0 1-2.1 2A16.5 16.5 0 0 1 4.6 5.6a2 2 0 0 1 2-2.1z"/>',
-  note:'<path d="M5 4.5h10l4 4V19.5H5z"/><path d="M15 4.5v4h4M8.5 12.5h7M8.5 16h5"/>',
   swap:'<path d="M7 7.5h12l-3.5-3.5M17 16.5H5l3.5 3.5"/>', list:'<path d="M9 6.5h11M9 12h11M9 17.5h11"/><circle cx="4.8" cy="6.5" r="1.1" fill="currentColor"/><circle cx="4.8" cy="12" r="1.1" fill="currentColor"/><circle cx="4.8" cy="17.5" r="1.1" fill="currentColor"/>',
   bell:'<path d="M6.5 9a5.5 5.5 0 0 1 11 0c0 6.3 2.5 8 2.5 8H4s2.5-1.7 2.5-8"/><path d="M10.2 20.5a2 2 0 0 0 3.6 0"/>',
-  info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.6v.1"/>', clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/>',
+  share:'<path d="M12 3.5v11M8 7.5l4-4 4 4"/><path d="M6 11.5H5v8.5h14v-8.5h-1"/>',
+  msg:'<path d="M4.5 5.5h15v10h-9l-4 3.5v-3.5h-2z"/>', search:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/>',
+  sync:'<path d="M5.5 9a7 7 0 0 1 12.4-2.2M18.5 15a7 7 0 0 1-12.4 2.2"/><path d="M18.5 3.5v3.8h-3.8M5.5 20.5v-3.8h3.8"/>',
+  wa:'<path d="M12 3.5a8.5 8.5 0 0 0-7.3 12.9L3.5 20.5l4.2-1.1A8.5 8.5 0 1 0 12 3.5z"/><path d="M9.2 8.6c.3-.6.7-.6 1-.5l.6 1.4c.1.3 0 .5-.2.7l-.4.4c.5 1 1.3 1.8 2.3 2.3l.4-.4c.2-.2.4-.3.7-.2l1.4.6c.2.3.1.7-.5 1.1-.8.5-2.3.3-3.9-1.2-1.7-1.6-2-3.2-1.4-4.2z" fill="currentColor" stroke="none"/>',
 };
 const ic = (k,sz=24,sw=1.8) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[k]}</svg>`;
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -452,27 +573,24 @@ const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&g
 // ---------- clock: the prototype's "now" is Fri 2 Oct, 12:48, and it ticks ----------
 const LOADED = Date.now(), START_MIN = 12*60+48;
 const nowMin = () => START_MIN + Math.floor((Date.now()-LOADED)/60000);
-const mins = hhmm => { const [h,m]=hhmm.split(":").map(Number); return h*60+m; };
+function mins(hhmm){ const [h,m]=hhmm.split(":").map(Number); return h*60+m; }
 const startOf = s => mins(s.time.slice(0,5)), endOf = s => mins(s.time.slice(-5));
 const hm = m => `${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
 function phase(s){
   if(s.date<TODAY) return "done"; if(s.date>TODAY) return "future";
   const n=nowMin(); return n>=endOf(s) ? "done" : n>=startOf(s) ? "live" : "upcoming";
 }
-function countdown(s){
-  const d=startOf(s)-nowMin();
-  if(d<=0) return `Ends in ${fmtDur(endOf(s)-nowMin())}`;
-  return `Starts in ${fmtDur(d)}`;
-}
+function countdown(s){ const d=startOf(s)-nowMin(); return d<=0 ? `Ends in ${fmtDur(endOf(s)-nowMin())}` : `Starts in ${fmtDur(d)}`; }
 const fmtDur = d => d>=60 ? `${Math.floor(d/60)}h ${d%60}m` : `${d} min`;
+SESSIONS.forEach(seedDelivery);
 
 // ---------- state ----------
-const ENG_TABS = [["today","Today","today"],["calendar","Calendar","cal"],["flags","Flags","flag"],["me","Me","me"]];
-const OWN_TABS = [["today","Today","today"],["qalog","QA log","qa"],["calendar","Calendar","cal"],["me","Me","me"]];
+const ENG_TABS = [["today","Today","today"],["calendar","Calendar","cal"],["files","Files","files"],["me","Me","me"]];
+const OWN_TABS = [["today","Today","today"],["calendar","Calendar","cal"],["files","Files","files"],["me","Me","me"]];
 const state = {
-  role:"eng", tab:{eng:"today",own:"today"}, stacks:{}, seg:{},
+  role:"eng", tab:{eng:"today",own:"today"}, stacks:{}, showAll:{},
   cal:{eng:{day:TODAY,week:mondayOf(TODAY)}, own:{day:TODAY,week:mondayOf(TODAY)}},
-  qadraft:{}, sheet:null, light:null, toast:null, anim:null, log:{ids:[],i:0}, drafts:{},
+  qadraft:{}, sheet:null, light:null, toast:null, anim:null, drafts:{}, filesQ:"", filesF:"all",
 };
 const view = document.getElementById("view");
 const $ = s => view.querySelector(s);
@@ -481,7 +599,7 @@ const stack = () => (state.stacks[key()] ||= []);
 const topScr = () => stack()[stack().length-1] || {s:state.tab[state.role]};
 const owner = () => state.role==="own";
 const unread = () => FLAGS.filter(f=>!f.read).length;
-const pending = () => SESSIONS.filter(s=>s.qa==="submitted").length;
+const unseenUpdates = () => SESSIONS.flatMap(s=>s.updates.filter(u=>!u.seen).map(u=>({s,u})));
 function push(scr, anim="push"){ stack().push(scr); history.pushState({podyx:1},""); state.anim=anim; render(); }
 function doPop(){ if(stack().length){ const t=stack().pop(); state.anim = t.s==="qa" ? null : "pop"; render(); } }
 function pop(){ if(stack().length) history.back(); }
@@ -493,60 +611,89 @@ addEventListener("popstate",()=>{
   if(state.sheet){ state.sheet=null; render(); return; }
   doPop();
 });
+function openLayer(fn){ fn(); history.pushState({podyx:1},""); render(); }
+function closeLayerAfter(fn){ fn(); state.skipPop=true; history.back(); }
 function toast(msg){ state.toast=msg; render(); clearTimeout(toast.t); toast.t=setTimeout(()=>{ state.toast=null; const el=$(".toast"); if(el) el.remove(); },2200); }
+const shareURL = s => { const base=location.href.split("#")[0]; return `${base}#s-${s.id}`; };
+const waLink = (s,extra="") => `https://wa.me/?text=${encodeURIComponent(`${client(s).show} · ${fmtShort(s.date)} ${s.time} · ${s.room}${extra?"\n"+extra:""}\n${shareURL(s)}`)}`;
 
 // ---------- shared bits ----------
 function qaPill(s){
-  if(s.qa==="approved") return `<span class="pill ok">${ic("check",12,2.6)}QA approved</span>`;
   if(s.qa==="flagged") return `<span class="pill bad">${ic("flag",12,2.4)}Flagged</span>`;
-  if(s.qa==="submitted") return owner()?'<span class="pill acc">To review</span>':'<span class="pill acc">QA sent</span>';
+  if(s.qa==="sent") return `<span class="pill ok">${ic("check",12,2.6)}QA sent</span>`;
   if(s.qa==="due"&&s.date<=TODAY) return owner()?'<span class="pill">Waiting for QA</span>':'<span class="pill warn">QA due</span>';
   return "";
 }
-function sessionCell(s, opts={}){
-  const cl=client(s), ph=phase(s), sub=[s.room, owner()?"Karim M.":cl.person].concat(s.notes.length?[`${s.notes.length} note${s.notes.length>1?"s":""}`]:[]).join(" · ");
+const deliveryPill = s => { const d=deliveryState(s); return d.k==="none"?"":`<span class="pill ${d.cls}">${ic("files",12,2.2)}${esc(d.label)}</span>`; };
+function sessionCell(s){
+  const cl=client(s), ph=phase(s), nu=s.updates.filter(u=>!u.seen).length;
+  const sub=[s.room, owner()?"Karim M.":cl.person, cl.service].join(" · ");
   return `<button class="cell" data-open="${s.id}" style="padding-left:12px">
     <span class="bar" style="background:${ROOM[s.room]}"></span>
     <span class="time">${s.time.slice(0,5)}<span>${s.time.slice(-5)}</span></span>
     <span class="grow"><span class="t">${esc(cl.show)}</span><span class="s">${esc(sub)}</span>
-      ${opts.pills!==false?`<span class="pills" style="margin-top:4px">${ph==="live"?'<span class="pill ok">● In session</span>':""}${qaPill(s)}</span>`:""}</span>
+      <span class="pills" style="margin-top:4px">${ph==="live"?'<span class="pill ok">● In session</span>':""}${nu?`<span class="pill acc">${ic("msg",12,2.2)}Updated</span>`:""}${qaPill(s)}${ph==="done"?deliveryPill(s):""}</span></span>
     <span class="chev">${ic("chevR",16,2.2)}</span></button>`;
 }
-function navbar({title="", back=null, right="", solid=false}){
-  return `<div class="nav ${solid?"solid":""}" id="nav">
-    <div>${back?`<button class="back ${back.txt?"txt":""}" id="back">${back.txt?"":ic("chevL",26,2.4)}${esc(back.label)}</button>`:""}</div>
+function navbar({title="", back=null, right=""}){
+  return `<div class="nav" id="nav">
+    <div>${back?`<button class="back" id="back">${ic("chevL",26,2.4)}${esc(back)}</button>`:""}</div>
     <div class="ttl">${esc(title)}</div><div class="right">${right}</div></div>`;
 }
-const backLabel = () => { const st=stack(); if(st.length<2){ const t=state.tab[state.role]; return {today:"Today",calendar:"Calendar",flags:"Flags",qalog:"QA log",me:"Me"}[t]; } const p=st[st.length-2]; return p.s==="session"?client(sById(p.id)).show.split(" ").slice(0,2).join(" "):"Back"; };
+const backLabel = () => { const st=stack(); if(st.length<2){ const t=state.tab[state.role]; return {today:"Today",calendar:"Calendar",files:"Files",me:"Me"}[t]; } const p=st[st.length-2]; return p.s==="session"?client(sById(p.id)).show.split(" ").slice(0,2).join(" "):p.s==="flags"?"Flags":"Back"; };
 const prevSessions = s => SESSIONS.filter(x=>x.c===s.c&&x.date<s.date).sort((a,b)=>b.date.localeCompare(a.date));
+const bell = () => `<button class="icbtn" data-push="flags" aria-label="QA flags">${ic("bell",22)}${unread()?'<span class="dot-badge"></span>':""}</button>`;
 
 // ---------- engineer: today ----------
 function engToday(){
   const list=SESSIONS.filter(s=>s.date===TODAY).sort((a,b)=>startOf(a)-startOf(b));
   const next=list.find(s=>phase(s)==="live")||list.find(s=>phase(s)==="upcoming");
   const later=list.filter(s=>s!==next&&phase(s)!=="done"), earlier=list.filter(s=>phase(s)==="done");
-  const nf=FLAGS.filter(f=>!f.read);
+  const nf=FLAGS.filter(f=>!f.read), nu=unseenUpdates();
+  const toLog=earlier.filter(s=>deliveryState(s).k==="waiting");
   const nextDay=SESSIONS.filter(s=>s.date>TODAY).sort((a,b)=>a.date.localeCompare(b.date))[0];
-  const nextDayCount=nextDay?SESSIONS.filter(s=>s.date===nextDay.date).length:0;
   let hero="";
   if(next){
     const cl=client(next), live=phase(next)==="live";
     hero=`<div class="hero">
       <div class="k">${live?'<span class="live"></span>In session now':`Next up · ${next.time.slice(0,5)}`}</div>
       <div class="cd" data-cd="${next.id}">${countdown(next)}</div>
-      <div class="row">${avatar(next)}<div><div class="nm">${esc(cl.show)}</div><div class="mt">${next.time} · ${next.room} · ${esc(cl.person)}</div></div></div>
-      <div class="chips">${next.notes.length?`<span>${next.notes.length} session note${next.notes.length>1?"s":""}</span>`:""}${cl.brief.length?`<span>Brief · ${cl.refs.length} reference shots</span>`:""}<span>${prevSessions(next).length} previous sessions</span></div>
-      <div class="hbtns"><button class="w" data-open="${next.id}">Open session</button>${next.qa==="due"?`<button class="g" data-qa="${next.id}">QA check</button>`:`<button class="g" data-open="${next.id}" data-seg="notes">Notes</button>`}</div>
+      <div class="row">${avatar(next)}<div><div class="nm">${esc(cl.show)}</div><div class="mt">${next.time} · ${next.room} · ${esc(cl.service)}</div></div></div>
+      <div class="chips">${next.updates.length?`<span>${next.updates.length} update</span>`:""}${next.notes.length?`<span>${next.notes.length} notes</span>`:""}<span>Brief · ${cl.refs.length} reference shots</span></div>
+      <div class="hbtns"><button class="w" data-open="${next.id}">Open session</button>${next.qa==="due"?`<button class="g" data-qa="${next.id}">QA photos</button>`:`<a class="g" href="${waLink(next)}" target="_blank" rel="noopener">Share</a>`}</div>
     </div>`;
   }
   return {
-    nav:navbar({title:"Today", right:`<button class="icbtn" data-tab="flags" aria-label="Flags">${ic("bell",22)}${nf.length?'<span class="dot-badge"></span>':""}</button>`}),
+    nav:navbar({title:"Today", right:bell()}),
     body:`<div class="large">Today</div><div class="sub">${fmtLong(TODAY)} · ${list.length} sessions</div>
-      ${nf.length?`<button class="banner-alert" data-tab="flags">${ic("flag",22,2)}<span class="grow"><b>New QA flag from the owner</b><span>${esc(client(sById(nf[nf.length-1].sid)).show)} · tap to read it</span></span>${ic("chevR",16,2.2)}</button>`:""}
+      ${nu.map(({s,u})=>`<button class="banner-alert acc" data-open="${s.id}">${ic("msg",22,2)}<span class="grow"><b>Update on ${esc(client(s).show)} · ${u.at}</b><span>${esc(u.text.slice(0,70))}${u.text.length>70?"…":""}</span></span>${ic("chevR",16,2.2)}</button>`).join("")}
+      ${nf.length?`<button class="banner-alert" data-push="flags">${ic("flag",22,2)}<span class="grow"><b>New QA flag from the owner</b><span>${esc(client(sById(nf[nf.length-1].sid)).show)} · tap to read it</span></span>${ic("chevR",16,2.2)}</button>`:""}
       ${hero||`<div class="empty"><div class="ic">${ic("check",30,2.4)}</div><b>You're done for today</b>Nice work.</div>`}
-      ${later.length?`<div class="h2">Later today</div><div class="group">${later.map(s=>sessionCell(s)).join("")}</div>`:""}
-      ${earlier.length?`<div class="h2">Earlier today</div><div class="group">${earlier.map(s=>sessionCell(s)).join("")}</div>`:""}
-      ${nextDay?`<div class="h2">Coming up</div><div class="group"><button class="cell" data-jump="${nextDay.date}"><span class="icon-tile" style="background:var(--accent)">${ic("cal",18,2)}</span><span class="grow"><span class="t">${fmtShort(nextDay.date)}</span><span class="s">${nextDayCount} session${nextDayCount>1?"s":""} · first at ${nextDay.time.slice(0,5)}</span></span><span class="chev">${ic("chevR",16,2.2)}</span></button></div>`:""}`
+      ${toLog.length?`<div class="h2">Files to log</div><div class="group">${toLog.map(s=>`<button class="cell" data-step="${s.id}"><span class="icon-tile" style="background:var(--accent)">${ic("files",18,2)}</span><span class="grow"><span class="t">${esc(client(s).show)}</span><span class="s">${deliveryState(s).label} · recorded ${s.time.slice(-5)}</span></span><span class="pill acc">Log</span></button>`).join("")}</div>`:""}
+      ${later.length?`<div class="h2">Later today</div><div class="group">${later.map(sessionCell).join("")}</div>`:""}
+      ${earlier.length?`<div class="h2">Earlier today</div><div class="group">${earlier.map(sessionCell).join("")}</div>`:""}
+      ${nextDay?`<div class="h2">Coming up</div><div class="group"><button class="cell" data-jump="${nextDay.date}"><span class="icon-tile" style="background:var(--accent)">${ic("cal",18,2)}</span><span class="grow"><span class="t">${fmtShort(nextDay.date)}</span><span class="s">${SESSIONS.filter(s=>s.date===nextDay.date).length} sessions · first at ${nextDay.time.slice(0,5)}</span></span><span class="chev">${ic("chevR",16,2.2)}</span></button></div>`:""}`
+  };
+}
+
+// ---------- owner: today ----------
+function ownToday(){
+  const list=SESSIONS.filter(s=>s.date===TODAY).sort((a,b)=>startOf(a)-startOf(b));
+  const waiting=SESSIONS.filter(s=>deliveryState(s).k==="waiting"&&s.date<=TODAY), expiring=SESSIONS.filter(s=>deliveryState(s).k==="expiring");
+  const live=list.find(s=>phase(s)==="live"), next=list.find(s=>phase(s)==="upcoming");
+  const nextDay=SESSIONS.filter(s=>s.date>TODAY).sort((a,b)=>a.date.localeCompare(b.date))[0];
+  return {
+    nav:navbar({title:"Today"}),
+    body:`<div class="large">Today</div><div class="sub">${fmtLong(TODAY)} · ${list.length} sessions</div>
+      <div class="hero">
+        <div class="k">Files</div>
+        <div class="cd">${waiting.length} not delivered yet</div>
+        <div class="mt">${expiring.length?`${expiring.length} client file set${expiring.length>1?"s":""} expiring this week. A good moment to offer longer storage.`:"Nothing expiring this week."}</div>
+        <div class="hbtns"><button class="w" data-files="waiting">Not delivered</button><button class="g" data-files="expiring">Expiring</button></div>
+      </div>
+      ${(live||next)?`<div class="h2">${live?"In session now":"Next up"}</div><div class="group">${sessionCell(live||next)}</div>`:""}
+      <div class="h2">All sessions today</div><div class="group">${list.map(sessionCell).join("")}</div>
+      ${nextDay?`<div class="h2">Coming up</div><div class="group"><button class="cell" data-jump="${nextDay.date}"><span class="icon-tile" style="background:var(--accent)">${ic("cal",18,2)}</span><span class="grow"><span class="t">${fmtShort(nextDay.date)}</span><span class="s">${SESSIONS.filter(s=>s.date===nextDay.date).length} sessions booked</span></span><span class="chev">${ic("chevR",16,2.2)}</span></button></div>`:""}`
   };
 }
 
@@ -556,7 +703,7 @@ function calendarScreen(){
   const list=SESSIONS.filter(s=>s.date===c.day).sort((a,b)=>startOf(a)-startOf(b));
   const month=D(days[3]).toLocaleDateString("en-GB",{month:"long",year:"numeric",timeZone:"UTC"});
   return {
-    nav:navbar({title:"Calendar"}),
+    nav:navbar({title:"Calendar", right:owner()?"":bell()}),
     body:`<div class="large">Calendar</div><div class="sub">${owner()?"Every session in the studio":"Sessions assigned to you"}</div>
       <div class="weekbar"><b>${month}</b><span class="arrows">
         <button id="wk-prev" aria-label="Previous week" ${c.week<=WEEK_MIN?"disabled":""}>${ic("chevL",22,2.2)}</button>
@@ -564,114 +711,186 @@ function calendarScreen(){
         <button id="wk-next" aria-label="Next week" ${c.week>=WEEK_MAX?"disabled":""}>${ic("chevR",22,2.2)}</button></span></div>
       <div class="days">${days.map(d=>`<button class="wd ${SESSIONS.some(s=>s.date===d)?"has":""} ${d===TODAY?"today":""}" data-day="${d}" aria-selected="${d===c.day}" aria-label="${fmtLong(d)}"><small>${D(d).toLocaleDateString("en-GB",{weekday:"short",timeZone:"UTC"}).slice(0,3)}</small><b>${D(d).getUTCDate()}</b><i></i></button>`).join("")}</div>
       <div class="h2">${c.day===TODAY?"Today":fmtLong(c.day)}<span style="font-size:15px;font-weight:400;color:var(--label3);font-family:var(--font)">${list.length?`${list.length} session${list.length>1?"s":""}`:""}</span></div>
-      ${list.length?`<div class="group">${list.map(s=>sessionCell(s)).join("")}</div>`:`<div class="group"><div class="empty" style="padding:28px">${owner()?"No sessions booked.":"No sessions assigned to you."}</div></div>`}`
+      ${list.length?`<div class="group">${list.map(sessionCell).join("")}</div>`:`<div class="group"><div class="empty" style="padding:28px">${owner()?"No sessions booked.":"No sessions assigned to you."}</div></div>`}`
   };
 }
 
-// ---------- engineer: flags ----------
-function flagCard(f){
-  const s=sById(f.sid), cl=client(s);
-  return `<div class="group" style="margin-bottom:12px">
-    <button class="cell" data-open="${s.id}" data-seg="prep">${avatar(s)}<span class="grow"><span class="t">${esc(cl.show)}</span><span class="s">${fmtShort(s.date)} · ${s.time.slice(0,5)} · ${s.room}</span></span>${f.read?"":'<span class="pill bad">New</span>'}<span class="chev">${ic("chevR",16,2.2)}</span></button>
-    <div class="block" style="display:flex;flex-direction:column;gap:12px">
-      <div class="quote ${f.read?"done":""}"><small>${esc(f.by)} · ${fmtShort(f.at)}</small>${esc(f.text)}</div>
-      ${f.shot?`<div class="cmp"><figure>${scene(f.shot)}<figcaption>Reference · ${REF_LABEL[f.shot]}</figcaption></figure><figure>${f.snap||scene(f.shot,photoOpt(s,f.shot))}<figcaption>Your photo</figcaption></figure></div>`:""}
-    </div>
-    ${f.read?"":`<button class="cell accent" data-read="${FLAGS.indexOf(f)}" style="justify-content:center;font-weight:600">Got it</button>`}
-  </div>`;
-}
-function engFlags(){
-  const list=[...FLAGS].sort((a,b)=>b.at.localeCompare(a.at)), nw=list.filter(f=>!f.read), old=list.filter(f=>f.read);
+// ---------- files (both roles): where is every client's footage ----------
+function filesScreen(){
+  const q=state.filesQ.trim().toLowerCase(), f=state.filesF;
+  let list=SESSIONS.filter(s=>s.date<=TODAY&&s.trail&&s.trail.length).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
+  if(q) list=list.filter(s=>(client(s).show+" "+client(s).person).toLowerCase().includes(q));
+  const counts={all:list.length}; ["waiting","expiring","delivered","deleted"].forEach(k=>counts[k]=list.filter(s=>deliveryState(s).k===k).length);
+  if(f!=="all") list=list.filter(s=>deliveryState(s).k===f);
+  const F=[["all","All"],["waiting","Not delivered"],["expiring","Expiring"],["deleted","Deleted"]];
   return {
-    nav:navbar({title:"Flags"}),
-    body:`<div class="large">Flags</div><div class="sub">${FLAGS.length} QA flags from the owner · they stay here for reference</div>
-      ${nw.length?`<div class="h2">New</div>${nw.map(flagCard).join("")}`:""}
-      <div class="h2">${nw.length?"Earlier":"All flags"}</div>${old.map(flagCard).join("")}`
+    nav:navbar({title:"Files"}),
+    body:`<div class="large">Files</div><div class="sub">Where every session's footage is, and proof it got there</div>
+      <label class="search">${ic("search",18,2)}<input id="files-q" type="search" placeholder="Search client or show" value="${esc(state.filesQ)}" autocomplete="off"></label>
+      <div class="chipsel" role="tablist">${F.map(([k,l])=>`<button role="tab" data-filter="${k}" aria-selected="${f===k}">${l}<span>${counts[k]}</span></button>`).join("")}</div>
+      ${list.length?`<div class="group">${list.map(s=>{const d=deliveryState(s), last=s.trail[s.trail.length-1];return `<button class="cell" data-open="${s.id}" data-anchor="delivery">${avatar(s)}
+        <span class="grow"><span class="t">${esc(client(s).show)}</span><span class="s">${fmtShort(s.date)} · ${s.room} · ${STEP[last.step]}${last.where?` · ${esc(last.where)}`:""}</span></span>
+        <span class="pill ${d.cls}">${esc(d.label)}</span><span class="chev">${ic("chevR",16,2.2)}</span></button>`;}).join("")}</div>`
+      :`<div class="group"><div class="empty" style="padding:28px">No sessions match.</div></div>`}
+      <div class="gf">Steps logged by Podyx File Transfer appear on their own. Other storage is logged by the engineer, with proof when the studio asks for it.</div>`
   };
 }
 
-// ---------- engineer: session ----------
+// ---------- session blocks ----------
+function updatesBlock(s){
+  if(!s.updates.length) return "";
+  const own=owner();
+  return `<div class="gh">Updates</div><div class="group">${s.updates.map((u,i)=>`<div class="block note-b ${!u.seen&&!own?"fresh":""}">
+      <small>${esc(u.by)} · today ${u.at}${!u.seen&&!own?' · <b style="color:var(--accent)">New</b>':""}</small><span>${esc(u.text)}</span>
+      ${u.replies.map(r=>`<div class="reply"><small>${esc(r.by)} · ${r.at}</small><span>${esc(r.text)}</span></div>`).join("")}
+      ${!own&&SETTINGS.replies?`<button class="linkbtn" data-sheet="reply:${s.id}:${i}">Reply</button>`:""}
+    </div>`).join("")}</div>`;
+}
+function trailBlock(s, canAdd){
+  const t=s.trail||[], d=deliveryState(s);
+  return `<div class="gh" id="delivery">File delivery · ${esc(client(s).deliver)}</div>
+    <div class="group">${t.length?`<ol class="trail">${t.map((e,i)=>`<li class="${i===t.length-1?"last":""}">
+        <span class="dot ${e.step==="deleted"?"grey":e.auto?"auto":""}"></span>
+        <div class="tx"><b>${STEP[e.step]}</b><span>${fmtDM(e.date)} ${e.at} · ${e.auto?"automatic":esc(e.by.split(" · ")[0])}${e.where?` · ${esc(e.where)}`:""}</span>
+          ${e.proof?`<button class="proof" data-proof="${s.id}:${i}">${proofHTML(e.proof)}<em>Proof ${e.proof.kind}</em></button>`:""}</div></li>`).join("")}</ol>`
+      :`<div class="block" style="color:var(--label3)">${s.date>TODAY?"Steps appear here after the session.":"Recorded steps appear here when the session ends."}</div>`}
+      ${s.expires&&d.k!=="deleted"?`<div class="cell"><span class="grow"><span class="t">Files kept until</span></span><span class="val ${d.k==="expiring"?"warnv":""}">${fmtShort(s.expires)}</span></div>`:""}
+      ${canAdd&&t.length&&d.k!=="deleted"?`<button class="cell accent" data-step="${s.id}">${ic("plus",22,2.2)}<span class="grow"><span class="t">Log a file step</span></span></button>`:""}
+    </div>`;
+}
+function historyBlock(s){
+  const prev=prevSessions(s); if(!prev.length) return "";
+  const all=state.showAll[s.id], shown=all?prev:prev.slice(0,2);
+  return `<div class="gh">Previous sessions with ${esc(client(s).person.split(" ")[0])} · ${prev.length}</div>
+    <div class="group">${shown.map(histRow).join("")}
+    ${prev.length>2&&!all?`<button class="cell accent" data-showall="${s.id}"><span class="grow"><span class="t">Show all ${prev.length}</span></span></button>`:""}</div>`;
+}
+function histRow(p){
+  const f=FLAGS.filter(x=>x.sid===p.id).slice(-1)[0];
+  return `<button class="cell" data-open="${p.id}" style="align-items:flex-start;flex-wrap:wrap">
+    <span class="grow"><span class="t">${fmtShort(p.date)}</span><span class="s">${p.time} · ${p.room}</span>${f?`<span class="s wrap" style="color:var(--red);margin-top:4px">${esc(f.text)}</span>`:""}</span>
+    <span style="display:flex;gap:6px;align-items:center">${qaPill(p)}<span class="chev">${ic("chevR",16,2.2)}</span></span>
+    ${hasPhotos(p)?`<span class="thumbs" style="width:100%">${shotsOf(p).map(k=>shot(p,k)).join("")}</span>`:""}</button>`;
+}
+function qaBlock(s, forOwner){
+  const myFlags=FLAGS.filter(f=>f.sid===s.id);
+  let h=`<div class="gh">QA photos</div>`;
+  if(!hasPhotos(s)) return h+`<div class="group"><div class="block" style="color:var(--label3)">${s.date>TODAY?`QA photos are taken on ${fmtShort(s.date)}, before recording.`:forOwner?"Karim hasn't sent QA photos yet.":"Not sent yet. Take them before you roll."}</div></div>`;
+  h+=`<div class="group"><div class="block" style="display:flex;flex-direction:column;gap:12px">
+    ${shotsOf(s).map(k=>{const o=photoOpt(s,k);return `<div class="cmp"><figure>${scene(k)}<figcaption>Reference · ${SHOT_LABEL[k]}</figcaption></figure><figure><button class="figbtn" data-light="qa:${s.id}:${k}">${shot(s,k)}</button><figcaption>${forOwner?"Karim's photo":"Your photo"}${isOff(o)&&forOwner?" · <b>check</b>":""}</figcaption></figure></div>`;}).join("")}
+    ${myFlags.map(f=>`<div class="quote ${s.qa==="flagged"?"":"done"}"><small>${forOwner?"Your flag":esc(f.by)} · ${fmtShort(f.at)}${s.qa==="flagged"?"":" · retaken"}</small>${esc(f.text)}</div>`).join("")}
+  </div>
+  ${forOwner&&s.qa!=="flagged"?`<button class="cell danger" data-sheet="flag:${s.id}">${ic("flag",20,2.2)}<span class="grow"><span class="t">Flag to engineer</span></span></button>`:""}</div>`;
+  return h;
+}
+
+// ---------- engineer: session (one page) ----------
 function engSession(s){
-  const cl=client(s), st=SETUPS[cl.setup], ph=phase(s), seg=state.seg[s.id]||"prep";
-  const prev=prevSessions(s), myFlags=FLAGS.filter(f=>f.sid===s.id), edit=s.edit||[];
-  let body="";
-  if(seg==="prep"){
-    body=`${myFlags.length?`<div class="gh">QA flag from the owner ${s.qa==="flagged"?"":"· retaken"}</div><div class="group"><div class="block" style="display:flex;flex-direction:column;gap:12px">${myFlags.map(f=>`<div class="quote ${s.qa==="flagged"?"":"done"}"><small>${esc(f.by)} · ${fmtShort(f.at)}</small>${esc(f.text)}</div>${f.shot?`<div class="cmp"><figure>${scene(f.shot)}<figcaption>Reference</figcaption></figure><figure>${f.snap||scene(f.shot,photoOpt(s,f.shot))}<figcaption>Your photo</figcaption></figure></div>`:""}`).join("")}</div></div>`:""}
-      ${s.qa==="approved"?`<div class="gh">QA</div><div class="group"><div class="cell"><span class="icon-tile" style="background:var(--green)">${ic("check",18,2.6)}</span><span class="grow"><span class="t">QA approved</span><span class="s">The owner signed off on your setup photos</span></span></div></div>`:""}
+  const cl=client(s), st=SETUPS[cl.setup], ph=phase(s), edit=s.edit||[];
+  const myFlags=FLAGS.filter(f=>f.sid===s.id);
+  setTimeout(()=>s.updates.forEach(u=>u.seen=true),0);
+  let cta="";
+  if(ph==="future") cta=`<button class="btnp" disabled>QA opens on ${fmtShort(s.date)}</button>`;
+  else if(s.qa==="due") cta=`<button class="btnp" data-qa="${s.id}">${ic("qa",22,2)}${ph==="done"?"Send late QA photos":"Take QA photos"}</button>`;
+  else if(s.qa==="flagged"&&myFlags.length&&myFlags[myFlags.length-1].at===TODAY) cta=`<button class="btnp" data-qa="${s.id}">${ic("qa",22,2)}Retake QA photos</button>`;
+  else if(ph==="done"&&deliveryState(s).k==="waiting") cta=`<button class="btnp" data-step="${s.id}">${ic("files",22,2)}Log file step</button>`;
+  return {
+    nav:navbar({title:cl.show, back:backLabel(), right:`<a class="icbtn" href="${waLink(s)}" target="_blank" rel="noopener" aria-label="Share to WhatsApp">${ic("share",22)}</a>`}),
+    body:`<div class="cover">${scene("wide")}<div class="ov"><span>${fmtShort(s.date)}</span><span>${s.time}</span><span>${s.room}</span>${ph==="live"?"<span>● In session</span>":""}</div></div>
+      <div class="titlerow">${avatar(s)}<div style="min-width:0"><div class="large">${esc(cl.show)}</div><div class="sub" style="margin:2px 0 0">${esc(cl.person)} · ${st.label}</div></div></div>
+      <div class="factrow"><div><small>Service</small><b>${esc(cl.service)}</b></div><div><small>Files go to</small><b>${esc(cl.deliver)}</b></div><div><small>Session</small><b>${codeOf(s.id)}</b></div></div>
+      ${updatesBlock(s)}
+      ${s.notes.length?`<div class="gh">Session notes</div><div class="group">${s.notes.map(n=>`<div class="block note-b"><small>${esc(n.by)}</small><span>${esc(n.text)}</span></div>`).join("")}</div>`:""}
+      ${qaBlock(s,false)}
       <div class="gh">Client brief</div>
       <div class="group">${cl.brief.length?`<ul class="bul">${cl.brief.map(b=>`<li>${ic("check",18,2.4)}<span>${esc(b)}</span></li>`).join("")}</ul>`:`<div class="block" style="color:var(--label3)">No brief yet.</div>`}</div>
-      ${cl.refs.length?`<div class="gh">Reference shots</div><div class="hscroll">${cl.refs.map(r=>`<button class="shot" data-light="ref:${s.id}:${r}">${scene(r)}<span>${REF_LABEL[r]}</span></button>`).join("")}</div>`:""}
-      ${hasPhotos(s)?`<div class="gh">Your QA photos</div><div class="hscroll">${QA_SLOTS.map(k=>`<button class="shot" data-light="qa:${s.id}:${k}">${shot(s,k)}<span>${REF_LABEL[k]}</span></button>`).join("")}</div>`:""}
+      ${cl.refs.length?`<div class="gh">Reference shots · swipe</div><div class="hscroll">${cl.refs.map(r=>`<button class="shot" data-light="ref:${s.id}:${r}">${scene(r)}<span>${SHOT_LABEL[r]}</span></button>`).join("")}</div>`:""}
+      ${trailBlock(s, ph==="done")}
       <div class="gh">Setup · ${st.label}</div>
       <div class="group">${st.specs.map(([k,v])=>`<div class="cell"><span class="grow"><span class="t">${k}</span></span><span class="val">${esc(v)}</span></div>`).join("")}</div>
       <div class="gh">Client</div>
       <div class="group"><div class="cell">${avatar(s)}<span class="grow"><span class="t">${esc(cl.person)}</span><span class="s">${visitsBefore(s)} previous sessions</span></span></div>
-        <div class="cell"><span class="icon-tile" style="background:var(--green)">${ic("phone",16,2)}</span><span class="grow"><span class="t" style="font-variant-numeric:tabular-nums">${cl.phone}</span></span></div>
-        <div class="cell"><span class="grow"><span class="t">Session</span></span><span class="val" style="font-variant-numeric:tabular-nums">${codeOf(s.id)}</span></div></div>`;
-  } else if(seg==="notes"){
-    body=`<div class="gh">Session notes</div>
-      <div class="group">${s.notes.length?s.notes.map(n=>`<div class="block note-b"><small>${esc(n.by)}</small><span>${esc(n.text)}</span></div>`).join(""):`<div class="block" style="color:var(--label3)">No notes on this session.</div>`}</div>
+        ${SETTINGS.contactVisible?`<div class="cell"><span class="icon-tile" style="background:var(--green)">${ic("phone",16,2)}</span><span class="grow"><span class="t" style="font-variant-numeric:tabular-nums">${cl.phone}</span></span></div>`
+          :`<div class="cell"><span class="icon-tile" style="background:#8e8e93">${ic("msg",16,2)}</span><span class="grow"><span class="t">Questions go to the studio manager</span><span class="s">Client contact details are hidden for engineers</span></span></div>`}</div>
       <div class="gh">Notes for the editing team</div>
       <div class="group">${edit.map(n=>`<div class="block note-b"><span>${esc(n.text)}</span><small>${esc(n.by)} · ${fmtShort(n.at)}</small></div>`).join("")}
         ${ph==="future"?(edit.length?"":`<div class="block" style="color:var(--label3)">You can add notes once the session starts.</div>`):`<button class="cell accent" data-sheet="edit:${s.id}">${ic("plus",22,2.2)}<span class="grow"><span class="t">Add note for the editors</span></span></button>`}</div>
-      <div class="gf">Editors see these on the session in Collaboration. Add them once you've checked the setup or during the session.</div>`;
-  } else {
-    body=`<div class="gh">Previous sessions with ${esc(cl.person.split(" ")[0])} · ${prev.length}</div>
-      ${prev.length?`<div class="group">${prev.map(p=>{const f=FLAGS.filter(x=>x.sid===p.id).slice(-1)[0];return `<button class="cell" data-open="${p.id}" style="align-items:flex-start;flex-wrap:wrap">
-        <span class="grow"><span class="t">${fmtShort(p.date)}</span><span class="s">${p.time} · ${p.room}</span>${f?`<span class="s wrap" style="color:var(--red);margin-top:4px">${esc(f.text)}</span>`:""}</span>
-        <span style="display:flex;gap:6px;align-items:center">${qaPill(p)}<span class="chev">${ic("chevR",16,2.2)}</span></span>
-        ${hasPhotos(p)?`<span class="thumbs" style="width:100%">${QA_SLOTS.map(k=>shot(p,k)).join("")}</span>`:""}</button>`;}).join("")}</div>`
-      :`<div class="group"><div class="block" style="color:var(--label3)">First session with this client.</div></div>`}`;
-  }
-  let cta="";
-  if(ph==="future") cta=`<button class="btnp" disabled>QA opens on ${fmtShort(s.date)}</button>`;
-  else if(s.qa==="due") cta=`<button class="btnp" data-qa="${s.id}">${ic("qa",22,2)}${ph==="done"?"Send late QA photos":"Start QA check"}</button>`;
-  else if(s.qa==="flagged"&&myFlags.length&&myFlags[myFlags.length-1].at===TODAY) cta=`<button class="btnp" data-qa="${s.id}">${ic("qa",22,2)}Retake QA photos</button>`;
-  else if(s.qa==="submitted") cta=`<button class="btnp" disabled>QA sent · waiting for review</button>`;
-  return {
-    nav:navbar({title:cl.show, back:{label:backLabel()}}),
-    body:`<div class="cover">${scene("wide")}<div class="ov"><span>${fmtShort(s.date)}</span><span>${s.time}</span><span>${s.room}</span>${ph==="live"?"<span>● In session</span>":""}</div></div>
-      <div class="titlerow">${avatar(s)}<div style="min-width:0"><div class="large">${esc(cl.show)}</div><div class="sub" style="margin:2px 0 0">${esc(cl.person)} · ${st.label}</div></div></div>
-      <div class="seg" role="tablist">${[["prep","Prep"],["notes","Notes",s.notes.length+edit.length],["history","History",prev.length]].map(([k,l,n])=>`<button role="tab" data-segk="${s.id}:${k}" aria-selected="${seg===k}">${l}${n?`<span class="n">${n}</span>`:""}</button>`).join("")}</div>
-      ${body}`,
-    cta, tabbar:true
+      <div class="gf">Editors see these on the session in Collaboration.</div>
+      ${historyBlock(s)}`,
+    cta
   };
 }
 
-// ---------- engineer: QA capture (modal) ----------
+// ---------- owner: session (one page) ----------
+function ownSession(s){
+  const cl=client(s), st=SETUPS[cl.setup], ph=phase(s), edit=s.edit||[];
+  return {
+    nav:navbar({title:cl.show, back:backLabel(), right:`<a class="icbtn" href="${waLink(s)}" target="_blank" rel="noopener" aria-label="Share to WhatsApp">${ic("share",22)}</a>`}),
+    body:`<div class="cover">${scene("wide")}<div class="ov"><span>${fmtShort(s.date)}</span><span>${s.time}</span><span>${s.room}</span><span>Karim M.</span></div></div>
+      <div class="titlerow">${avatar(s)}<div style="min-width:0"><div class="large">${esc(cl.show)}</div><div class="sub" style="margin:2px 0 0">${esc(cl.person)} · ${cl.phone}</div></div></div>
+      <div class="factrow"><div><small>Service</small><b>${esc(cl.service)}</b></div><div><small>Files go to</small><b>${esc(cl.deliver)}</b></div><div><small>Engineer</small><b>Karim M.</b></div></div>
+      ${updatesBlock(s)}
+      ${ph!=="done"?`<div class="group" style="margin-top:${s.updates.length?"10px":"16px"}"><button class="cell accent" data-sheet="update:${s.id}">${ic("msg",22,2)}<span class="grow"><span class="t">Post an update for Karim</span><span class="s">He gets a notification</span></span></button></div>`:""}
+      ${s.notes.length?`<div class="gh">Session notes</div><div class="group">${s.notes.map(n=>`<div class="block note-b"><small>${esc(n.by)}</small><span>${esc(n.text)}</span></div>`).join("")}</div>`:""}
+      ${qaBlock(s,true)}
+      ${trailBlock(s, ph==="done")}
+      <div class="gh">Karim's notes for the editing team</div>
+      <div class="group">${edit.length?edit.map(n=>`<div class="block note-b"><span>${esc(n.text)}</span><small>${esc(n.by)} · ${fmtShort(n.at)}</small></div>`).join(""):`<div class="block" style="color:var(--label3)">None yet.</div>`}</div>
+      <div class="gh">Client brief</div><div class="group">${cl.brief.length?`<ul class="bul">${cl.brief.map(b=>`<li>${ic("check",18,2.4)}<span>${esc(b)}</span></li>`).join("")}</ul>`:`<div class="block" style="color:var(--label3)">No brief yet.</div>`}</div>
+      ${historyBlock(s)}`,
+    cta:""
+  };
+}
+
+// ---------- engineer: QA photos (modal) ----------
 function engQA(s){
-  const d=state.qadraft[s.id]||(state.qadraft[s.id]={}), done=QA_SLOTS.filter(k=>d[k]).length, cl=client(s);
+  const d=state.qadraft[s.id]||(state.qadraft[s.id]={}), shots=SETTINGS.shots, done=shots.filter(k=>d[k]).length, cl=client(s);
   const lastFlag=FLAGS.filter(f=>sById(f.sid).c===s.c).slice(-1)[0];
   return {
-    nav:`<div class="nav solid"><div><button class="back txt" id="back">Cancel</button></div><div class="ttl">${s.qa==="flagged"?"Retake QA":"QA check"}</div><div class="right" style="font-variant-numeric:tabular-nums">${done}/4</div></div>`,
+    nav:`<div class="nav solid"><div><button class="back txt" id="back">Cancel</button></div><div class="ttl">${s.qa==="flagged"?"Retake QA photos":"QA photos"}</div><div class="right" style="font-variant-numeric:tabular-nums">${done}/${shots.length}</div></div>`,
     body:`<div style="height:12px"></div><div class="titlerow">${avatar(s)}<div><div style="font-weight:600">${esc(cl.show)}</div><div style="font-size:14px;color:var(--label3)">${s.time} · ${s.room}</div></div></div>
-      <div class="progress" style="margin-top:14px"><i style="width:${done*25}%"></i></div>
+      <div class="progress" style="margin-top:14px"><i style="width:${done/shots.length*100}%"></i></div>
       ${lastFlag?`<div class="gh">Last flag for this client</div><div class="group"><div class="block"><div class="quote"><small>${fmtShort(lastFlag.at)}</small>${esc(lastFlag.text)}</div></div></div>`:""}
-      <div class="gh">Match each reference</div>
-      <div class="group">${QA_SLOTS.map(k=>`<div class="cap-row">
-        <div class="refbox">${d[k]?(d[k]==="sample"?scene(k):`<img alt="" src="${d[k]}">`):(cl.refs.includes(k)||k==="wide"?scene(k):k==="levels"?scene("levels"):`<div class="noref">No reference</div>`)}</div>
-        <div><div class="lbl">${REF_LABEL[k]}</div><div class="h">${d[k]?"Photo added":k==="levels"?"Photo of the mixer with everyone talking":"Match the framing in the reference"}</div>
-          ${d[k]?`<span class="done-mark">${ic("check",16,2.6)}Added</span> <button class="linkbtn" data-clear="${k}">Retake</button>`
-            :`<label class="capbtn">${ic("qa",18,2)}Take photo<input type="file" accept="image/*" capture="environment" data-slot="${k}" aria-label="Take ${REF_LABEL[k]} photo"></label><br><button class="linkbtn" data-sample="${k}">Use sample photo</button>`}
+      <div class="gh">One photo per shot</div>
+      <div class="group">${shots.map(k=>`<div class="cap2">
+        <div class="cap2-h"><b>${SHOT_LABEL[k]}</b>${d[k]?`<span class="done-mark">${ic("check",16,2.6)}Added</span>`:""}</div>
+        <div class="cap2-row">
+          <figure>${cl.refs.includes(k)||k==="wide"?scene(k):`<div class="noref">No reference</div>`}<figcaption>Reference</figcaption></figure>
+          <figure>${d[k]?(d[k]==="sample"?scene(k):`<img alt="" src="${d[k]}">`):`<label class="capslot">${ic("qa",26,1.8)}<span>Take photo</span><input type="file" accept="image/*" capture="environment" data-slot="${k}" aria-label="Take ${SHOT_LABEL[k]} photo"></label>`}<figcaption>${d[k]?`<button class="linkbtn" data-clear="${k}" style="padding:0">Retake</button>`:`<button class="linkbtn" data-sample="${k}" style="padding:0">Use sample photo</button>`}</figcaption></figure>
         </div></div>`).join("")}</div>
-      <div class="gf">The owner compares these with the client's references.</div>`,
-    cta:`<button class="btnp" id="send-qa" ${done<4?"disabled":""}>Send to owner</button>`, tabbar:false
+      <div class="gf">These replace the photos you'd post to the WhatsApp group. The owner can look through them any time.</div>`,
+    cta:`<button class="btnp" id="send-qa" ${done<shots.length?"disabled":""}>Send QA photos</button>`, tabbar:false
   };
 }
 
-// ---------- me (both roles) ----------
+// ---------- engineer: flags ----------
+function flagsScreen(){
+  const list=[...FLAGS].sort((a,b)=>b.at.localeCompare(a.at)), nw=list.filter(f=>!f.read), old=list.filter(f=>f.read);
+  const card=f=>{ const s=sById(f.sid), cl=client(s); return `<div class="group" style="margin-bottom:12px">
+    <button class="cell" data-open="${s.id}">${avatar(s)}<span class="grow"><span class="t">${esc(cl.show)}</span><span class="s">${fmtShort(s.date)} · ${s.time.slice(0,5)} · ${s.room}</span></span>${f.read?"":'<span class="pill bad">New</span>'}<span class="chev">${ic("chevR",16,2.2)}</span></button>
+    <div class="block" style="display:flex;flex-direction:column;gap:12px">
+      <div class="quote ${f.read?"done":""}"><small>${esc(f.by)} · ${fmtShort(f.at)}</small>${esc(f.text)}</div>
+      ${f.shot?`<div class="cmp"><figure>${scene(f.shot)}<figcaption>Reference · ${SHOT_LABEL[f.shot]}</figcaption></figure><figure>${f.snap||scene(f.shot,photoOpt(s,f.shot))}<figcaption>Your photo</figcaption></figure></div>`:""}
+    </div>
+    ${f.read?"":`<button class="cell accent" data-read="${FLAGS.indexOf(f)}" style="justify-content:center;font-weight:600">Got it</button>`}</div>`; };
+  return { nav:navbar({title:"QA flags", back:backLabel()}),
+    body:`<div class="large">QA flags</div><div class="sub">${FLAGS.length} flags from the owner · kept here for reference</div>
+      ${nw.length?`<div class="h2">New</div>${nw.map(card).join("")}`:""}<div class="h2">${nw.length?"Earlier":"All flags"}</div>${old.map(card).join("")}` };
+}
+
+// ---------- me + settings ----------
+const sw = (id,on,label,sub="") => `<label class="cell"><span class="grow"><span class="t">${label}</span>${sub?`<span class="s wrap">${sub}</span>`:""}</span><input type="checkbox" class="switch" data-setting="${id}" ${on?"checked":""}></label>`;
 function meScreen(){
   const own=owner();
-  const approved=SESSIONS.filter(s=>s.qa==="approved").length, flagged=FLAGS.length, total=SESSIONS.filter(s=>s.date<=TODAY).length;
   return {
     nav:navbar({title:"Me"}),
     body:`<div class="large">Me</div>
       <div class="profile" style="margin-top:12px"><span class="avatar lg" style="background:${own?"#2f9e44":"#402dfe"}">${own?"SO":"KM"}</span><b>${own?"Studio Owner":"Karim Mansour"}</b><span>${own?"Owner":"Engineer"} · Harbour Studios</span></div>
-      ${own?"":`<div class="stats"><div><b>${total}</b><span>Sessions since Aug</span></div><div><b>${Math.round(approved/(approved+flagged)*100)}%</b><span>QA approved</span></div><div><b>${flagged}</b><span>Flags received</span></div></div>`}
-      <div class="gh">Account</div>
+      <div class="gh">${own?"Studio":"Work"}</div>
       <div class="group">
-        <div class="cell"><span class="icon-tile" style="background:#8e8e93">${ic("bell",18,2)}</span><span class="grow"><span class="t">Notifications</span></span><span class="val">On</span></div>
-        <div class="cell"><span class="icon-tile" style="background:var(--accent)">${ic("today",18,2)}</span><span class="grow"><span class="t">Studio</span></span><span class="val">Harbour Studios</span></div>
+        ${own?`<button class="cell" data-push="settings"><span class="icon-tile" style="background:#8e8e93">${ic("gear",18,2)}</span><span class="grow"><span class="t">Studio settings</span></span><span class="chev">${ic("chevR",16,2.2)}</span></button>`
+          :`<button class="cell" data-push="flags"><span class="icon-tile" style="background:var(--red)">${ic("flag",18,2)}</span><span class="grow"><span class="t">My QA flags</span></span><span class="val">${FLAGS.length}</span><span class="chev">${ic("chevR",16,2.2)}</span></button>`}
+        <div class="cell"><span class="icon-tile" style="background:var(--accent)">${ic("sync",18,2)}</span><span class="grow"><span class="t">Google Calendar sync</span><span class="s wrap">Every event links back to the session here</span></span><span class="val">On</span></div>
       </div>
       <div class="gh">Prototype</div>
       <div class="group">
@@ -681,110 +900,66 @@ function meScreen(){
       <div class="gf">Sample data. Nothing here is a real client.</div>`
   };
 }
+function settingsScreen(){
+  return { nav:navbar({title:"Studio settings", back:"Me"}),
+    body:`<div class="large">Settings</div><div class="sub">Applies to every engineer at Harbour Studios</div>
+      <div class="gh">QA photos · shots to take</div>
+      <div class="group">${Object.keys(SHOT_LABEL).map(k=>`<label class="cell"><span class="grow"><span class="t">${SHOT_LABEL[k]}</span></span><input type="checkbox" class="tick" data-shot="${k}" ${SETTINGS.shots.includes(k)?"checked":""}></label>`).join("")}</div>
+      <div class="gf">Match your rooms' camera setups. Engineers take one photo per shot before recording.</div>
+      <div class="gh">File delivery</div>
+      <div class="group">${sw("proofRequired",SETTINGS.proofRequired,"Proof required","Engineers attach a photo or short video for every file step they log")}
+        <div class="cell"><span class="grow"><span class="t">Keep client files for</span></span><span class="segsm">${[30,60,90].map(n=>`<button data-retention="${n}" aria-selected="${SETTINGS.retention===n}">${n}d</button>`).join("")}</span></div></div>
+      <div class="gh">Storage locations</div>
+      <div class="group">${SETTINGS.locations.map(l=>`<div class="cell"><span class="grow"><span class="t">${esc(l)}</span></span></div>`).join("")}</div>
+      <div class="gf">The places your engineers can choose when they log where files went.</div>
+      <div class="gh">Engineers</div>
+      <div class="group">${sw("contactVisible",SETTINGS.contactVisible,"Show client contact details","Off: engineers see “Questions go to the studio manager”")}
+        ${sw("replies",SETTINGS.replies,"Engineers can reply to updates","A one-line reply on the session. Not a chat.")}</div>` };
+}
 function tasksScreen(){
   const p=document.getElementById("tasks-panel");
-  return { nav:navbar({title:"Test tasks", back:{label:"Me"}}),
+  return { nav:navbar({title:"Test tasks", back:"Me"}),
     body:`<div class="large">Test tasks</div><div class="sub">Try these without help.</div>
       ${[...p.querySelectorAll("h2")].map(h=>`<div class="gh">${esc(h.textContent)}</div><div class="group"><div class="block"><ol class="tasklist">${h.nextElementSibling.innerHTML}</ol></div></div>`).join("")}
       <div class="gf">${esc(p.querySelector("p").textContent)}</div>` };
-}
-
-// ---------- owner: today ----------
-function ownToday(){
-  const list=SESSIONS.filter(s=>s.date===TODAY).sort((a,b)=>startOf(a)-startOf(b)), n=pending();
-  const live=list.find(s=>phase(s)==="live"), next=list.find(s=>phase(s)==="upcoming");
-  const nextDay=SESSIONS.filter(s=>s.date>TODAY).sort((a,b)=>a.date.localeCompare(b.date))[0];
-  return {
-    nav:navbar({title:"Today"}),
-    body:`<div class="large">Today</div><div class="sub">${fmtLong(TODAY)} · ${list.length} sessions</div>
-      <div class="hero">
-        <div class="k">QA review</div>
-        <div class="cd">${n?`${n} photo set${n>1?"s":""} waiting`:"All caught up"}</div>
-        <div class="mt">${n?"Swipe through them in the QA log. Approve or flag each one.":"Nothing waiting for review."}</div>
-        ${n?`<div class="hbtns" style="grid-template-columns:1fr"><button class="w" data-tab="qalog">Open QA log</button></div>`:""}
-      </div>
-      ${(live||next)?`<div class="h2">${live?"In session now":"Next up"}</div><div class="group">${sessionCell(live||next)}</div>`:""}
-      <div class="h2">All sessions today</div><div class="group">${list.map(s=>sessionCell(s)).join("")}</div>
-      ${nextDay?`<div class="h2">Coming up</div><div class="group"><button class="cell" data-jump="${nextDay.date}"><span class="icon-tile" style="background:var(--accent)">${ic("cal",18,2)}</span><span class="grow"><span class="t">${fmtShort(nextDay.date)}</span><span class="s">${SESSIONS.filter(s=>s.date===nextDay.date).length} sessions booked</span></span><span class="chev">${ic("chevR",16,2.2)}</span></button></div>`:""}`
-  };
-}
-
-// ---------- owner: QA log deck ----------
-function refreshLog(){
-  const L=state.log; SESSIONS.filter(s=>s.qa==="submitted").sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).forEach(s=>{ if(!L.ids.includes(s.id)) L.ids.push(s.id); });
-  if(L.ids.length && L.ids.every(id=>sById(id).qa!=="submitted")){ L.ids=[]; L.i=0; }
-  L.i=Math.min(L.i,Math.max(0,L.ids.length-1));
-}
-function ownQALog(){
-  refreshLog(); const L=state.log, left=pending();
-  if(!L.ids.length) return { nav:navbar({title:"QA log"}), body:`<div class="large">QA log</div><div class="empty" style="margin-top:40px"><div class="ic">${ic("check",30,2.6)}</div><b>All caught up</b>Every QA photo set has been reviewed.</div>` };
-  const cur=sById(L.ids[L.i]);
-  let cta;
-  if(cur.qa==="submitted") cta=`<button class="btnd" data-sheet="flag:${cur.id}">${ic("flag",20,2.2)}Flag</button><button class="btnp" data-approve="${cur.id}">${ic("check",20,2.6)}Approve</button>`;
-  else cta=`<button class="btns" disabled style="opacity:.9">${cur.qa==="approved"?"Approved":"Flagged to Karim"}</button>${L.i<L.ids.length-1?`<button class="btnp" id="log-next">Next</button>`:""}`;
-  return {
-    nav:navbar({title:"QA log", solid:true, right:`<span style="font-variant-numeric:tabular-nums;padding-right:8px">${left} left</span>`}),
-    deck:`<div class="dots">${L.ids.map((id,i)=>`<i class="${i===L.i?"on":sById(id).qa!=="submitted"?"done":""}"></i>`).join("")}</div>
-      <div class="deck" id="deck">${L.ids.map(id=>{const s=sById(id), cl=client(s), fl=FLAGS.filter(f=>f.sid===id).slice(-1)[0]; return `<div class="slide"><div class="card">
-        <div class="chead">${avatar(s)}<div class="grow"><b>${esc(cl.show)}</b><span>${s.date===TODAY?"Today":fmtShort(s.date)} · ${s.time.slice(0,5)} · ${s.room} · Karim M.</span></div>${qaPill(s)}</div>
-        ${QA_SLOTS.map(k=>{const o=photoOpt(s,k);return `<div class="cmp"><figure>${k==="levels"?`<div style="aspect-ratio:4/3;border-radius:10px;background:var(--fill);display:grid;place-items:center;font-size:12px;color:var(--label3)">No reference</div>`:scene(k)}<figcaption>Reference · ${REF_LABEL[k]}</figcaption></figure><figure>${shot(s,k)}<figcaption>Karim's photo${isOff(o)?" · <b>check</b>":""}</figcaption></figure></div>`;}).join("")}
-        ${s.qa==="flagged"&&fl?`<div class="quote"><small>Your flag · ${fmtShort(fl.at)}</small>${esc(fl.text)}</div>`:""}
-        ${s.notes.length?`<div class="note-b" style="background:var(--bg);border-radius:10px;padding:10px 12px"><small>Session notes</small><span style="font-size:15px">${s.notes.map(n=>esc(n.text)).join(" ")}</span></div>`:""}
-        <button class="btns" data-open="${s.id}" style="padding:11px;font-size:15px">Open session</button>
-      </div></div>`;}).join("")}</div>`,
-    cta
-  };
-}
-
-// ---------- owner: session ----------
-function ownSession(s){
-  const cl=client(s), ph=phase(s), seg=state.seg["o"+s.id]||"review", edit=s.edit||[];
-  let body="";
-  if(seg==="review"){
-    if(hasPhotos(s)){
-      const fl=FLAGS.filter(f=>f.sid===s.id).slice(-1)[0];
-      body=`<div class="gh">QA photos · Karim M.</div><div class="group"><div class="block" style="display:flex;flex-direction:column;gap:12px">
-        ${QA_SLOTS.map(k=>{const o=photoOpt(s,k);return `<div class="cmp"><figure>${k==="levels"?`<div style="aspect-ratio:4/3;border-radius:10px;background:var(--fill);display:grid;place-items:center;font-size:12px;color:var(--label3)">No reference</div>`:scene(k)}<figcaption>Reference · ${REF_LABEL[k]}</figcaption></figure><figure>${shot(s,k)}<figcaption>Karim's photo${isOff(o)?" · <b>check</b>":""}</figcaption></figure></div>`;}).join("")}
-        ${s.qa==="flagged"&&fl?`<div class="quote"><small>Your flag · ${fmtShort(fl.at)}</small>${esc(fl.text)}</div>`:""}
-        ${s.qa==="approved"?`<span class="pill ok" style="align-self:flex-start">${ic("check",12,2.6)}Approved</span>`:""}
-      </div></div>`;
-    } else body=`<div class="gh">QA photos</div><div class="group"><div class="block" style="color:var(--label3)">${ph==="future"?`Karim sends QA photos on ${fmtShort(s.date)}, before he starts recording.`:"Waiting for Karim's QA photos."}</div></div>`;
-  } else if(seg==="notes"){
-    body=`<div class="gh">Session notes for Karim</div>
-      <div class="group">${s.notes.map(n=>`<div class="block note-b"><small>${esc(n.by)}</small><span>${esc(n.text)}</span></div>`).join("")}
-        ${ph==="done"?(s.notes.length?"":`<div class="block" style="color:var(--label3)">No notes.</div>`):`<button class="cell accent" data-sheet="own:${s.id}">${ic("plus",22,2.2)}<span class="grow"><span class="t">Add note for Karim</span></span></button>`}</div>
-      <div class="gf">Karim sees these in the session's Notes on his phone.</div>
-      <div class="gh">Karim's notes for the editing team</div>
-      <div class="group">${edit.length?edit.map(n=>`<div class="block note-b"><span>${esc(n.text)}</span><small>${esc(n.by)} · ${fmtShort(n.at)}</small></div>`).join(""):`<div class="block" style="color:var(--label3)">None yet.</div>`}</div>`;
-  } else {
-    body=`<div class="gh">Client brief</div><div class="group">${cl.brief.length?`<ul class="bul">${cl.brief.map(b=>`<li>${ic("check",18,2.4)}<span>${esc(b)}</span></li>`).join("")}</ul>`:`<div class="block" style="color:var(--label3)">No brief yet.</div>`}</div>
-      <div class="gh">Setup · ${SETUPS[cl.setup].label}</div><div class="group">${SETUPS[cl.setup].specs.map(([k,v])=>`<div class="cell"><span class="grow"><span class="t">${k}</span></span><span class="val">${esc(v)}</span></div>`).join("")}</div>
-      <div class="gh">Client</div><div class="group"><div class="cell">${avatar(s)}<span class="grow"><span class="t">${esc(cl.person)}</span><span class="s">${visitsBefore(s)} previous sessions</span></span></div><div class="cell"><span class="grow"><span class="t">Phone</span></span><span class="val">${cl.phone}</span></div></div>`;
-  }
-  const cta = seg==="review"&&s.qa==="submitted" ? `<button class="btnd" data-sheet="flag:${s.id}">${ic("flag",20,2.2)}Flag</button><button class="btnp" data-approve="${s.id}">${ic("check",20,2.6)}Approve</button>` : "";
-  return {
-    nav:navbar({title:cl.show, back:{label:backLabel()}}),
-    body:`<div class="cover">${scene("wide")}<div class="ov"><span>${fmtShort(s.date)}</span><span>${s.time}</span><span>${s.room}</span><span>Karim M.</span></div></div>
-      <div class="titlerow">${avatar(s)}<div style="min-width:0"><div class="large">${esc(cl.show)}</div><div class="sub" style="margin:2px 0 0">${esc(cl.person)}</div></div></div>
-      <div class="seg" role="tablist">${[["review","QA review"],["notes","Notes",s.notes.length+edit.length],["details","Details"]].map(([k,l,n])=>`<button role="tab" data-segk="o${s.id}:${k}" aria-selected="${seg===k}">${l}${n?`<span class="n">${n}</span>`:""}</button>`).join("")}</div>
-      ${body}`, cta
-  };
 }
 
 // ---------- sheets ----------
 function sheetHTML(){
   const sh=state.sheet; if(!sh) return "";
   const s=sById(sh.id), cl=client(s);
+  if(sh.type==="step"){
+    const v=sh.v||(sh.v={step:deliveryState(s).k==="waiting"&&s.trail.some(e=>e.step==="uploaded")?"sent":"uploaded", where:cl.deliver==="Podyx File Transfer"?"Studio Dropbox":cl.deliver, proof:null});
+    const ok=v.step&&v.where&&(!SETTINGS.proofRequired||v.proof);
+    return `<div class="backdrop" id="backdrop"></div><div class="sheet" role="dialog" aria-label="Log a file step">
+      <span class="grab"></span>
+      <div class="sheet-h"><button id="sheet-cancel" style="justify-self:start">Cancel</button><b>Log a file step</b><button id="step-save" ${ok?"":"disabled"}>Save</button></div>
+      <div class="ctx">${avatar(s,"sm")}<span>${esc(cl.show)} · ${fmtShort(s.date)} · ${s.time.slice(0,5)}</span></div>
+      <div class="lbl2">What happened</div><div class="chipsel wrap">${MANUAL_STEPS.map(k=>`<button data-vstep="${k}" aria-selected="${v.step===k}">${STEP[k]}</button>`).join("")}</div>
+      <div class="lbl2">Where</div><div class="chipsel wrap">${SETTINGS.locations.map(l=>`<button data-vwhere="${esc(l)}" aria-selected="${v.where===l}">${esc(l)}</button>`).join("")}</div>
+      <div class="lbl2">Proof ${SETTINGS.proofRequired?'<span style="color:var(--red)">required</span>':"(optional)"}</div>
+      ${v.proof?`<div class="proofrow">${proofHTML(v.proof)}<button class="linkbtn" id="proof-clear">Remove</button></div>`
+        :`<div class="proofrow"><label class="capbtn">${ic("qa",18,2)}Record video or photo<input type="file" accept="video/*,image/*" capture="environment" id="proof-in"></label><button class="linkbtn" id="proof-sample">Use sample video</button></div>`}
+      <div class="hint">e.g. a 5-second screen recording of the files in the upload folder.</div></div>`;
+  }
   const cfg={edit:["Note for editors","Add","e.g. Cut the intro, the host restarted twice. Client asked to avoid the wide angle.","Editors see this on the session in Collaboration."],
-             own:["Note for Karim","Add","e.g. VIP client. Greet her at reception and offer coffee before the session.","Karim sees this in the session's notes."],
+             update:["Update for Karim","Post","e.g. Client is 20 minutes late. Start with the solo intro.","Karim gets a notification and sees it at the top of the session."],
+             reply:["Reply","Send","e.g. Got it, starting with the intro.","The studio manager sees your reply on the update."],
              flag:["Flag to Karim","Send","What should Karim fix? e.g. The teal shelf light is off in the wide shot.","Karim gets this as a flag with his photos attached."]}[sh.type];
   const v=state.drafts[sh.type+sh.id]||"";
   return `<div class="backdrop" id="backdrop"></div><div class="sheet" role="dialog" aria-label="${cfg[0]}">
     <span class="grab"></span>
     <div class="sheet-h"><button id="sheet-cancel" style="justify-self:start">Cancel</button><b>${cfg[0]}</b><button id="sheet-send" ${v.trim()?"":"disabled"}>${cfg[1]}</button></div>
     <div class="ctx">${avatar(s,"sm")}<span>${esc(cl.show)} · ${fmtShort(s.date)} · ${s.time.slice(0,5)}</span></div>
+    ${sh.type==="reply"?`<div class="quote done"><small>${esc(s.updates[sh.i].by)}</small>${esc(s.updates[sh.i].text)}</div>`:""}
     <textarea id="sheet-text" placeholder="${esc(cfg[2])}">${esc(v)}</textarea>
     <div class="hint">${cfg[3]}</div></div>`;
+}
+function lightboxHTML(){
+  const L=state.light; if(!L) return "";
+  return `<div class="lb"><button class="x" id="lb-close" aria-label="Close">${ic("x",18,2.4)}</button>
+    <div class="lbdeck" id="lbdeck">${L.items.map(it=>`<div class="lbslide">${it.html}<div class="cap">${esc(it.cap)}</div></div>`).join("")}</div>
+    ${L.items.length>1?`<div class="dots">${L.items.map((_,i)=>`<i class="${i===L.i?"on":""}"></i>`).join("")}</div>`:""}</div>`;
 }
 
 // ---------- render ----------
@@ -792,115 +967,128 @@ function screenFor(t){
   const own=owner();
   if(t.s==="session") return own?ownSession(sById(t.id)):engSession(sById(t.id));
   if(t.s==="qa") return engQA(sById(t.id));
+  if(t.s==="flags") return flagsScreen();
+  if(t.s==="settings") return settingsScreen();
   if(t.s==="tasks") return tasksScreen();
   if(t.s==="today") return own?ownToday():engToday();
   if(t.s==="calendar") return calendarScreen();
-  if(t.s==="flags") return engFlags();
-  if(t.s==="qalog") return ownQALog();
+  if(t.s==="files") return filesScreen();
   return meScreen();
 }
 function render(){
   const t=topScr(), sc=screenFor(t), tabs=owner()?OWN_TABS:ENG_TABS, showTabs=t.s!=="qa";
-  const sig=key()+JSON.stringify(t)+state.role;
+  const sig=key()+t.s+(t.id||"")+state.role;
   const old=$(".content"), keepScroll = old && render.sig===sig ? old.scrollTop : 0;
-  const ae=document.activeElement, keepFocus = ae && view.contains(ae) && ae.id==="sheet-text";
+  const ae=document.activeElement, keepId = ae && view.contains(ae) && ae.id && (ae.tagName==="TEXTAREA"||ae.tagName==="INPUT") ? ae.id : null;
   const anim=state.anim; state.anim=null;
   view.innerHTML = `<div class="screen ${anim||""}">
       ${sc.nav}
-      ${sc.deck||`<div class="content" id="content">${sc.body}</div>`}
+      <div class="content" id="content">${sc.body}</div>
       ${sc.cta?`<div class="cta">${sc.cta}</div>`:""}
-      ${showTabs?`<nav class="tabbar">${tabs.map(([k,l,icn])=>{const b=k==="flags"?unread():k==="qalog"?pending():0;return `<button class="tab" data-tab="${k}" aria-selected="${state.tab[state.role]===k}">${ic(icn,26,1.7)}${l}${b?`<span class="bd">${b}</span>`:""}</button>`;}).join("")}</nav>`:""}
+      ${showTabs?`<nav class="tabbar">${tabs.map(([k,l,icn])=>{const b=k==="today"&&!owner()?unseenUpdates().length+unread():k==="files"&&!owner()?SESSIONS.filter(s=>s.date===TODAY&&deliveryState(s).k==="waiting").length:0;return `<button class="tab" data-tab="${k}" aria-selected="${state.tab[state.role]===k}">${ic(icn,26,1.7)}${l}${b?`<span class="bd">${b}</span>`:""}</button>`;}).join("")}</nav>`:""}
     </div>
-    ${sheetHTML()}
-    ${state.light?`<div class="lb"><button class="x" id="lb-close" aria-label="Close">${ic("x",18,2.4)}</button>${state.light.html}<div class="cap">${esc(state.light.cap)}</div></div>`:""}
+    ${sheetHTML()}${lightboxHTML()}
     ${state.toast?`<div class="toast" role="status">${ic("check",18,2.8)}${esc(state.toast)}</div>`:""}`;
   render.sig=sig;
-  const c=$(".content"); if(c){ c.scrollTop=keepScroll; navShade(c); c.addEventListener("scroll",()=>navShade(c),{passive:true}); }
-  const dk=$("#deck"); if(dk){ requestAnimationFrame(()=>{ dk.scrollLeft=state.log.i*dk.clientWidth; }); }
-  if(keepFocus||state.sheet&&state.sheet.focus){ const ta=$("#sheet-text"); if(ta){ ta.focus(); ta.setSelectionRange(ta.value.length,ta.value.length); } if(state.sheet) state.sheet.focus=false; }
+  const c=$(".content");
+  if(c){ c.scrollTop=keepScroll; navShade(c); c.addEventListener("scroll",()=>navShade(c),{passive:true});
+    if(t.anchor&&!t.anchored){ t.anchored=true; const a=$("#"+t.anchor); if(a) c.scrollTop=a.offsetTop-60; } }
+  const lb=$("#lbdeck"); if(lb) requestAnimationFrame(()=>{ lb.scrollLeft=state.light.i*lb.clientWidth; });
+  if(keepId||state.sheet&&state.sheet.focus){ const el=$("#"+(keepId||"sheet-text")); if(el&&el.setSelectionRange){ el.focus(); try{el.setSelectionRange(el.value.length,el.value.length);}catch(e){} } if(state.sheet) state.sheet.focus=false; }
   bind();
 }
 function navShade(c){ const n=$("#nav"); if(n&&!n.classList.contains("solid")) n.classList.toggle("scrolled", c.scrollTop>36); }
 
 // ---------- events ----------
 function bind(){
-  view.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{
-    const k=b.dataset.tab, same=state.tab[state.role]===k;
-    leaveStack(); state.tab[state.role]=k;
-    render(); if(same){ const c=$(".content"); if(c) c.scrollTo({top:0,behavior:"smooth"}); }
-  });
-  view.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{ if(b.dataset.seg) state.seg[(owner()?"o":"")+b.dataset.open]=b.dataset.seg; push({s:"session",id:b.dataset.open}); });
-  view.querySelectorAll("[data-qa]").forEach(b=>b.onclick=()=>push({s:"qa",id:b.dataset.qa},"modal"));
-  view.querySelectorAll("[data-push]").forEach(b=>b.onclick=()=>push({s:b.dataset.push}));
-  view.querySelectorAll("[data-segk]").forEach(b=>b.onclick=()=>{ const [id,k]=b.dataset.segk.split(":"); state.seg[id]=k; render(); });
-  view.querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>{ const d=b.dataset.jump; leaveStack(); state.cal[state.role]={day:d,week:mondayOf(d)}; state.tab[state.role]="calendar"; state.stacks[key()]=[]; render(); });
-  view.querySelectorAll("[data-day]").forEach(b=>b.onclick=()=>{ state.cal[state.role].day=b.dataset.day; render(); });
+  const on=(sel,fn)=>view.querySelectorAll(sel).forEach(b=>b.onclick=e=>fn(b,e));
+  on("[data-tab]",b=>{ const k=b.dataset.tab, same=state.tab[state.role]===k; leaveStack(); state.tab[state.role]=k; render(); if(same){ const c=$(".content"); if(c) c.scrollTo({top:0,behavior:"smooth"}); } });
+  on("[data-open]",b=>push({s:"session",id:b.dataset.open,anchor:b.dataset.anchor}));
+  on("[data-qa]",b=>push({s:"qa",id:b.dataset.qa},"modal"));
+  on("[data-push]",b=>push({s:b.dataset.push}));
+  on("[data-showall]",b=>{ state.showAll[b.dataset.showall]=true; render(); });
+  on("[data-files]",b=>{ leaveStack(); state.filesF=b.dataset.files; state.tab[state.role]="files"; render(); });
+  on("[data-filter]",b=>{ state.filesF=b.dataset.filter; render(); });
+  const fq=$("#files-q"); if(fq) fq.oninput=()=>{ state.filesQ=fq.value; render(); };
+  on("[data-jump]",b=>{ const d=b.dataset.jump; leaveStack(); state.cal[state.role]={day:d,week:mondayOf(d)}; state.tab[state.role]="calendar"; render(); });
+  on("[data-day]",b=>{ state.cal[state.role].day=b.dataset.day; render(); });
   const wk=d=>{ const c=state.cal[state.role]; c.week=addDays(c.week,d); c.day=c.week<=TODAY&&TODAY<addDays(c.week,7)?TODAY:c.week; render(); };
   const wp=$("#wk-prev"), wn=$("#wk-next"), wt=$("#wk-today");
   if(wp) wp.onclick=()=>wk(-7); if(wn) wn.onclick=()=>wk(7);
   if(wt) wt.onclick=()=>{ state.cal[state.role]={day:TODAY,week:mondayOf(TODAY)}; render(); };
   const back=$("#back"); if(back) back.onclick=pop;
-  view.querySelectorAll("[data-light]").forEach(b=>b.onclick=()=>{
-    const [kind,sid,k]=b.dataset.light.split(":"), s=sById(sid);
-    state.light = kind==="ref" ? {html:scene(k),cap:`${REF_LABEL[k]} · reference from the client's brief`} : {html:shot(s,k),cap:`${REF_LABEL[k]} · QA photo, ${fmtShort(s.date)}`};
-    history.pushState({podyx:1},""); render();
+  // photo viewer: swipe through every shot in the set
+  on("[data-light]",b=>{
+    const [kind,sid,k]=b.dataset.light.split(":"), s=sById(sid), keys=kind==="ref"?client(s).refs:shotsOf(s);
+    openLayer(()=>{ state.light={i:keys.indexOf(k), items:keys.map(x=>({html:kind==="ref"?scene(x):shot(s,x), cap:`${SHOT_LABEL[x]} · ${kind==="ref"?"reference from the client's brief":"QA photo, "+fmtShort(s.date)}`}))}; });
   });
-  const lb=$("#lb-close"); if(lb) lb.onclick=()=>history.back();
-  view.querySelectorAll("[data-read]").forEach(b=>b.onclick=()=>{ FLAGS[+b.dataset.read].read=true; toast("Marked as read"); });
-  // QA capture
+  on("[data-proof]",b=>{ const [sid,i]=b.dataset.proof.split(":"), e=sById(sid).trail[+i]; openLayer(()=>{ state.light={i:0,items:[{html:proofHTML(e.proof),cap:`${STEP[e.step]} · ${e.where||""} · ${fmtDM(e.date)} ${e.at}`}]}; }); });
+  const lbc=$("#lb-close"); if(lbc) lbc.onclick=()=>history.back();
+  const lbd=$("#lbdeck"); if(lbd){ let tm; lbd.addEventListener("scroll",()=>{ clearTimeout(tm); tm=setTimeout(()=>{ if(!state.light||!lbd.isConnected||!lbd.clientWidth) return; const i=Math.round(lbd.scrollLeft/lbd.clientWidth); if(i!==state.light.i){ state.light.i=i; view.querySelectorAll(".lb .dots i").forEach((d,j)=>d.className=j===i?"on":""); } },100); },{passive:true}); }
+  on("[data-read]",b=>{ FLAGS[+b.dataset.read].read=true; toast("Marked as read"); });
+  // QA photos
   const sid=topScr().id;
-  view.querySelectorAll("[data-sample]").forEach(b=>b.onclick=()=>{ state.qadraft[sid][b.dataset.sample]="sample"; render(); });
-  view.querySelectorAll("[data-clear]").forEach(b=>b.onclick=()=>{ delete state.qadraft[sid][b.dataset.clear]; render(); });
-  view.querySelectorAll("input[data-slot]").forEach(inp=>inp.onchange=()=>{
-    const f=inp.files&&inp.files[0]; if(!f) return;
-    const r=new FileReader(); r.onload=()=>{ state.qadraft[sid][inp.dataset.slot]=r.result; render(); }; r.readAsDataURL(f);
-  });
+  on("[data-sample]",b=>{ state.qadraft[sid][b.dataset.sample]="sample"; render(); });
+  on("[data-clear]",b=>{ delete state.qadraft[sid][b.dataset.clear]; render(); });
+  view.querySelectorAll("input[data-slot]").forEach(inp=>inp.onchange=()=>{ const f=inp.files&&inp.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ state.qadraft[sid][inp.dataset.slot]=r.result; render(); }; r.readAsDataURL(f); });
   const sq=$("#send-qa"); if(sq) sq.onclick=()=>{
-    const s=sById(sid), d=state.qadraft[sid]; s.photos={}; s.uploads={};
-    QA_SLOTS.forEach(k=>{ if(d[k]!=="sample") s.uploads[k]=d[k]; });
-    const retake=s.qa==="flagged"; s.qa="submitted"; delete state.qadraft[sid];
+    const s=sById(sid), d=state.qadraft[sid]; s.photos={}; s.uploads={}; s.shotsTaken=[...SETTINGS.shots];
+    SETTINGS.shots.forEach(k=>{ if(d[k]!=="sample") s.uploads[k]=d[k]; });
+    const retake=s.qa==="flagged"; s.qa="sent"; delete state.qadraft[sid];
     FLAGS.forEach(f=>{ if(f.sid===sid) f.read=true; });
-    stack().pop(); state.anim=null; state.skipPop=true; history.back(); toast(retake?"New photos sent for review":"QA photos sent to the owner");
+    stack().pop(); state.anim=null; state.skipPop=true; history.back(); toast(retake?"New QA photos sent":"QA photos sent");
   };
   // sheets
-  view.querySelectorAll("[data-sheet]").forEach(b=>b.onclick=()=>{ const [type,id]=b.dataset.sheet.split(":"); state.sheet={type,id,focus:true}; history.pushState({podyx:1},""); render(); });
+  on("[data-sheet]",b=>{ const [type,id,i]=b.dataset.sheet.split(":"); openLayer(()=>{ state.sheet={type,id,i:i===undefined?undefined:+i,focus:true}; }); });
+  on("[data-step]",b=>openLayer(()=>{ state.sheet={type:"step",id:b.dataset.step}; }));
   const ta=$("#sheet-text"); if(ta) ta.oninput=()=>{ state.drafts[state.sheet.type+state.sheet.id]=ta.value; $("#sheet-send").disabled=!ta.value.trim(); };
   const closeSheet=()=>history.back();
   const bd=$("#backdrop"), sc=$("#sheet-cancel"); if(bd) bd.onclick=closeSheet; if(sc) sc.onclick=closeSheet;
   const ss=$("#sheet-send"); if(ss) ss.onclick=()=>{
-    const {type,id}=state.sheet, s=sById(id), text=(state.drafts[type+id]||"").trim(); if(!text) return;
-    delete state.drafts[type+id]; state.sheet=null; state.skipPop=true; history.back();
-    if(type==="edit"){ (s.edit ||= []).push({by:KARIM,at:TODAY,text}); toast("Note added for the editors"); }
-    else if(type==="own"){ s.notes.push({by:"Studio owner",text}); toast("Karim will see this note"); }
-    else { const k=QA_SLOTS.find(k=>isOff(photoOpt(s,k)))||(s.uploads&&Object.keys(s.uploads)[0])||"wide";
-      FLAGS.push({sid:id,by:"Studio owner",at:TODAY,read:false,shot:k,snap:shot(s,k),text}); s.qa="flagged"; advanceLog(); toast("Flag sent to Karim"); }
+    const {type,id,i}=state.sheet, s=sById(id), text=(state.drafts[type+id]||"").trim(); if(!text) return;
+    delete state.drafts[type+id];
+    closeLayerAfter(()=>{ state.sheet=null;
+      if(type==="edit"){ (s.edit ||= []).push({by:KARIM,at:TODAY,text}); toast("Note added for the editors"); }
+      else if(type==="update"){ s.updates.push({by:OWNER,at:hm(nowMin()),text,seen:false,replies:[]}); toast("Update posted. Karim gets a notification."); }
+      else if(type==="reply"){ s.updates[i].replies.push({by:"Karim M.",at:hm(nowMin()),text}); toast("Reply sent"); }
+      else { const k=SETTINGS.shots.find(k=>isOff(photoOpt(s,k)))||shotsOf(s)[0];
+        FLAGS.push({sid:id,by:OWNER,at:TODAY,read:false,shot:k,snap:shot(s,k),text}); s.qa="flagged"; toast("Flag sent to Karim"); }
+    });
   };
-  view.querySelectorAll("[data-approve]").forEach(b=>b.onclick=()=>{ sById(b.dataset.approve).qa="approved"; advanceLog(); toast("Approved"); });
-  const ln=$("#log-next"); if(ln) ln.onclick=()=>{ state.log.i=Math.min(state.log.i+1,state.log.ids.length-1); smoothDeck(); };
-  const dk=$("#deck"); if(dk){ let tm; dk.addEventListener("scroll",()=>{ clearTimeout(tm); tm=setTimeout(()=>{ if(!dk.clientWidth) return; const i=Math.round(dk.scrollLeft/dk.clientWidth); if(i!==state.log.i&&i>=0&&i<state.log.ids.length){ state.log.i=i; render(); } },120); },{passive:true}); }
-  const sr=$("#switch-role"); if(sr) sr.onclick=()=>{ leaveStack(); state.role=owner()?"eng":"own"; state.tab[state.role]="today"; state.stacks[key()]=[]; toast(owner()?"Now viewing as owner":"Now viewing as engineer"); };
+  // file step sheet
+  on("[data-vstep]",b=>{ state.sheet.v.step=b.dataset.vstep; render(); });
+  on("[data-vwhere]",b=>{ state.sheet.v.where=b.dataset.vwhere; render(); });
+  const ps=$("#proof-sample"); if(ps) ps.onclick=()=>{ state.sheet.v.proof={kind:"video"}; render(); };
+  const pc=$("#proof-clear"); if(pc) pc.onclick=()=>{ state.sheet.v.proof=null; render(); };
+  const pi=$("#proof-in"); if(pi) pi.onchange=()=>{ const f=pi.files&&pi.files[0]; if(!f) return; const kind=f.type.startsWith("video")?"video":"photo"; const r=new FileReader(); r.onload=()=>{ state.sheet.v.proof={kind,data:r.result}; render(); }; r.readAsDataURL(f); };
+  const st=$("#step-save"); if(st) st.onclick=()=>{
+    const {id,v}=state.sheet, s=sById(id);
+    closeLayerAfter(()=>{ state.sheet=null;
+      s.trail.push({step:v.step,date:TODAY,at:hm(nowMin()),by:owner()?OWNER:KARIM,where:v.where,proof:v.proof||undefined});
+      if(v.step==="sent"&&!s.expires) s.expires=addDays(TODAY,SETTINGS.retention);
+      toast(`${STEP[v.step]} logged`); });
+  };
+  // settings
+  view.querySelectorAll("[data-setting]").forEach(x=>x.onchange=()=>{ SETTINGS[x.dataset.setting]=x.checked; toast("Setting saved"); });
+  view.querySelectorAll("[data-shot]").forEach(x=>x.onchange=()=>{ const k=x.dataset.shot; if(x.checked) SETTINGS.shots=Object.keys(SHOT_LABEL).filter(y=>SETTINGS.shots.includes(y)||y===k); else if(SETTINGS.shots.length>1) SETTINGS.shots=SETTINGS.shots.filter(y=>y!==k); render(); });
+  on("[data-retention]",b=>{ SETTINGS.retention=+b.dataset.retention; render(); });
+  const sr=$("#switch-role"); if(sr) sr.onclick=()=>{ leaveStack(); state.role=owner()?"eng":"own"; state.tab[state.role]="today"; toast(owner()?"Now viewing as owner":"Now viewing as engineer"); };
   // edge swipe back
   const scr=$(".screen");
   if(scr&&stack().length){ let sx=null,sy=0; scr.addEventListener("touchstart",e=>{ const r=view.getBoundingClientRect(), x=e.touches[0].clientX-r.left; sx = x<28 ? e.touches[0].clientX : null; sy=e.touches[0].clientY; },{passive:true});
     scr.addEventListener("touchend",e=>{ if(sx===null) return; const dx=e.changedTouches[0].clientX-sx, dy=Math.abs(e.changedTouches[0].clientY-sy); if(dx>70&&dy<60) pop(); sx=null; },{passive:true}); }
 }
-function advanceLog(){
-  if(state.tab.own!=="qalog"||stack().length) return;
-  const L=state.log, nxt=L.ids.findIndex((id,i)=>i>L.i&&sById(id).qa==="submitted"), any=L.ids.findIndex(id=>sById(id).qa==="submitted");
-  if(nxt>=0) L.i=nxt; else if(any>=0) L.i=any;
-  setTimeout(smoothDeck,0);
-}
-function smoothDeck(){ const dk=$("#deck"); if(dk) dk.scrollTo({left:state.log.i*dk.clientWidth,behavior:"smooth"}); setTimeout(render,360); }
 
 // live clock + countdowns
 setInterval(()=>{
-  const n=nowMin(), clk=document.getElementById("clock"); if(clk) clk.textContent=hm(n);
+  const clk=document.getElementById("clock"); if(clk) clk.textContent=hm(nowMin());
   view.querySelectorAll("[data-cd]").forEach(el=>{ el.textContent=countdown(sById(el.dataset.cd)); });
 },15000);
 document.getElementById("tasks-toggle").onclick=()=>{ const p=document.getElementById("tasks-panel"); p.hidden=!p.hidden; document.getElementById("tasks-toggle").textContent=p.hidden?"Test tasks":"Hide tasks"; };
-addEventListener("resize",()=>{ const dk=$("#deck"); if(dk) dk.scrollLeft=state.log.i*dk.clientWidth; });
-render();
+// shared links open straight on the session: …#s-s2
+(function(){ const m=location.hash.match(/^#s-(\w+)$/); render(); if(m&&sById(m[1])) push({s:"session",id:m[1]}); })();
 if('serviceWorker' in navigator) addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+
 </script>
 
 </body>
